@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Sambeet Dash">
+  <!-- Four primitives, optically calibrated rather than boxed.
+       Cell centres: (18,18) (45,18) (18,46) (46,46).
+       Each shape is sized so the distance from its centre to the edge that
+       FACES its neighbour is ~9 — circle radius 9, square half-edge 8.5,
+       diamond half-diagonal 9, triangle base 9 below centre. That is what
+       governs perceived gaps; equal bounding boxes do not.
+       Triangle is raised 1 unit because its centroid sits low. -->
+  <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+    <circle cx="18" cy="18" r="9"/>
+    <path d="M45 8 L56 27 L34 27 Z"/>
+    <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+    <rect x="37.5" y="37.5" width="17" height="17"/>
+  </g>
+</svg>

@@ -1,0 +1,370 @@
+/* ============================================================
+   Sambeet Dash — portfolio
+   Tokens taken directly from Figma:
+     Desktop  node 6454:2467  (1440 x 1541)
+     Mobile   node 6454:2469  (360 x 2123)
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+
+:root {
+  /* Colour */
+  --bg:            #ffffff;
+  --ink:           #000000;
+  --ink-muted:     rgba(0, 0, 0, 0.64);
+  --card-bg:       #fcfcfc;
+  --card-border:   #e3e3e3;
+  --tag:           #f2e2de;
+  --arrow:         #c8c8c8;
+
+  /* Radii */
+  --r-card:  24px;
+  --r-media: 16px;
+  --r-tag:   2px;
+
+  /* Type families */
+  --font-ui:   "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-nav:  "Work Sans", var(--font-ui);
+
+  /* Type scale — mobile first, overridden at 768px */
+  --fs-h1: 20px;      --lh-h1: 32px;      --ls-h1: 0.02px;
+  --fs-bio: 14px;     --lh-bio: 28px;     --ls-bio: 0.014px;
+  --fs-contact: 14px; --lh-contact: 22px; --ls-contact: 0.014px;
+
+  /* Layout */
+  --container:   720px;
+  --gutter:      16px;
+  --card-inset:  16px;   /* title / arrow inset from card's left & right */
+  --card-inset-block: 24px; /* title / arrow inset from card top — 24 at both sizes */
+  --media-inset: 12px;   /* thumbnail inset from card edge */
+  --grid-gap:    24px;
+
+  /* Vertical rhythm */
+  --space-header-h1: 54px;   /* header bottom -> h1 */
+  --space-h1-bio:    16px;
+  --space-bio-grid:  48px;
+  --space-grid-foot: 66px;
+  --space-foot-tail: 224px;  /* reserved for the footer / socials row */
+
+  --logo-size: 24px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --fs-h1: 32px;      --lh-h1: 44px;      --ls-h1: 0.032px;
+    --fs-bio: 16px;     --lh-bio: 28px;     --ls-bio: 0.016px;
+    --fs-contact: 24px; --lh-contact: 32px; --ls-contact: 0.024px;
+
+    --gutter:     24px;
+    --card-inset: 24px;
+    --grid-gap:   32px;
+
+    --space-header-h1: 86px;
+    --space-h1-bio:    22px;
+    --space-bio-grid:  64px;
+    --space-grid-foot: 140px;
+    --space-foot-tail: 288px;
+
+    --logo-size: 40px;
+  }
+}
+
+/* ---------- Reset ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+h1, h2, h3, p, ul, li, figure { margin: 0; padding: 0; }
+ul { list-style: none; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Layout shell ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  padding-top: 16px;
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--logo-size);
+}
+
+.brand {
+  display: inline-flex;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  color: var(--ink);
+}
+
+.brand svg,
+.brand img { width: 100%; height: 100%; }
+
+/* Desktop nav */
+.nav {
+  display: none;
+  align-items: center;
+  gap: 32px;
+  font-family: var(--font-nav);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.014px;
+}
+
+.nav a { text-decoration: none; color: var(--ink-muted); font-weight: 400; }
+
+.nav a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+
+.nav a:hover { color: var(--ink); }
+
+/* Mobile menu button */
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.menu-toggle svg { width: 24px; height: 24px; }
+
+@media (min-width: 768px) {
+  .nav { display: flex; }
+  .menu-toggle { display: none; }
+}
+
+/* Mobile drop-down panel */
+.nav-panel {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0 0;
+  font-family: var(--font-nav);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.014px;
+}
+
+.nav-panel[data-open="true"] { display: flex; }
+
+.nav-panel a { text-decoration: none; color: var(--ink-muted); padding: 6px 0; }
+.nav-panel a[aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+@media (min-width: 768px) {
+  .nav-panel { display: none !important; }
+}
+
+/* ---------- Intro ---------- */
+
+.intro { padding-top: var(--space-header-h1); }
+
+.intro__title {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+}
+
+.intro__bio {
+  margin-top: var(--space-h1-bio);
+  font-weight: 500;
+  font-size: var(--fs-bio);
+  line-height: var(--lh-bio);
+  letter-spacing: var(--ls-bio);
+  max-width: var(--container);
+  text-wrap: pretty;
+}
+
+/* Inline links inside the bio use Work Sans SemiBold, per the design */
+.intro__bio a {
+  font-family: var(--font-nav);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+
+.intro__bio a:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Work grid ---------- */
+
+.work {
+  padding-top: var(--space-bio-grid);
+}
+
+.work__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap);
+}
+
+/* Grid tracks default to a min-content floor. The thumbnail's
+   aspect-ratio + min-height gives it a 320px min-content width, which would
+   push the track past a 360px viewport. min-width:0 lets tracks shrink. */
+.work__grid > li { min-width: 0; }
+
+@media (min-width: 768px) {
+  .work__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- Project card ---------- */
+
+.card {
+  display: block;
+  position: relative;
+  padding: var(--media-inset);
+  background: var(--card-bg);
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--r-card);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.card:hover {
+  border-color: #d2d2d2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.card:hover .card__arrow { color: var(--ink); }
+
+.card__head {
+  /* Insets are measured from the card edge; --media-inset is already applied
+     as card padding, so add only the remainder here. */
+  padding: calc(var(--card-inset-block) - var(--media-inset))
+           calc(var(--card-inset) - var(--media-inset))
+           25px;
+}
+
+.card__title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.016px;
+  /* keep clear of the arrow */
+  padding-right: 32px;
+}
+
+.card__sub {
+  margin-top: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.014px;
+}
+
+.card__tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.card__tags li {
+  width: 38px;
+  height: 12px;
+  border-radius: var(--r-tag);
+  background: var(--tag);
+}
+
+.card__arrow {
+  position: absolute;
+  top: var(--card-inset-block);
+  right: var(--card-inset);
+  width: 24px;
+  height: 24px;
+  color: var(--arrow);
+  transition: color 160ms ease;
+}
+
+.card__arrow svg { width: 24px; height: 24px; }
+
+/* Thumbnail slot — real images land here later.
+   Fixed 225px matches the design at both anchors (320x225 desktop,
+   304x225 mobile). NOTE: once real thumbnails land, swap this for
+   `aspect-ratio: 320/225` so they stay proportional at in-between widths.
+   Do NOT combine aspect-ratio with min-height — that transfers a 320px
+   min-content WIDTH onto the card and overflows a 360px viewport. */
+.card__media {
+  height: 225px;
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--r-media);
+  background: var(--card-bg);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Contact ---------- */
+
+.contact {
+  padding-top: var(--space-grid-foot);
+  padding-bottom: var(--space-foot-tail);
+}
+
+.contact__line {
+  font-weight: 500;
+  font-size: var(--fs-contact);
+  line-height: var(--lh-contact);
+  letter-spacing: var(--ls-contact);
+  max-width: 24ch;
+}
+
+@media (min-width: 768px) {
+  .contact__line { max-width: none; }
+}
+
+/* ---------- Motion preferences ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .card:hover { transform: none; }
+}

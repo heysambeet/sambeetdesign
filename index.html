@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sambeet Dash — Product Designer</title>
+<meta name="description" content="Lead product designer at Capmint and builder of Nudge. Previously Gameskraft, MPL, FabHotels and MobiKwik.">
+
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/styles.css?v=5">
+</head>
+<body>
+
+<!-- Icon sprite ------------------------------------------------------- -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 64 64" fill="none">
+    <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+      <circle cx="18" cy="18" r="9"/>
+      <path d="M45 8 L56 27 L34 27 Z"/>
+      <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+      <rect x="37.5" y="37.5" width="17" height="17"/>
+    </g>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none">
+    <g transform="translate(24,0) scale(-1,1)">
+      <path d="M8 8.4V16C8 16.2833 7.90417 16.5208 7.7125 16.7125C7.52083 16.9042 7.28333 17 7 17C6.71667 17 6.47917 16.9042 6.2875 16.7125C6.09583 16.5208 6 16.2833 6 16V6C6 5.71667 6.09583 5.47917 6.2875 5.2875C6.47917 5.09583 6.71667 5 7 5H17C17.2833 5 17.5208 5.09583 17.7125 5.2875C17.9042 5.47917 18 5.71667 18 6C18 6.28333 17.9042 6.52083 17.7125 6.7125C17.5208 6.90417 17.2833 7 17 7H9.4L18.3 15.9C18.4833 16.0833 18.575 16.3167 18.575 16.6C18.575 16.8833 18.4833 17.1167 18.3 17.3C18.1167 17.4833 17.8833 17.575 17.6 17.575C17.3167 17.575 17.0833 17.4833 16.9 17.3L8 8.4Z" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none">
+    <path d="M4 18C3.71667 18 3.47917 17.9042 3.2875 17.7125C3.09583 17.5208 3 17.2833 3 17C3 16.7167 3.09583 16.4792 3.2875 16.2875C3.47917 16.0958 3.71667 16 4 16H20C20.2833 16 20.5208 16.0958 20.7125 16.2875C20.9042 16.4792 21 16.7167 21 17C21 17.2833 20.9042 17.5208 20.7125 17.7125C20.5208 17.9042 20.2833 18 20 18H4ZM4 13C3.71667 13 3.47917 12.9042 3.2875 12.7125C3.09583 12.5208 3 12.2833 3 12C3 11.7167 3.09583 11.4792 3.2875 11.2875C3.47917 11.0958 3.71667 11 4 11H20C20.2833 11 20.5208 11.0958 20.7125 11.2875C20.9042 11.4792 21 11.7167 21 12C21 12.2833 20.9042 12.5208 20.7125 12.7125C20.5208 12.9042 20.2833 13 20 13H4ZM4 8C3.71667 8 3.47917 7.90417 3.2875 7.7125C3.09583 7.52083 3 7.28333 3 7C3 6.71667 3.09583 6.47917 3.2875 6.2875C3.47917 6.09583 3.71667 6 4 6H20C20.2833 6 20.5208 6.09583 20.7125 6.2875C20.9042 6.47917 21 6.71667 21 7C21 7.28333 20.9042 7.52083 20.7125 7.7125C20.5208 7.90417 20.2833 8 20 8H4Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- Header ------------------------------------------------------------ -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="/" aria-label="Sambeet Dash — home">
+        <svg role="img" aria-hidden="true"><use href="#i-logo"></use></svg>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="/" aria-current="page">Home</a>
+        <!-- TODO: point at the real résumé file -->
+        <a href="#">Resume</a>
+      </nav>
+
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+
+    <nav class="nav-panel" id="nav-panel" data-open="false" aria-label="Primary, mobile">
+      <a href="/" aria-current="page">Home</a>
+      <a href="#">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Intro ----------------------------------------------------------- -->
+  <section class="intro">
+    <div class="wrap">
+      <h1 class="intro__title">Hi , I&rsquo;m Sambeet <span aria-hidden="true">😀</span></h1>
+      <p class="intro__bio">
+        Lead product designer at <a href="#">Capmint</a>, and builder of <a href="#">Nudge</a>.
+        Previously worked at Gameskraft, MPL, FabHotels and MobiKwik.
+      </p>
+    </div>
+  </section>
+
+  <!-- Selected work --------------------------------------------------- -->
+  <section class="work" aria-label="Selected work">
+    <div class="wrap">
+      <ul class="work__grid">
+
+        <li>
+          <!-- TODO: -> projects/nudge.html -->
+          <a class="card" href="#">
+            <div class="card__head">
+              <h2 class="card__title">Nudge <span aria-hidden="true">👋</span></h2>
+              <p class="card__sub">Strategy builder</p>
+              <ul class="card__tags" aria-hidden="true"><li></li><li></li><li></li></ul>
+            </div>
+            <figure class="card__media"><!-- thumbnail --></figure>
+            <span class="card__arrow" aria-hidden="true">
+              <svg><use href="#i-arrow"></use></svg>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <!-- TODO: -> projects/strategy-builder.html -->
+          <a class="card" href="#">
+            <div class="card__head">
+              <h2 class="card__title">Strategy builder <span aria-hidden="true">♟️</span></h2>
+              <p class="card__sub">Strategy builder</p>
+              <ul class="card__tags" aria-hidden="true"><li></li><li></li><li></li></ul>
+            </div>
+            <figure class="card__media"><!-- thumbnail --></figure>
+            <span class="card__arrow" aria-hidden="true">
+              <svg><use href="#i-arrow"></use></svg>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <!-- TODO: -> projects/mint-insights.html -->
+          <a class="card" href="#">
+            <div class="card__head">
+              <h2 class="card__title">Mint insights <span aria-hidden="true">👏</span></h2>
+              <p class="card__sub">Strategy builder</p>
+              <ul class="card__tags" aria-hidden="true"><li></li><li></li><li></li></ul>
+            </div>
+            <figure class="card__media"><!-- thumbnail --></figure>
+            <span class="card__arrow" aria-hidden="true">
+              <svg><use href="#i-arrow"></use></svg>
+            </span>
+          </a>
+        </li>
+
+        <li>
+          <!-- TODO: -> projects/rummy-tournaments.html -->
+          <a class="card" href="#">
+            <div class="card__head">
+              <h2 class="card__title">Rummy tournaments <span aria-hidden="true">♦</span></h2>
+              <p class="card__sub">Strategy builder</p>
+              <ul class="card__tags" aria-hidden="true"><li></li><li></li><li></li></ul>
+            </div>
+            <figure class="card__media"><!-- thumbnail --></figure>
+            <span class="card__arrow" aria-hidden="true">
+              <svg><use href="#i-arrow"></use></svg>
+            </span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact --------------------------------------------------------- -->
+  <section class="contact" aria-label="Contact">
+    <div class="wrap">
+      <p class="contact__line">Want to get in touch? I&rsquo;d love to connect with you!</p>
+      <!-- TODO: email / LinkedIn / socials row -->
+    </div>
+  </section>
+
+</main>
+
+<script>
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var panel = document.getElementById('nav-panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', function () {
+      var open = panel.dataset.open === 'true';
+      panel.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+  })();
+</script>
+
+</body>
+</html>

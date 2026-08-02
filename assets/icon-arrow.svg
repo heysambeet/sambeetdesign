@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <!-- Material "arrow_insert" 24dp, exported from Figma.
+       Figma applied scaleY(-1) + rotate(180deg), which nets to a horizontal
+       flip — baked in here as translate/scale so the file is self-contained. -->
+  <g transform="translate(24,0) scale(-1,1)">
+    <path d="M8 8.4V16C8 16.2833 7.90417 16.5208 7.7125 16.7125C7.52083 16.9042 7.28333 17 7 17C6.71667 17 6.47917 16.9042 6.2875 16.7125C6.09583 16.5208 6 16.2833 6 16V6C6 5.71667 6.09583 5.47917 6.2875 5.2875C6.47917 5.09583 6.71667 5 7 5H17C17.2833 5 17.5208 5.09583 17.7125 5.2875C17.9042 5.47917 18 5.71667 18 6C18 6.28333 17.9042 6.52083 17.7125 6.7125C17.5208 6.90417 17.2833 7 17 7H9.4L18.3 15.9C18.4833 16.0833 18.575 16.3167 18.575 16.6C18.575 16.8833 18.4833 17.1167 18.3 17.3C18.1167 17.4833 17.8833 17.575 17.6 17.575C17.3167 17.575 17.0833 17.4833 16.9 17.3L8 8.4Z" fill="currentColor"/>
+  </g>
+</svg>
