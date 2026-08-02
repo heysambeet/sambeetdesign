@@ -334,6 +334,14 @@ a { color: inherit; }
   overflow: hidden;
 }
 
+/* <picture> is inline by default and would add a descender gap under the
+   image; make it a block that fills the slot so the img can size to it. */
+.card__media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .card__media img {
   width: 100%;
   height: 100%;

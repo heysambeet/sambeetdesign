@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/styles.css?v=5">
+<link rel="stylesheet" href="assets/styles.css?v=6">
 </head>
 <body>
 
@@ -89,7 +89,14 @@
               <p class="card__sub">Strategy builder</p>
               <ul class="card__tags" aria-hidden="true"><li></li><li></li><li></li></ul>
             </div>
-            <figure class="card__media"><!-- thumbnail --></figure>
+            <figure class="card__media">
+              <picture>
+                <source media="(min-width: 768px)" srcset="assets/img/nudge-desktop.png">
+                <img src="assets/img/nudge-mobile.png" width="608" height="452"
+                     decoding="async"
+                     alt="Nudge app screens — a Strategies view showing the NIFTY 50 chart, layered over a Feed of market headlines.">
+              </picture>
+            </figure>
             <span class="card__arrow" aria-hidden="true">
               <svg><use href="#i-arrow"></use></svg>
             </span>
