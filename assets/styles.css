@@ -46,7 +46,10 @@
   --space-grid-foot: 66px;
   --space-foot-tail: 224px;  /* reserved for the footer / socials row */
 
-  --logo-size: 24px;
+  --logo-size:  24px;
+  /* Header row height is held independent of the logo so resizing the mark
+     doesn't shift the H1 (which the design pins at y=94 / y=142). */
+  --header-row: 24px;
 }
 
 @media (min-width: 768px) {
@@ -65,7 +68,8 @@
     --space-grid-foot: 140px;
     --space-foot-tail: 288px;
 
-    --logo-size: 40px;
+    --logo-size:  32px;
+    --header-row: 40px;
   }
 }
 
@@ -118,7 +122,7 @@ a { color: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  min-height: var(--logo-size);
+  min-height: var(--header-row);
 }
 
 .brand {
