@@ -1,0 +1,478 @@
+/* ============================================================
+   Case study pages
+   Extends assets/styles.css — that file owns the palette, the
+   header and the container. Everything here is namespaced `cs-`
+   so it can't collide with the landing page's .card rules.
+   ============================================================ */
+
+:root {
+  --ink-dim:    rgba(0, 0, 0, 0.42);
+  --accent:     #f2e2de;   /* the tag peach — fills only, never text */
+  --accent-line:#e8cec7;   /* a half-step darker, for rules and bars */
+
+  /* Semantic pair, kept deliberately quiet so it reads as information
+     rather than decoration. Separate from the accent. */
+  --ok:        #2f6f4f;
+  --ok-soft:   #eef4f0;
+  --warn:      #8a6200;
+  --warn-soft: #faf3e4;
+
+  --cs-rule: #ececec;
+}
+
+/* ---------- rhythm ---------- */
+
+.cs-section {
+  padding-block: 56px;
+  border-top: 1px solid var(--cs-rule);
+}
+
+.cs-section--flush { border-top: none; }
+
+@media (min-width: 768px) {
+  .cs-section { padding-block: 72px; }
+}
+
+/* ---------- type ---------- */
+
+.cs-eyebrow {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 14px;
+}
+
+.cs-h1 {
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* The original used lime to emphasise a clause. With no colour available,
+   the emphasis is carried by dropping the setup line to muted and leaving
+   the payoff at full ink. */
+.cs-h1__quiet,
+.cs-statement__quiet { color: var(--ink-muted); }
+
+.cs-h2 {
+  font-weight: 600;
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 32px;
+  letter-spacing: 0.024px;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.cs-h3 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.016px;
+  margin-bottom: 8px;
+}
+
+/* DELIBERATE DEVIATION from the landing page scale.
+   --fs-bio drops to 14px on mobile, which is right for a three-line bio but
+   punishing across a 13,000px case study — it invites pinch-zoom. Long-form
+   reading copy holds 16px at every width. Revert by swapping the two
+   font-size lines here and in .cs-list li back to var(--fs-bio). */
+.cs-p {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: var(--lh-bio);
+  letter-spacing: var(--ls-bio);
+  color: var(--ink-muted);
+  max-width: 66ch;
+  margin-bottom: 18px;
+  text-wrap: pretty;
+}
+
+.cs-p strong { color: var(--ink); font-weight: 600; }
+.cs-p em     { color: var(--ink); font-style: italic; }
+
+.cs-lede {
+  color: var(--ink);
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 30px;
+}
+
+.cs-p:last-child { margin-bottom: 0; }
+
+/* ---------- pull quote ---------- */
+
+.cs-pull {
+  font-weight: 600;
+  font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  border-left: 3px solid var(--accent-line);
+  padding: 4px 0 4px 22px;
+  margin-block: 32px;
+  max-width: 52ch;
+}
+
+/* ---------- hero ---------- */
+
+.cs-hero { padding-block: 48px 8px; }
+
+@media (min-width: 768px) {
+  .cs-hero { padding-block: 72px 8px; }
+}
+
+.cs-kicker {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 20px;
+}
+
+.cs-kicker b { color: var(--ink); font-weight: 600; }
+
+.cs-sub {
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 30px;
+  color: var(--ink-muted);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.cs-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 22px 28px;
+  margin-top: 36px;
+  padding-top: 26px;
+  border-top: 1px solid var(--cs-rule);
+}
+
+.cs-meta dt {
+  font-family: var(--font-nav);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 5px;
+}
+
+.cs-meta dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* ---------- grids ---------- */
+
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-block: 24px;
+}
+
+.cs-grid > * { min-width: 0; }
+
+@media (min-width: 768px) {
+  .cs-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- card ---------- */
+
+.cs-card {
+  background: var(--card-bg);
+  border: 0.5px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.cs-card .cs-h3 { margin-bottom: 6px; }
+
+.cs-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.014px;
+  color: var(--ink-muted);
+}
+
+.cs-card p strong { color: var(--ink); font-weight: 600; }
+.cs-card p em     { color: var(--ink); font-style: italic; }
+
+.cs-tag {
+  display: inline-block;
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--accent);
+  border-radius: 2px;
+  padding: 4px 8px;
+  margin-bottom: 12px;
+}
+
+/* ---------- journey spine ---------- */
+
+.cs-spine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 26px;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cs-spine li {
+  padding: 5px 11px;
+  border: 1px solid var(--card-border);
+  border-radius: 100px;
+  color: var(--ink-muted);
+  background: var(--bg);
+}
+
+.cs-spine li[aria-current="step"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.cs-spine .cs-spine__sep {
+  border: 0;
+  padding: 0;
+  color: var(--ink-dim);
+  background: none;
+}
+
+/* ---------- image placeholder ---------- */
+
+.cs-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  min-height: 260px;
+  padding: 32px;
+  margin-block: 28px;
+  background: var(--card-bg);
+  border: 1.5px dashed #dcdcdc;
+  border-radius: 16px;
+}
+
+.cs-ph--short { min-height: 180px; }
+
+.cs-ph__tag {
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--accent);
+  border-radius: 2px;
+  padding: 4px 8px;
+}
+
+.cs-ph__desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+
+.cs-ph img { border-radius: 12px; }
+
+/* ---------- table ---------- */
+
+.cs-tablewrap {
+  overflow-x: auto;
+  margin-block: 24px;
+  /* so a wide table scrolls inside itself, never the page */
+  -webkit-overflow-scrolling: touch;
+}
+
+.cs-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.cs-table th {
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-align: left;
+  padding: 0 14px 10px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.cs-table td {
+  padding: 13px 14px 13px 0;
+  border-bottom: 1px solid var(--cs-rule);
+  color: var(--ink-muted);
+  vertical-align: top;
+}
+
+.cs-table td:first-child {
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cs-table td strong { color: var(--ink); font-weight: 600; }
+.cs-table tr:last-child td { border-bottom: none; }
+
+/* ---------- list ---------- */
+
+.cs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  max-width: 66ch;
+}
+
+.cs-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 12px;
+  font-size: 16px;          /* see the deviation note on .cs-p */
+  line-height: var(--lh-bio);
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
+.cs-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 10px;
+  height: 2px;
+  background: var(--accent-line);
+}
+
+.cs-list li strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- status chips ---------- */
+
+.cs-chip {
+  display: inline-block;
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 100px;
+  margin-right: 6px;
+}
+
+.cs-chip--ok   { color: var(--ok);   background: var(--ok-soft);   border: 1px solid #d8e6de; }
+.cs-chip--warn { color: var(--warn); background: var(--warn-soft); border: 1px solid #eee0bd; }
+
+.cs-inline {
+  font-family: var(--font-nav);
+  font-size: 12px;
+  font-weight: 500;
+  background: #f4f4f4;
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ---------- full-width quote ---------- */
+
+.cs-statement {
+  padding-block: 64px;
+  border-top: 1px solid var(--cs-rule);
+  text-align: center;
+}
+
+.cs-statement p {
+  margin: 0 auto;
+  max-width: 20ch;
+  font-weight: 600;
+  font-size: clamp(22px, 4vw, 32px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* ---------- back link ---------- */
+
+.cs-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-nav);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.014px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  margin-bottom: 28px;
+}
+
+.cs-back svg { width: 16px; height: 16px; transform: rotate(180deg); }
+.cs-back:hover { color: var(--ink); }
+
+/* ---------- footer ---------- */
+
+.cs-footer {
+  padding-block: 48px 96px;
+  border-top: 1px solid var(--cs-rule);
+}
+
+.cs-footer__name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink);
+}
+
+.cs-footer p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+}
+
+.cs-footer__note {
+  margin-top: 16px;
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategy Builder — Case study · Sambeet Dash</title>
+<meta name="description" content="A goal-first options workbench for Capmint's web trading terminal. Genie, Sketch and Adjust — three moves that each delete a step every competing builder still forces.">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/styles.css?v=8">
+<link rel="stylesheet" href="../assets/case-study.css?v=1">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 64 64" fill="none">
+    <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+      <circle cx="18" cy="18" r="9"/>
+      <path d="M45 8 L56 27 L34 27 Z"/>
+      <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+      <rect x="37.5" y="37.5" width="17" height="17"/>
+    </g>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none">
+    <g transform="translate(24,0) scale(-1,1)">
+      <path d="M8 8.4V16C8 16.2833 7.90417 16.5208 7.7125 16.7125C7.52083 16.9042 7.28333 17 7 17C6.71667 17 6.47917 16.9042 6.2875 16.7125C6.09583 16.5208 6 16.2833 6 16V6C6 5.71667 6.09583 5.47917 6.2875 5.2875C6.47917 5.09583 6.71667 5 7 5H17C17.2833 5 17.5208 5.09583 17.7125 5.2875C17.9042 5.47917 18 5.71667 18 6C18 6.28333 17.9042 6.52083 17.7125 6.7125C17.5208 6.90417 17.2833 7 17 7H9.4L18.3 15.9C18.4833 16.0833 18.575 16.3167 18.575 16.6C18.575 16.8833 18.4833 17.1167 18.3 17.3C18.1167 17.4833 17.8833 17.575 17.6 17.575C17.3167 17.575 17.0833 17.4833 16.9 17.3L8 8.4Z" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none">
+    <path d="M4 18C3.71667 18 3.47917 17.9042 3.2875 17.7125C3.09583 17.5208 3 17.2833 3 17C3 16.7167 3.09583 16.4792 3.2875 16.2875C3.47917 16.0958 3.71667 16 4 16H20C20.2833 16 20.5208 16.0958 20.7125 16.2875C20.9042 16.4792 21 16.7167 21 17C21 17.2833 20.9042 17.5208 20.7125 17.7125C20.5208 17.9042 20.2833 18 20 18H4ZM4 13C3.71667 13 3.47917 12.9042 3.2875 12.7125C3.09583 12.5208 3 12.2833 3 12C3 11.7167 3.09583 11.4792 3.2875 11.2875C3.47917 11.0958 3.71667 11 4 11H20C20.2833 11 20.5208 11.0958 20.7125 11.2875C20.9042 11.4792 21 11.7167 21 12C21 12.2833 20.9042 12.5208 20.7125 12.7125C20.5208 12.9042 20.2833 13 20 13H4ZM4 8C3.71667 8 3.47917 7.90417 3.2875 7.7125C3.09583 7.52083 3 7.28333 3 7C3 6.71667 3.09583 6.47917 3.2875 6.2875C3.47917 6.09583 3.71667 6 4 6H20C20.2833 6 20.5208 6.09583 20.7125 6.2875C20.9042 6.47917 21 6.71667 21 7C21 7.28333 20.9042 7.52083 20.7125 7.7125C20.5208 7.90417 20.2833 8 20 8H4Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- Header — shared with the landing page ---------------------------- -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="../" aria-label="Sambeet Dash — home">
+        <svg role="img" aria-hidden="true"><use href="#i-logo"></use></svg>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="../">Home</a>
+        <a href="#">Resume</a>
+      </nav>
+
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+
+    <nav class="nav-panel" id="nav-panel" data-open="false" aria-label="Primary, mobile">
+      <a href="../">Home</a>
+      <a href="#">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero ---------------------------------------------------------- -->
+  <header class="cs-hero">
+    <div class="wrap">
+      <a class="cs-back" href="../">
+        <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+        All work
+      </a>
+
+      <p class="cs-kicker"><b>Capmint</b> · Strategy Terminal · Web 2.0 · Case study</p>
+
+      <h1 class="cs-h1">
+        <span class="cs-h1__quiet">Traders don&rsquo;t think in strikes.</span><br>
+        They think in outcomes.
+      </h1>
+
+      <p class="cs-sub">Every options builder on the market makes traders translate an idea into legs, strikes, and forms. I designed a workbench that skips the translation — state the goal, get the trade, shape it by touch.</p>
+
+      <dl class="cs-meta">
+        <div><dt>Role</dt><dd>Lead Product Designer (sole designer)</dd></div>
+        <div><dt>Team</dt><dd>Founder/CEO · Engineering</dd></div>
+        <div><dt>Platform</dt><dd>Web trading terminal</dd></div>
+        <div><dt>Scope</dt><dd>End-to-end · 0 → 1</dd></div>
+        <div><dt>Domain</dt><dd>Options (F&amp;O), NSE</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <!-- At a glance --------------------------------------------------- -->
+  <section class="cs-section cs-section--flush">
+    <div class="wrap">
+      <p class="cs-eyebrow">At a glance</p>
+      <h2 class="cs-h2">One engine. Three moves.</h2>
+      <p class="cs-p cs-lede">The Strategy Terminal gives option sellers a goal-first workbench built around three accelerators — each one removes a step every competing builder still forces.</p>
+
+      <div class="cs-grid cs-grid--3">
+        <div class="cs-card">
+          <span class="cs-tag">Move 01 · Genie</span>
+          <h3 class="cs-h3">Creation by intent</h3>
+          <p>Name the outcome — POP, range, profit — and a solver returns real strikes in one click. &ldquo;Make a wish — granted.&rdquo;</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">Move 02 · Sketch</span>
+          <h3 class="cs-h3">Shaping by touch</h3>
+          <p>The payoff chart <em>is</em> the build surface. Add legs, roll strikes, move whole sides — by dragging, not by forms.</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">Move 03 · Adjust</span>
+          <h3 class="cs-h3">Adjustment without anxiety</h3>
+          <p>On a live position: mark every change, compare before → after, execute once. Nothing fires until you say so.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Context ------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">Context</p>
+      <h2 class="cs-h2">Where this sits</h2>
+      <p class="cs-p">Capmint is a financial trading platform spanning equities, derivatives, and mutual funds. As the sole product designer, I own every surface — Turbo Mode, Scalper, Option Chain, Basket Orders, and the web terminal. The Strategy Terminal is the flagship view of our Web 2.0 terminal: a modular, multi-widget workbench aimed squarely at <strong>option sellers</strong> — the most demanding, most profitable, and most under-served segment of retail derivatives traders.</p>
+      <p class="cs-p">It evolves our existing Basket / option-seller flow into something no Indian broker offers today: a builder where the strategy starts from the trader&rsquo;s <em>goal</em>, not from a table of strikes.</p>
+    </div>
+  </section>
+
+  <!-- The problem --------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">The problem</p>
+      <h2 class="cs-h2">Every builder forces the same detour</h2>
+      <p class="cs-p cs-lede">Pick a view. Open the chain. Hunt strikes. Assemble legs. Check if it matches the idea. Repeat until it does.</p>
+      <p class="cs-p">That&rsquo;s the path every strategy builder in the market forces — Sensibull, Opstra, broker terminals, all of them. It treats the option chain as the starting point, when the chain is actually the <strong>last</strong> thing a trader should need to touch.</p>
+      <p class="cs-p">Here&rsquo;s the insight the whole product is built on: <strong>the trader already knew the outcome before they opened the app.</strong> &ldquo;I want an 80% chance of profit if NIFTY stays between 23,400 and 23,900.&rdquo; That&rsquo;s a complete specification of a trade. Everything after that sentence — the strikes, the legs, the widths — is translation work the software should do, not the human.</p>
+
+      <p class="cs-pull">The trader states the destination. Today&rsquo;s tools hand them a map and make them walk. We built the vehicle.</p>
+
+      <h3 class="cs-h3">Three specific pains, three specific answers</h3>
+      <div class="cs-tablewrap">
+        <table class="cs-table">
+          <thead>
+            <tr><th scope="col">Pain today</th><th scope="col">Cost to the trader</th><th scope="col">Our answer</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Strike-hunting</td>
+              <td>The idea → legs translation is manual, slow, and error-prone. Traders juggle a chain, a calculator, and a payoff preview across tabs.</td>
+              <td><strong>Genie</strong> — solve for strikes from the stated goal.</td>
+            </tr>
+            <tr>
+              <td>Form-based editing</td>
+              <td>Reshaping a trade means editing rows and dialogs, then re-checking the payoff. The feedback loop is broken in half.</td>
+              <td><strong>Sketch</strong> — the payoff chart is directly manipulable; metrics update as the hand moves.</td>
+            </tr>
+            <tr>
+              <td>Adjustment fear</td>
+              <td>Modifying a live position means firing orders one at a time, half-blind, with real money moving between each click.</td>
+              <td><strong>Adjust</strong> — mark, compare, execute once. Zero orders until explicit commit.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why solve it -------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">Why solve it</p>
+      <h2 class="cs-h2">Why this, why now, why us</h2>
+
+      <div class="cs-grid cs-grid--3">
+        <div class="cs-card">
+          <span class="cs-tag">User</span>
+          <h3 class="cs-h3">Sellers live here</h3>
+          <p>Option sellers manage multi-leg positions daily and adjust constantly. Every minute saved per trade, and every mis-click avoided on a live position, compounds across hundreds of trades a year.</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">Business</span>
+          <h3 class="cs-h3">Sticky, high-frequency users</h3>
+          <p>Sellers are the highest-value derivatives segment. A workbench they can&rsquo;t get anywhere else is a retention moat, not a feature — it&rsquo;s the reason to leave a mobile chain behind.</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">Product</span>
+          <h3 class="cs-h3">Differentiation with a spine</h3>
+          <p>Competing on chain parity is a race to sameness. Genie / Sketch / Adjust give the terminal a story competitors have to rebuild their architecture to copy.</p>
+        </div>
+      </div>
+
+      <p class="cs-p" style="margin-top:24px"><strong>My framing to the CEO:</strong> parity features rent users; removed steps own them. Every one of the three moves deletes a step the trader performs today — that&rsquo;s the sharpest form of value a workflow tool can offer.</p>
+    </div>
+  </section>
+
+  <!-- Principle ----------------------------------------------------- -->
+  <section class="cs-statement">
+    <div class="wrap">
+      <p>
+        <span class="cs-statement__quiet">Creation by intent.<br>Shaping by touch.</span><br>
+        Adjustment without anxiety.
+      </p>
+    </div>
+  </section>
+
+  <!-- The design ---------------------------------------------------- -->
+  <section class="cs-section cs-section--flush">
+    <div class="wrap">
+      <p class="cs-eyebrow">The design</p>
+      <h2 class="cs-h2">A three-widget workbench</h2>
+      <p class="cs-p">The Strategy view loads three widgets on the Web 2.0 modular canvas — drag, resize, tab, group. The builder spans the top; context sits beneath it. The principle: <strong>one widget, one job.</strong> Build in one place, read the market in another, never leave the view.</p>
+
+      <figure class="cs-ph">
+        <span class="cs-ph__tag">Screen 01</span>
+        <p class="cs-ph__desc">Full Strategy view — default three-widget arrangement: Strategy Builder spanning the top, Analysis Charts and OI Change below.</p>
+      </figure>
+
+      <div class="cs-grid cs-grid--3">
+        <div class="cs-card">
+          <span class="cs-tag">Widget 1</span>
+          <h3 class="cs-h3">Strategy Builder</h3>
+          <p>The workbench. Build panel (left) with six tabs; payoff &amp; analytics pane (right) that recalculates the instant anything changes. Sketch lives on this chart.</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">Widget 2</span>
+          <h3 class="cs-h3">Analysis Charts</h3>
+          <p>Five read-only context tabs — ATM IV, PCR, Options chart, Index chart, ATM straddle. The volatility, sentiment, and price read a seller takes before committing strikes.</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">Widget 3 · New</span>
+          <h3 class="cs-h3">OI Change</h3>
+          <p>A widget that didn&rsquo;t exist before: Call/Put OI and change by strike around ATM, PCR + India VIX readout, strike-range and time-of-day controls, multi-expiry select.</p>
+        </div>
+      </div>
+
+      <h3 class="cs-h3" style="margin-top:36px">The payoff &amp; analytics pane</h3>
+      <p class="cs-p">Everything a decision needs, in one glance: a metric strip (Max profit · Max loss · POP · Reward:Risk · Intrinsic · Time value), breakevens with a Target/Expiry toggle, six payoff views as tabs, On-Target and On-Expiry curves drawn over an OI backdrop, a NIFTY target slider, a target-date stepper, and Undo / Reset. This pane is not a preview — it&rsquo;s the primary surface. Sketch gestures act directly on it.</p>
+
+      <figure class="cs-ph cs-ph--short">
+        <span class="cs-ph__tag">Screen 02</span>
+        <p class="cs-ph__desc">Payoff &amp; analytics pane with a generated strategy — metric strip, On Target / On Expiry curves, NIFTY target slider, target-date stepper.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Journey ------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">The user journey</p>
+      <h2 class="cs-h2">One engine, two ways in</h2>
+
+      <ol class="cs-spine">
+        <li>Land</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Create</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Shape</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Execute</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Confirm</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Position</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Adjust</li>
+      </ol>
+
+      <p class="cs-p">Build a strategy — via Genie, the option chain, or Sketch — shape it on the payoff, execute through a confirmation gate, and it lands as a live position you can re-open and adjust. Or skip straight in: open an existing position group from the Positions tab and land in the builder with full analytics, ready to adjust.</p>
+      <p class="cs-p">A deliberate architectural choice: <strong>the option chain remains the base path</strong>, at full parity with our existing Basket flow. Genie and Sketch are accelerators layered on top — and whatever path built the strategy, the result is an ordinary, editable strategy. No path locks you in; no path produces a special object. That&rsquo;s what makes the accelerators trustworthy: they hand off, they don&rsquo;t take over.</p>
+
+      <figure class="cs-ph cs-ph--short">
+        <span class="cs-ph__tag">Screen 03</span>
+        <p class="cs-ph__desc">Journey diagram — build → shape → execute &amp; confirm → position → adjust, with the alternate entry from Positions.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Genie --------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <ol class="cs-spine">
+        <li>Land</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li aria-current="step">Create</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Shape</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Execute</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Confirm</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Position</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Adjust</li>
+      </ol>
+
+      <p class="cs-eyebrow">Move 01 · Genie</p>
+      <h2 class="cs-h2">Make a wish. Get real strikes.</h2>
+      <p class="cs-p cs-lede">Genie inverts the builder: instead of assembling legs and checking the outcome, you state the outcome and the solver assembles the legs.</p>
+      <p class="cs-p">The wish has four inputs — each optional, each independently selectable. Set one, several, or all four; hit Generate; the solver returns the closest fit across every active wish and drops real, editable legs into the build panel.</p>
+
+      <div class="cs-tablewrap">
+        <table class="cs-table">
+          <thead><tr><th scope="col">Wish</th><th scope="col">Input</th></tr></thead>
+          <tbody>
+            <tr><td>Strategy shape</td><td>Pick a shape from the ready-made set — or leave it to the solver.</td></tr>
+            <tr><td>POP %</td><td>Chance of expiring in profit. Presets: 60 / 80 / 90.</td></tr>
+            <tr><td>Breakeven range</td><td>Range to hold below &amp; above spot, in ₹ or %.</td></tr>
+            <tr><td>Max profit</td><td>Desired profit as % of margin. Presets: 2% / 3% / 4%.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="cs-ph">
+        <span class="cs-ph__tag">Screen 04</span>
+        <p class="cs-ph__desc">Genie tab — four wish inputs with presets, Generate CTA, and the resulting legs landed in the build panel.</p>
+      </figure>
+
+      <h3 class="cs-h3">The hard design problem: wishes disagree</h3>
+      <p class="cs-p">Ask for 90% POP <em>and</em> 4% profit on margin and the market may simply not offer both. The tempting design is to quietly return &ldquo;something close&rdquo; and hope the trader doesn&rsquo;t check. The honest design — the one I shipped — is to <strong>surface the conflict per wish</strong>:</p>
+      <p class="cs-p">
+        <span class="cs-chip cs-chip--ok">Met</span> the wish was satisfied within tolerance (POP ±3 · breakeven ±75 pts · profit ±15%)<br>
+        <span class="cs-chip cs-chip--warn">Closest</span> the wishes pulled apart — this is the nearest possible fit, with a plain note saying so.
+      </p>
+
+      <p class="cs-pull">A solver you can&rsquo;t audit is a black box. A solver that admits its trade-offs is a colleague.</p>
+
+      <p class="cs-p">And critically: <strong>Genie&rsquo;s output is just a strategy.</strong> Every leg is editable in the trade list and draggable on the payoff. Genie hands off — it doesn&rsquo;t lock. That single decision is what keeps an &ldquo;AI-ish&rdquo; feature from feeling like a gimmick to professional traders.</p>
+    </div>
+  </section>
+
+  <!-- Sketch -------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <ol class="cs-spine">
+        <li>Land</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Create</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li aria-current="step">Shape</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Execute</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Confirm</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Position</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Adjust</li>
+      </ol>
+
+      <p class="cs-eyebrow">Move 02 · Sketch</p>
+      <h2 class="cs-h2">The payoff chart is the build surface</h2>
+      <p class="cs-p cs-lede">Traders already stare at the payoff diagram — it&rsquo;s the picture in their head. Sketch makes that picture directly manipulable. No option chain, no edit dialogs.</p>
+      <p class="cs-p">Start from an empty chart — just axes and strikes — or shape a strategy Genie generated or a position you loaded. Every gesture maps to a real trading operation:</p>
+
+      <div class="cs-tablewrap">
+        <table class="cs-table">
+          <thead><tr><th scope="col">Gesture</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><td>Hover empty space</td><td>A <span class="cs-inline">+</span> snaps to the nearest 50-pt strike → menu offers Call: Buy/Sell, Put: Buy/Sell → the leg lands. Available everywhere.</td></tr>
+            <tr><td>Drag a dot</td><td>That single leg rolls to the next real strike.</td></tr>
+            <tr><td>Drag a side</td><td>Both end legs move together — slopes and the flat top — with width held.</td></tr>
+            <tr><td>Delete a leg</td><td>Removes it from the structure via the leg control / trade list.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="cs-p">Strikes, premiums, breakevens, POP — <strong>every metric updates live as the hand moves.</strong> The feedback loop that form-based builders break in half becomes a single continuous motion: think, drag, see.</p>
+
+      <figure class="cs-ph">
+        <span class="cs-ph__tag">Screen 05</span>
+        <p class="cs-ph__desc">Sketch in action — hover-to-add menu on the payoff chart, and a mid-drag roll with metrics updating live.</p>
+      </figure>
+
+      <h3 class="cs-h3">A restraint decision I&rsquo;d defend in any review</h3>
+      <p class="cs-p">While <em>creating</em>, a payoff dot can only be dragged to roll. No exit toggle, no lot-change on hover — those live exclusively in Adjust mode. Why? Because a surface that does everything everywhere teaches nothing. Create-mode gestures answer one question — <em>&ldquo;what shape do I want?&rdquo;</em> — and adjustment gestures answer a different, riskier one — <em>&ldquo;what do I change on live money?&rdquo;</em> Splitting the gesture vocabulary by mode keeps each one learnable and makes the dangerous one deliberate.</p>
+    </div>
+  </section>
+
+  <!-- Adjust -------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <ol class="cs-spine">
+        <li>Land</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Create</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Shape</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Execute</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Confirm</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Position</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li aria-current="step">Adjust</li>
+      </ol>
+
+      <p class="cs-eyebrow">Move 03 · Adjust</p>
+      <h2 class="cs-h2">Mark. Compare. Execute once.</h2>
+      <p class="cs-p cs-lede">Adjusting a live position is the highest-anxiety moment in options trading — real money moves with every click. Adjust&rsquo;s core contract: <strong>nothing fires until you say so.</strong></p>
+      <p class="cs-p">Open Positions, click a group to load it, enter adjustment mode. Every change is a <em>mark</em> — an intention, not an order. And there are two ways to mark, writing to the same set:</p>
+
+      <div class="cs-grid cs-grid--2">
+        <div class="cs-card">
+          <span class="cs-tag">From the trade list</span>
+          <h3 class="cs-h3">Precision path</h3>
+          <p>Each row gains a New-lot field (typeable, +/− nudge), a Mark-exit toggle, and an Adjustments column showing every mark as a pill — <span class="cs-inline">REDUCE LOT 12 → 01</span>, <span class="cs-inline">ROLL 24120 → 24220</span>, <span class="cs-inline">NO CHANGE</span>.</p>
+        </div>
+        <div class="cs-card">
+          <span class="cs-tag">From the payoff chart</span>
+          <h3 class="cs-h3">Spatial path</h3>
+          <p>Hover a dot → a popover for that exact leg with a New-lot stepper and Mark-exit toggle; drag the dotted curve to roll. Every chart mark writes back to the trade list as the matching pill.</p>
+        </div>
+      </div>
+
+      <figure class="cs-ph">
+        <span class="cs-ph__tag">Screen 06</span>
+        <p class="cs-ph__desc">Adjustment mode — trade list with mark pills, and the payoff overlay: existing position as solid grey ghost, adjusted as dotted green/red.</p>
+      </figure>
+
+      <h3 class="cs-h3">The comparison is the product</h3>
+      <p class="cs-p">Existing position: solid grey ghost. Adjusted: dotted green/red. Every metric reads <strong>before → after</strong> — max profit, max loss, POP, reward:risk, breakevens, intrinsic and time value. The trader sees the complete consequence of their marks as one picture, <em>then</em> chooses.</p>
+      <p class="cs-p"><strong>Execute adjustments</strong> fires all marked exits, reductions, rolls, and new legs together, as one batch. <strong>Cancel</strong> discards every mark. There is no third state — no half-applied position, no &ldquo;oops, only the first two legs went through.&rdquo;</p>
+
+      <p class="cs-pull">Every other terminal makes you adjust with live rounds. We gave traders a dry-run.</p>
+    </div>
+  </section>
+
+  <!-- Execute ------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <ol class="cs-spine">
+        <li>Land</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Create</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Shape</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li aria-current="step">Execute</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li aria-current="step">Confirm</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Position</li><li class="cs-spine__sep" aria-hidden="true">→</li>
+        <li>Adjust</li>
+      </ol>
+
+      <p class="cs-eyebrow">Crossing the line</p>
+      <h2 class="cs-h2">Execute is a gate, not a trigger</h2>
+      <p class="cs-p">The moment a strategy becomes real money deserves friction — exactly one unit of it. Execute opens a confirmation pop-up (intraday/overnight, per-leg lots and prices); nothing is placed until the trader confirms. After confirm, the <em>same</em> pop-up becomes an order tracker — every order listed with live status and modify/cancel CTAs. Close it, and the executed strategy loads into the builder as a position, ready for Adjust.</p>
+      <p class="cs-p">One surface carries the trader across the entire boundary: review → commit → track → land. No hunting through an orders page to learn what just happened.</p>
+
+      <figure class="cs-ph cs-ph--short">
+        <span class="cs-ph__tag">Screen 07</span>
+        <p class="cs-ph__desc">Execute flow — confirmation modal with per-leg review, then the post-confirm order-status list with modify / cancel.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Invariants ---------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">Designing for trust</p>
+      <h2 class="cs-h2">Invariants as selling points</h2>
+      <p class="cs-p cs-lede">In a trading product, correctness <em>is</em> UX. I wrote these guarantees with engineering as part of the design spec — they hold across every move, and each one is a reason to trust the builder with real money.</p>
+
+      <div class="cs-tablewrap">
+        <table class="cs-table">
+          <thead><tr><th scope="col">Invariant</th><th scope="col">The guarantee</th></tr></thead>
+          <tbody>
+            <tr><td>P&amp;L conservation</td><td>On Execute: exits book realized P&amp;L, partial reductions book partially, additions blend the average, rolls book at market. Total P&amp;L is identical before and after — the math never lies to the trader.</td></tr>
+            <tr><td>Unlimited detection</td><td>An unbounded payoff — say, a naked leg after exiting its hedge — reads &ldquo;Unlimited.&rdquo; Never a fake finite number. The chart tells the truth even when the truth is scary.</td></tr>
+            <tr><td>Roll semantics</td><td>A roll books the old leg at market, resets the average at the new strike; rolling a leg back home reverts the row cleanly. Reversible in the UI, honest in the ledger.</td></tr>
+            <tr><td>Undo</td><td>Stacking, one step per <em>action</em> — a full drag gesture is one undo step, not one per snap. Execute or a fresh Generate clears history.</td></tr>
+            <tr><td>Snap &amp; ordering</td><td>Strikes snap to 50; a dragged leg can&rsquo;t cross a fixed neighbour (min-gap 50). Sketch can&rsquo;t produce a structure the market can&rsquo;t hold.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="cs-p">The demos and prototypes run on a self-contained toy model (SPOT 23,650 · lot 75 · a balanced iron condor as base) — deliberately not a live pricer, so behaviour is testable and every reviewer sees the same numbers.</p>
+    </div>
+  </section>
+
+  <!-- Process ------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">Process</p>
+      <h2 class="cs-h2">How I worked</h2>
+
+      <div class="cs-grid cs-grid--2">
+        <div class="cs-card">
+          <h3 class="cs-h3">Scoped like an operator</h3>
+          <p>I drew a hard line between what this spec owns (the three widgets, the three moves, execute → confirm) and what it inherits (the Web 2.0 frame, layout modularity, widget sync, order internals). Deferred paper-trading drafts past V1. Ruthless scope is how a sole designer ships a terminal.</p>
+        </div>
+        <div class="cs-card">
+          <h3 class="cs-h3">Built the behaviour, not just the frames</h3>
+          <p>Genie&rsquo;s conflict chips, Sketch&rsquo;s gesture grammar, and Adjust&rsquo;s mark-compare loop were specified as interactive HTML prototypes with real solver logic on the toy model — so engineering debated behaviour, not interpretations of a static mock.</p>
+        </div>
+        <div class="cs-card">
+          <h3 class="cs-h3">Wrote testable stories</h3>
+          <p>Every user story maps to a journey stage with P0/P1 priority and acceptance criteria — e.g. <em>SKT-04: while creating, a dot only drags; no mark-exit on hover.</em> Design intent that QA can verify is design intent that survives shipping.</p>
+        </div>
+        <div class="cs-card">
+          <h3 class="cs-h3">Partnered at founder level</h3>
+          <p>Working directly with the CEO, I framed every decision in trader value and business terms — parity rents users, removed steps own them — and defended restraint (create-mode simplicity, the execute gate) as hard as I pitched the accelerators.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Measure ------------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">Measuring success</p>
+      <h2 class="cs-h2">What I&rsquo;d watch</h2>
+      <ul class="cs-list">
+        <li><strong>Time-to-first-executed-strategy</strong> — the headline metric. Genie and Sketch exist to collapse it; the goal-to-strikes path should beat the chain path by an order of magnitude.</li>
+        <li><strong>Share of strategies via Genie / Sketch vs chain</strong> — adoption of the accelerators against the parity baseline; tells us whether the thesis holds with real traders.</li>
+        <li><strong>Adjustment funnel completion</strong> — marks made → compared → executed. A high cancel-after-compare rate isn&rsquo;t failure; it&rsquo;s the anxiety-removal working: traders discovering a bad adjustment <em>before</em> it cost money.</li>
+        <li><strong>Multi-leg orders per active seller per week</strong> — the retention signal. If the workbench is the reason to stay, this climbs.</li>
+        <li><strong>Genie wish-conflict rate</strong> — how often chips read &ldquo;closest&rdquo; — feeding solver tuning and preset design.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Reflection ---------------------------------------------------- -->
+  <section class="cs-section">
+    <div class="wrap">
+      <p class="cs-eyebrow">Reflection</p>
+      <h2 class="cs-h2">What this project taught me</h2>
+      <p class="cs-p"><strong>The best interface deletes a translation, not a click.</strong> Counting taps is optimization; removing the idea-to-legs translation is invention. The former makes a product better, the latter makes it different.</p>
+      <p class="cs-p"><strong>Trust is designed in the failure cases.</strong> Genie&rsquo;s amber chips, &ldquo;Unlimited&rdquo; instead of a fake number, the ghost-vs-dotted comparison — the moments where the product admits limits are the moments professionals decide to rely on it.</p>
+      <p class="cs-p"><strong>Restraint is a feature.</strong> The hardest calls weren&rsquo;t what to add — they were keeping create-mode gestures minimal, keeping the chain as the honest base path, and keeping Execute deliberately slow. In a domain where a mis-click costs real money, what the interface refuses to do is part of what it offers.</p>
+
+      <p class="cs-pull">Anyone can design the happy path. This project was about designing the honest one.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="cs-footer">
+  <div class="wrap">
+    <p class="cs-footer__name">Sambeet</p>
+    <p>Lead Product Designer · Strategy Terminal · Capmint</p>
+    <p class="cs-footer__note">Case study · Confidential · Shared for interview review</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var panel = document.getElementById('nav-panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', function () {
+      var open = panel.dataset.open === 'true';
+      panel.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+  })();
+</script>
+
+</body>
+</html>
