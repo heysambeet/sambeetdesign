@@ -15,6 +15,10 @@
   --card-bg:       #fcfcfc;
   --card-border:   #e3e3e3;
   --tag:           #f2e2de;
+  /* Tag label colour — derived from the tag peach, darkened until it clears
+     AA on that background (6.0:1). ESTIMATED from a screenshot, not read
+     from Figma; confirm the exact value. */
+  --tag-ink:       #8c5248;
   --arrow:         #c8c8c8;
 
   /* Radii */
@@ -30,6 +34,7 @@
   --fs-h1: 20px;      --lh-h1: 32px;      --ls-h1: 0.02px;
   --fs-bio: 14px;     --lh-bio: 28px;     --ls-bio: 0.014px;
   --fs-contact: 14px; --lh-contact: 22px; --ls-contact: 0.014px;
+  --fs-card-sub: 13px;   /* card body — 13 on mobile, 14 from 768 up */
 
   /* Layout */
   --container:   720px;
@@ -57,6 +62,7 @@
     --fs-h1: 32px;      --lh-h1: 44px;      --ls-h1: 0.032px;
     --fs-bio: 16px;     --lh-bio: 28px;     --ls-bio: 0.016px;
     --fs-contact: 24px; --lh-contact: 32px; --ls-contact: 0.024px;
+    --fs-card-sub: 14px;
 
     --gutter:     24px;
     --card-inset: 24px;
@@ -297,22 +303,42 @@ a { color: inherit; }
 .card__sub {
   margin-top: 4px;
   font-weight: 400;
-  font-size: 14px;
+  font-size: var(--fs-card-sub);
   line-height: 22px;
   letter-spacing: 0.014px;
 }
 
 .card__tags {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   margin-top: 12px;
 }
 
+/* Sized so three tags clear one line inside the 296px card content column
+   (the same width at both breakpoints). Wrapping would make one card taller
+   than its neighbour in the desktop row. */
 .card__tags li {
+  font-family: var(--font-nav);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--tag-ink);
+  background: var(--tag);
+  border-radius: 4px;
+  padding: 5px 6px;
+  white-space: nowrap;
+}
+
+/* Cards without real tags yet keep the designed placeholder bar, so the
+   three unfinished cards don't collapse to empty padding. */
+.card__tags li:empty {
   width: 38px;
   height: 12px;
+  padding: 0;
   border-radius: var(--r-tag);
-  background: var(--tag);
 }
 
 .card__arrow {
