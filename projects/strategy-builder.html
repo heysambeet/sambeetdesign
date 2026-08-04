@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategy Builder — Case study · Sambeet Dash</title>
+<meta name="description" content="A goal-first options workbench for Capmint's web trading terminal. Genie, Sketch and Adjust — three moves that each delete a step every competing builder still forces.">
+
+<meta property="og:title" content="Strategy Builder — traders don't think in strikes">
+<meta property="og:description" content="Every options builder makes traders translate an idea into legs and strikes. This one skips the translation: state the goal, get the trade, shape it by touch.">
+<meta property="og:type" content="article">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/styles.css?v=16">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=1">
+</head>
+<body class="sb">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 64 64" fill="none">
+    <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+      <circle cx="18" cy="18" r="9"/>
+      <path d="M45 8 L56 27 L34 27 Z"/>
+      <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+      <rect x="37.5" y="37.5" width="17" height="17"/>
+    </g>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none">
+    <g transform="translate(24,0) scale(-1,1)">
+      <path d="M8 8.4V16C8 16.2833 7.90417 16.5208 7.7125 16.7125C7.52083 16.9042 7.28333 17 7 17C6.71667 17 6.47917 16.9042 6.2875 16.7125C6.09583 16.5208 6 16.2833 6 16V6C6 5.71667 6.09583 5.47917 6.2875 5.2875C6.47917 5.09583 6.71667 5 7 5H17C17.2833 5 17.5208 5.09583 17.7125 5.2875C17.9042 5.47917 18 5.71667 18 6C18 6.28333 17.9042 6.52083 17.7125 6.7125C17.5208 6.90417 17.2833 7 17 7H9.4L18.3 15.9C18.4833 16.0833 18.575 16.3167 18.575 16.6C18.575 16.8833 18.4833 17.1167 18.3 17.3C18.1167 17.4833 17.8833 17.575 17.6 17.575C17.3167 17.575 17.0833 17.4833 16.9 17.3L8 8.4Z" fill="currentColor"/>
+    </g>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none">
+    <path d="M4 18C3.71667 18 3.47917 17.9042 3.2875 17.7125C3.09583 17.5208 3 17.2833 3 17C3 16.7167 3.09583 16.4792 3.2875 16.2875C3.47917 16.0958 3.71667 16 4 16H20C20.2833 16 20.5208 16.0958 20.7125 16.2875C20.9042 16.4792 21 16.7167 21 17C21 17.2833 20.9042 17.5208 20.7125 17.7125C20.5208 17.9042 20.2833 18 20 18H4ZM4 13C3.71667 13 3.47917 12.9042 3.2875 12.7125C3.09583 12.5208 3 12.2833 3 12C3 11.7167 3.09583 11.4792 3.2875 11.2875C3.47917 11.0958 3.71667 11 4 11H20C20.2833 11 20.5208 11.0958 20.7125 11.2875C20.9042 11.4792 21 11.7167 21 12C21 12.2833 20.9042 12.5208 20.7125 12.7125C20.5208 12.9042 20.2833 13 20 13H4ZM4 8C3.71667 8 3.47917 7.90417 3.2875 7.7125C3.09583 7.52083 3 7.28333 3 7C3 6.71667 3.09583 6.47917 3.2875 6.2875C3.47917 6.09583 3.71667 6 4 6H20C20.2833 6 20.5208 6.09583 20.7125 6.2875C20.9042 6.47917 21 6.71667 21 7C21 7.28333 20.9042 7.52083 20.7125 7.7125C20.5208 7.90417 20.2833 8 20 8H4Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- Header — shared with the landing page ---------------------------- -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="../" aria-label="Sambeet Dash — home">
+        <svg role="img" aria-hidden="true"><use href="#i-logo"></use></svg>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="../">Home</a>
+        <a href="#">Resume</a>
+      </nav>
+
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+
+    <nav class="nav-panel" id="nav-panel" data-open="false" aria-label="Primary, mobile">
+      <a href="../">Home</a>
+      <a href="#">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero — Figma 6547:16497–16515 ---------------------------------- -->
+  <section class="sb-section sb-hero">
+    <div class="wrap">
+      <a class="sb-back" href="../">
+        <svg aria-hidden="true"><use href="#i-arrow"></use></svg>
+        All work
+      </a>
+
+      <p class="sb-kicker">Strategy builder ♟️</p>
+
+      <h1 class="sb-h1">
+        <span>Traders don’t think in strikes.</span>
+        They think in outcomes.
+      </h1>
+
+      <p class="sb-sub">Every options builder on the market makes traders translate an idea into legs, strikes, and forms. I designed a workbench that skips the translation — state the goal, get the trade, shape it by touch.</p>
+
+      <dl class="sb-meta">
+        <div class="sb-meta__item">
+          <dt class="sb-meta__label">ROLE</dt>
+          <dd class="sb-meta__value">Lead Product Designer (IC)</dd>
+        </div>
+        <div class="sb-meta__item">
+          <dt class="sb-meta__label">TEAM</dt>
+          <dd class="sb-meta__value">Design team</dd>
+        </div>
+        <div class="sb-meta__item">
+          <dt class="sb-meta__label">PLATFORM</dt>
+          <dd class="sb-meta__value">Web trading terminal</dd>
+        </div>
+        <div class="sb-meta__item">
+          <dt class="sb-meta__label">SCOPE</dt>
+          <dd class="sb-meta__value">End-to-end 0 → 1</dd>
+        </div>
+        <div class="sb-meta__item">
+          <dt class="sb-meta__label">DOMAIN</dt>
+          <dd class="sb-meta__value">Options (F&amp;O), NSE</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- At a glance — Figma 6547:16516 --------------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-eyebrow">AT A GLANCE</p>
+      <h2 class="sb-h2">One engine. Three moves.</h2>
+      <p class="sb-lede">The Strategy Terminal gives option sellers a goal-first workbench built around three accelerators — each one removes a step every competing builder still forces.</p>
+
+      <ul class="sb-cards sb-cards--3">
+        <li class="sb-card">
+          <span class="sb-tag">MOVE 01 · GENIE</span>
+          <h3 class="sb-card__title">Creation by intent</h3>
+          <p class="sb-card__body">Name the outcome — POP, range, profit — and a solver returns real strikes in one click. “Make a wish — granted.”</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">MOVE 02 · SKETCH</span>
+          <h3 class="sb-card__title">Shaping by touch</h3>
+          <p class="sb-card__body">The payoff chart is the build surface. Add legs, roll strikes, move whole sides — by dragging, not by forms.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">MOVE 03 · ADJUST</span>
+          <h3 class="sb-card__title">Adjustment without anxiety</h3>
+          <p class="sb-card__body">On a live position: mark every change, compare before → after, execute once. Nothing fires until you say so.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- The problem — Figma 6547:16536 --------------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-eyebrow">THE PROBLEM</p>
+      <h2 class="sb-h2">Every builder forces the same detour</h2>
+      <p class="sb-lede">Pick a view. Open the chain. Hunt strikes. Assemble legs. Check if it matches the idea. Repeat until it does.</p>
+      <p class="sb-p">That’s the path every strategy builder in the market forces — Sensibull, Opstra, broker terminals, all of them. It treats the option chain as the starting point, when the chain is actually the last thing a trader should need to touch.</p>
+      <p class="sb-p">Here’s the insight the whole product is built on: the trader already knew the outcome before they opened the app. “I want an 80% chance of profit if NIFTY stays between 23,400 and 23,900.” That’s a complete specification of a trade. Everything after that sentence — the strikes, the legs, the widths — is translation work the software should do, not the human.</p>
+    </div>
+  </section>
+
+  <!-- Pains table — Figma 6547:16542 + 16543 ------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <h2 class="sb-h3">Three specific pains, three specific answers</h2>
+
+      <table class="sb-table sb-table--pains">
+        <colgroup><col><col><col></colgroup>
+        <thead>
+          <tr>
+            <th scope="col">PAIN TODAY</th>
+            <th scope="col">COST TO THE TRADER</th>
+            <th scope="col">OUR ANSWER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Strike-hunting</td>
+            <td data-label="COST TO THE TRADER">The idea → legs translation is manual, slow, and error-prone. Traders juggle a chain, a calculator, and a payoff preview across tabs.</td>
+            <td data-label="OUR ANSWER">Genie — solve for strikes from the stated goal.</td>
+          </tr>
+          <tr>
+            <td>Form-based editing</td>
+            <td data-label="COST TO THE TRADER">Reshaping a trade means editing rows and dialogs, then re-checking the payoff. The feedback loop is broken in half.</td>
+            <td data-label="OUR ANSWER">Sketch — the payoff chart is directly manipulable; metrics update as the hand moves.</td>
+          </tr>
+          <tr>
+            <td>Adjustment fear</td>
+            <td data-label="COST TO THE TRADER">Modifying a live position means firing orders one at a time, half-blind, with real money moving between each click.</td>
+            <td data-label="OUR ANSWER">Adjust — mark, compare, execute once. Zero orders until explicit commit.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Screen 1 — Figma 6547:18261 / image 20 ------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 495.031">
+          <img src="../assets/img/strategy-builder/screen-01.png" alt="The Strategy Builder workbench: build panel on the left, payoff and analytics pane on the right." width="3484" height="2478" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Statement — Figma 6547:16560 ----------------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-statement">
+        <span>Creation by intent. Shaping by touch.</span>
+        Adjustment without anxiety.
+      </p>
+    </div>
+  </section>
+
+  <!-- The design — Figma 6547:19055 / image 21 ----------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-eyebrow">THE DESIGN</p>
+      <h2 class="sb-h2">A three-widget workbench</h2>
+      <p class="sb-p">The Strategy view loads three widgets on the Web 2.0 modular canvas — drag, resize, tab, group. The builder spans the top; context sits beneath it. The principle: one widget, one job. Build in one place, read the market in another, never leave the view.</p>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 495.031">
+          <img src="../assets/img/strategy-builder/screen-02.png" alt="The Strategy view with three widgets arranged on the modular canvas." width="3484" height="2478" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Widgets — Figma 6547:16561 ------------------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <ul class="sb-cards sb-cards--3">
+        <li class="sb-card">
+          <span class="sb-tag">WIDGET 1</span>
+          <h3 class="sb-card__title">Strategy Builder</h3>
+          <p class="sb-card__body">The workbench. Build panel (left) with six tabs; payoff &amp; analytics pane (right) that recalculates the instant anything changes. Sketch lives on this chart.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">WIDGET 2</span>
+          <h3 class="sb-card__title">Analysis Charts</h3>
+          <p class="sb-card__body">Five read-only context tabs — ATM IV, PCR, Options chart, Index chart, ATM straddle. The volatility, sentiment, and price read a seller takes before committing strikes.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">WIDGET 3 · NEW</span>
+          <h3 class="sb-card__title">OI Change</h3>
+          <p class="sb-card__body">A widget that didn’t exist before: Call/Put OI and change by strike around ATM, PCR + India VIX readout, strike-range and time-of-day controls, multi-expiry select.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Screen 3 — Figma 6547:19854 / image 22 ------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 299.656">
+          <img src="../assets/img/strategy-builder/screen-03.png" alt="The Analysis Charts widget showing its read-only context tabs." width="3484" height="1500" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Payoff pane — Figma 6547:20001 / image 23 ---------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <h2 class="sb-h3">The payoff &amp; analytics pane</h2>
+      <p class="sb-p">Everything a decision needs, in one glance: a metric strip (Max profit · Max loss · POP · Reward:Risk · Intrinsic · Time value), breakevens with a Target/Expiry toggle, six payoff views as tabs, On-Target and On-Expiry curves drawn over an OI backdrop, a NIFTY target slider, a target-date stepper, and Undo / Reset. This pane is not a preview — it’s the primary surface. Sketch gestures act directly on it.</p>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 299.6">
+          <img src="../assets/img/strategy-builder/screen-04.png" alt="The payoff and analytics pane with its metric strip, breakevens and payoff curves." width="3480" height="1498" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Move 01 · Genie — Figma 6547:16577, 16601, 17354, 17356 -------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-eyebrow">MOVE 01 · GENIE</p>
+      <h2 class="sb-h2">Make a wish. Get real strikes.</h2>
+      <p class="sb-lede">Genie inverts the builder: instead of assembling legs and checking the outcome, you state the outcome and the solver assembles the legs.</p>
+      <p class="sb-p">The wish has four inputs — each optional, each independently selectable. Set one, several, or all four; hit Generate; the solver returns the closest fit across every active wish and drops real, editable legs into the build panel.</p>
+
+      <table class="sb-table sb-table--twocol">
+        <colgroup><col><col></colgroup>
+        <thead>
+          <tr>
+            <th scope="col">WISH</th>
+            <th scope="col">INPUT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Strategy shape</td>
+            <td data-label="INPUT">Pick a shape from the ready-made set — or leave it to the solver.</td>
+          </tr>
+          <tr>
+            <td>POP %</td>
+            <td data-label="INPUT">Chance of expiring in profit. Presets: 60 / 80 / 90.</td>
+          </tr>
+          <tr>
+            <td>Breakeven range</td>
+            <td data-label="INPUT">Range to hold below &amp; above spot, in ₹ or %.</td>
+          </tr>
+          <tr>
+            <td>Max profit</td>
+            <td data-label="INPUT">Desired profit as % of margin. Presets: 2% / 3% / 4%.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 394">
+          <img src="../assets/img/strategy-builder/screen-05.png" alt="The Genie wish panel with its four optional inputs." width="3480" height="1970" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 519.6">
+          <img src="../assets/img/strategy-builder/screen-06.png" alt="Genie's solved result dropped into the build panel as real, editable legs." width="3480" height="2598" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <p class="sb-pull">A solver you can’t audit is a black box. A solver that admits its trade-offs is a colleague.</p>
+
+      <p class="sb-p">And critically: Genie’s output is just a strategy. Every leg is editable in the trade list and draggable on the payoff. Genie hands off — it doesn’t lock. That single decision is what keeps an “AI-ish” feature from feeling like a gimmick to professional traders.</p>
+    </div>
+  </section>
+
+  <!-- Move 02 · Sketch — Figma 6547:17357, 17362, 17378, 17106 ------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-eyebrow">MOVE 02 · SKETCH</p>
+      <h2 class="sb-h2">The payoff chart is the build surface</h2>
+      <p class="sb-lede">Traders already stare at the payoff diagram — it’s the picture in their head. Sketch makes that picture directly manipulable. No option chain, no edit dialogs.</p>
+      <p class="sb-p">Start from an empty chart — just axes and strikes — or shape a strategy Genie generated or a position you loaded. Every gesture maps to a real trading operation:</p>
+
+      <table class="sb-table sb-table--twocol">
+        <colgroup><col><col></colgroup>
+        <thead>
+          <tr>
+            <th scope="col">GESTURE</th>
+            <th scope="col">RESULT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hover empty space</td>
+            <td data-label="RESULT">A + snaps to the nearest 50-pt strike → menu offers Call: Buy/Sell, Put: Buy/Sell → the leg lands. Available everywhere.</td>
+          </tr>
+          <tr>
+            <td>Drag a dot</td>
+            <td data-label="RESULT">That single leg rolls to the next real strike.</td>
+          </tr>
+          <tr>
+            <td>Drag a side</td>
+            <td data-label="RESULT">Both end legs move together — slopes and the flat top — with width held.</td>
+          </tr>
+          <tr>
+            <td>Delete a leg</td>
+            <td data-label="RESULT">Removes it from the structure via the leg control / trade list.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="sb-p">Strikes, premiums, breakevens, POP — every metric updates live as the hand moves. The feedback loop that form-based builders break in half becomes a single continuous motion: think, drag, see.</p>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 700 / 302.114">
+          <img src="../assets/img/strategy-builder/screen-07.png" alt="Sketch: hovering empty chart space snaps a plus to the nearest strike." width="3501" height="1511" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 700 / 301.319">
+          <img src="../assets/img/strategy-builder/screen-08.png" alt="Sketch: dragging a single dot rolls that leg to the next real strike." width="3487" height="1501" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 700 / 301.752">
+          <img src="../assets/img/strategy-builder/screen-09.png" alt="Sketch: dragging a whole side moves both end legs together with width held." width="3482" height="1501" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Restraint note — Figma 6547:17379 ------------------------------ -->
+  <section class="sb-section">
+    <div class="wrap">
+      <h2 class="sb-h3">A restraint decision I’d defend in any review</h2>
+      <p class="sb-p">While creating, a payoff dot can only be dragged to roll. No exit toggle, no lot-change on hover — those live exclusively in Adjust mode. Why? Because a surface that does everything everywhere teaches nothing. Create-mode gestures answer one question — “what shape do I want?” — and adjustment gestures answer a different, riskier one — “what do I change on live money?” Splitting the gesture vocabulary by mode keeps each one learnable and makes the dangerous one deliberate.</p>
+    </div>
+  </section>
+
+  <!-- Move 03 · Adjust — Figma 6547:17384 (ruled section) ------------ -->
+  <section class="sb-section sb-section--ruled">
+    <div class="wrap">
+      <p class="sb-eyebrow">MOVE 03 · ADJUST</p>
+      <h2 class="sb-h2">Mark. Compare. Execute once.</h2>
+      <p class="sb-lede">Adjusting a live position is the highest-anxiety moment in options trading — real money moves with every click. Adjust’s core contract: nothing fires until you say so.</p>
+      <p class="sb-p">Open Positions, click a group to load it, enter adjustment mode. Every change is a mark — an intention, not an order. And there are two ways to mark, writing to the same set:</p>
+
+      <ul class="sb-cards sb-cards--2">
+        <li class="sb-card">
+          <span class="sb-tag">FROM THE TRADE LIST</span>
+          <h3 class="sb-card__title">Precision path</h3>
+          <p class="sb-card__body">Each row gains a New-lot field (typeable, +/− nudge), a Mark-exit toggle, and an Adjustments column showing every mark as a pill — REDUCE LOT 12 → 01, ROLL 24120 → 24220, NO CHANGE.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">FROM THE PAYOFF CHART</span>
+          <h3 class="sb-card__title">Spatial path</h3>
+          <p class="sb-card__body">Hover a dot → a popover for that exact leg with a New-lot stepper and Mark-exit toggle; drag the dotted curve to roll. Every chart mark writes back to the trade list as the matching pill.</p>
+        </li>
+      </ul>
+
+      <!-- images 29–32 are cropped fills in Figma; the crop is reproduced
+           with the exact percentages so it scales with the container -->
+      <figure class="sb-shot sb-shot--crop">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 239.641; --sb-cw: 104.19%; --sb-ch: 215.21%; --sb-cx: -2.1%; --sb-cy: -28.26%">
+          <img src="../assets/img/strategy-builder/screen-10.png" alt="Adjust mode: the trade list with New-lot fields and Mark-exit toggles." width="4096" height="2913" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="sb-shot sb-shot--crop">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 244.513; --sb-cw: 104.96%; --sb-ch: 212.47%; --sb-cx: -2.62%; --sb-cy: -28.43%">
+          <img src="../assets/img/strategy-builder/screen-11.png" alt="Adjust mode: marks rendered as pills in the Adjustments column." width="4096" height="2913" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="sb-shot sb-shot--crop">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 242.953; --sb-cw: 104.15%; --sb-ch: 212.19%; --sb-cx: -2.15%; --sb-cy: -28.02%">
+          <img src="../assets/img/strategy-builder/screen-12.png" alt="Adjust mode: the per-leg popover reached by hovering a payoff dot." width="4096" height="2913" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="sb-shot sb-shot--crop">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 242.791; --sb-cw: 104.65%; --sb-ch: 213.35%; --sb-cx: -2.47%; --sb-cy: -28.55%">
+          <img src="../assets/img/strategy-builder/screen-13.png" alt="Adjust mode: dragging the dotted curve to roll a marked leg." width="4096" height="2913" loading="lazy" decoding="async">
+        </div>
+      </figure>
+
+      <h3 class="sb-h3">The comparison is the product</h3>
+      <p class="sb-p">Existing position: solid grey ghost. Adjusted: dotted green/red. Every metric reads before → after — max profit, max loss, POP, reward:risk, breakevens, intrinsic and time value. The trader sees the complete consequence of their marks as one picture, then chooses.</p>
+      <p class="sb-p">Execute adjustments fires all marked exits, reductions, rolls, and new legs together, as one batch. Cancel discards every mark. There is no third state — no half-applied position, no “oops, only the first two legs went through.”</p>
+
+      <p class="sb-pull">Every other terminal makes you adjust with live rounds. We gave traders a dry-run.</p>
+
+      <figure class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 696 / 494.982">
+          <img src="../assets/img/strategy-builder/screen-14.png" alt="The before-and-after comparison: solid grey ghost against the dotted adjusted curve." width="4096" height="2913" loading="lazy" decoding="async">
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Measuring success — Figma 6547:18237 (ruled section) ----------- -->
+  <section class="sb-section sb-section--ruled">
+    <div class="wrap">
+      <p class="sb-eyebrow">MEASURING SUCCESS</p>
+      <h2 class="sb-h2">What I’d watch</h2>
+      <p class="sb-p">To measure the impact of Strategy Builder, we focused on three key data points: retention, adoption of core features like Genie and Sketch, and depth of engagement — such as how many users actively adjust their positions.</p>
+      <p class="sb-p">Retention tells us whether the product is becoming a habit, while feature usage shows whether the core value proposition is landing. Together, these metrics capture not just how many users come back, but how meaningfully they engage with the product.</p>
+
+      <ul class="sb-cards sb-cards--3">
+        <li class="sb-card">
+          <h3 class="sb-card__title">Retention improvement</h3>
+          <p class="sb-card__figure">From 16% to 18%</p>
+          <p class="sb-card__body">As the traders found a new way to create their strategy they shared the feedback of how it’s improving the experience with optimising the time.</p>
+        </li>
+        <li class="sb-card">
+          <h3 class="sb-card__title">Genie usage</h3>
+          <p class="sb-card__figure">35% of all web users</p>
+          <p class="sb-card__body">Genie is giving the traders the flexibility about choosing their return or POP to get the desired ROC on their capital employed and track it easily.</p>
+        </li>
+        <li class="sb-card">
+          <h3 class="sb-card__title">Sketch usage</h3>
+          <p class="sb-card__figure">12% of all users</p>
+          <p class="sb-card__body">By drawing on the surface is an easy tool for the traders to create their own strategies with their own risk appetite and reward opportunity.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Reflection — Figma 6547:18253 (ruled section) ------------------ -->
+  <section class="sb-section sb-section--ruled">
+    <div class="wrap">
+      <p class="sb-eyebrow">REFLECTION</p>
+      <h2 class="sb-h2">What this project taught me</h2>
+      <p class="sb-p">The best interface deletes a translation, not a click. Counting taps is optimization; removing the idea-to-legs translation is invention. The former makes a product better, the latter makes it different.</p>
+      <p class="sb-p">Trust is designed in the failure cases. Genie’s amber chips, “Unlimited” instead of a fake number, the ghost-vs-dotted comparison — the moments where the product admits limits are the moments professionals decide to rely on it.</p>
+      <p class="sb-p">Restraint is a feature. The hardest calls weren’t what to add — they were keeping create-mode gestures minimal, keeping the chain as the honest base path, and keeping Execute deliberately slow. In a domain where a mis-click costs real money, what the interface refuses to do is part of what it offers.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="sb-footer">
+  <div class="wrap">
+    <p class="sb-footer__name">Sambeet Dash</p>
+    <p>Lead Product Designer · Strategy Terminal · Capmint</p>
+    <p><a href="../">← All work</a></p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    var panel = document.getElementById('nav-panel');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', function () {
+      var open = panel.dataset.open === 'true';
+      panel.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -77,6 +77,24 @@
 
 .sb-section > .wrap > * + * { margin-top: var(--sb-gap-stack); }
 
+/* styles.css resets margins on h1/h2/h3/p/ul/li/figure but not on
+   definition lists, so the meta strip's <dd> would keep the UA's
+   40px inline indent. */
+.sb-meta, .sb-meta dt, .sb-meta dd { margin: 0; }
+
+/* Spacings that differ from the 14px default. These repeat the
+   `.sb-section > .wrap >` prefix deliberately — the blanket rule
+   above is two classes deep, so a bare `.sb-shot` would lose to it. */
+.sb-section > .wrap > .sb-back + .sb-kicker { margin-top: 0; }
+.sb-section > .wrap > .sb-h1    { margin-top: 16px; }
+.sb-section > .wrap > .sb-sub   { margin-top: 20px; }
+.sb-section > .wrap > .sb-meta  { margin-top: 24px; }
+.sb-section > .wrap > .sb-cards { margin-top: 24px; }
+.sb-section > .wrap > .sb-table { margin-top: 24px; }
+.sb-section > .wrap > .sb-pull  { margin-top: 32px; }
+.sb-section > .wrap > .sb-shot  { margin-top: 32px; }
+.sb-section > .wrap > .sb-shot + .sb-shot { margin-top: 36px; }
+
 /* Sections that carry a hairline above them. In Figma only
    Move 03, Measuring success and Reflection have this rule. */
 .sb-section--ruled > .wrap {
@@ -116,7 +134,6 @@
 }
 
 .sb-h1 {
-  margin-top: 16px;
   font-weight: 600;
   font-size: var(--sb-fs-h1);
   line-height: var(--sb-lh-h1);
@@ -128,7 +145,6 @@
 .sb-h1 span { display: block; color: var(--ink-muted); }
 
 .sb-sub {
-  margin-top: 20px;
   font-weight: 500;
   font-size: var(--sb-fs-sub);
   line-height: var(--sb-lh-sub);
@@ -138,7 +154,6 @@
 /* ---------- Meta strip --------------------------------------- */
 
 .sb-meta {
-  margin-top: 24px;
   padding-top: 26px;
   border-top: 1px solid var(--sb-rule);
   display: flex;
@@ -242,7 +257,6 @@
 .sb-cards {
   display: grid;
   gap: 16px;
-  margin-top: 24px;          /* 14px stack + the 10px pad Figma puts above */
   list-style: none;
 }
 
@@ -309,7 +323,6 @@
    the remainder, which fits the column exactly. */
 .sb-table {
   width: 100%;
-  margin-top: 24px;
   border-collapse: collapse;
   text-align: left;
 }
@@ -398,15 +411,11 @@
    and 11.613–12.437px radii — scaling slop, not intent — so they
    are unified to 1px / --sb-r-frame here. */
 .sb-shot {
-  margin-top: 32px;
   padding: var(--sb-frame-pad);
   background: var(--bg);
   border: 1px dashed var(--card-border);
   border-radius: var(--sb-r-frame);
 }
-
-/* Consecutive screens in a group sit closer than a section break. */
-.sb-shot + .sb-shot { margin-top: 36px; }
 
 .sb-shot__inner {
   position: relative;
