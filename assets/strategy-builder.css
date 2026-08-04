@@ -85,7 +85,6 @@
 /* Spacings that differ from the 14px default. These repeat the
    `.sb-section > .wrap >` prefix deliberately — the blanket rule
    above is two classes deep, so a bare `.sb-shot` would lose to it. */
-.sb-section > .wrap > .sb-back + .sb-kicker { margin-top: 0; }
 .sb-section > .wrap > .sb-h1    { margin-top: 16px; }
 .sb-section > .wrap > .sb-sub   { margin-top: 20px; }
 .sb-section > .wrap > .sb-meta  { margin-top: 24px; }
@@ -110,18 +109,8 @@
   .sb-hero { padding-top: 72px; }
 }
 
-.sb-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 28px;
-  font-size: 14px;
-  line-height: 22px;
-  color: var(--ink-muted);
-  text-decoration: none;
-}
-
-.sb-back:hover { color: var(--ink); }
+/* No in-page back link: the sticky header carries Home on every screen,
+   so the hero opens straight on the kicker — as the Figma frame does. */
 
 .sb-kicker {
   font-family: var(--font-nav);          /* Work Sans */
