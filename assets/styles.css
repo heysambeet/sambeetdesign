@@ -49,7 +49,10 @@
   --space-h1-bio:    16px;
   --space-bio-grid:  48px;
   --space-grid-foot: 66px;
-  --space-foot-tail: 224px;  /* reserved for the footer / socials row */
+  --space-line-socials: 14px;  /* contact line -> Email / LinkedIn row */
+  --space-foot-tail: 78px;     /* below the socials row; was a 224px placeholder
+                                  while the row was unbuilt. Figma mobile frame
+                                  6454:2469 is 2012 tall, links end at 1934. */
 
   --logo-size:  24px;
   /* Header row height is held independent of the logo so resizing the mark
@@ -72,7 +75,9 @@
     --space-h1-bio:    22px;
     --space-bio-grid:  64px;
     --space-grid-foot: 140px;
-    --space-foot-tail: 288px;
+    --space-line-socials: 16px;
+    --space-foot-tail: 136px;    /* desktop frame 6454:2467 is 1426 tall,
+                                    links end at 1290 */
 
     --logo-size:  32px;
     --header-row: 40px;
@@ -450,6 +455,29 @@ a { color: inherit; }
 @media (min-width: 768px) {
   .contact__line { max-width: none; }
 }
+
+/* Email / LinkedIn row. Figma 6477:2727 + 6477:2729 (desktop),
+   6572:51378 + 6572:51379 (mobile): Work Sans Regular 14/22, muted ink,
+   underlined from-font, 18px apart at both breakpoints. Same recipe as
+   .nav a, with the underline added. */
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: var(--space-line-socials);
+  font-family: var(--font-nav);
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.014px;
+}
+
+.socials a {
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+
+.socials a:hover { color: var(--ink); }
 
 /* ---------- Motion preferences ---------- */
 
