@@ -306,6 +306,33 @@
 
 .cs-ph img { border-radius: 12px; }
 
+/* ---------- real screen ---------- */
+/* Replaces .cs-ph once a screen exists. Screens are 2x exports of 720pt-wide
+   Figma frames, so they sit at natural width in the 720px column. */
+.cs-shot {
+  margin: 28px 0 0;
+}
+
+.cs-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0.5px solid var(--card-border);
+  border-radius: 16px;
+  background: var(--card-bg);
+}
+
+.cs-shot figcaption {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+  max-width: 60ch;
+}
+
+/* Two screens that belong together read as one unit */
+.cs-shot + .cs-shot { margin-top: 16px; }
+
 /* ---------- table ---------- */
 
 .cs-tablewrap {
