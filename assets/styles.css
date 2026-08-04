@@ -328,7 +328,9 @@ a { color: inherit; }
   color: var(--tag-ink);
   background: var(--tag);
   border-radius: 4px;
-  padding: 5px 8px;
+  /* 3px + 12px line-height + 3px = an 18px pill. Change the vertical
+     padding if the pill height changes; the line-height is the type spec. */
+  padding: 3px 8px;
   white-space: nowrap;
 }
 
