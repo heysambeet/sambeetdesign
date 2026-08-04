@@ -17,6 +17,7 @@
   --tag:           #f2e2de;
   --tag-ink:       #a52f64;   /* from Figma; 5.2:1 on --tag, clears AA */
   --arrow:         #c8c8c8;
+  --arrow-hover:   rgba(0, 0, 0, 0.5);   /* --ink at 50% — darkens on hover without going solid */
 
   /* Radii */
   --r-card:  24px;
@@ -275,10 +276,10 @@ a { color: inherit; }
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
   }
 
-  .card:hover .card__arrow { color: var(--ink); }
+  .card:hover .card__arrow { color: var(--arrow-hover); }
 }
 
-.card:focus-visible .card__arrow { color: var(--ink); }
+.card:focus-visible .card__arrow { color: var(--arrow-hover); }
 
 .card__head {
   /* Insets are measured from the card edge; --media-inset is already applied
