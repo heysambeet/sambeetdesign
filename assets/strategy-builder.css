@@ -121,7 +121,6 @@
   text-decoration: none;
 }
 
-.sb-back svg { width: 16px; height: 16px; }
 .sb-back:hover { color: var(--ink); }
 
 .sb-kicker {
@@ -413,8 +412,12 @@
 .sb-shot {
   padding: var(--sb-frame-pad);
   background: var(--bg);
-  border: 1px dashed var(--card-border);
   border-radius: var(--sb-r-frame);
+  /* Drawn as an outline, not a border: Figma strokes the frame on its
+     720px boundary without pushing the image in. A 1px border would
+     eat layout width and leave the image 694px instead of 696px. */
+  outline: 1px dashed var(--card-border);
+  outline-offset: -1px;
 }
 
 .sb-shot__inner {
