@@ -102,12 +102,12 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;
 .streams{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:12px;
   padding-bottom:44px;text-align:left}
 @media (min-width:900px){.streams{grid-template-columns:repeat(4,1fr)}}
-.stream{background:#fff;border:1px solid var(--card-border);
-  border-radius:16px;padding:16px 15px}
+.stream{display:flex;flex-direction:column;background:#fff;
+  border:1px solid var(--card-border);border-radius:16px;padding:16px 15px}
 .stream h3{font-weight:600;font-size:14px;line-height:20px;color:var(--ink)}
-.stream p{margin-top:5px;font-size:12px;line-height:18px;color:rgba(0,0,0,.6);
+.stream p{margin:5px 0 12px;font-size:12px;line-height:18px;color:rgba(0,0,0,.6);
   text-wrap:pretty}
-.stream span{display:inline-block;margin-top:12px;padding:2px 8px;border-radius:4px;
+.stream span{margin-top:auto;align-self:flex-start;padding:2px 8px;border-radius:4px;
   background:#f4f4f4;font-family:ui-monospace,Menlo,monospace;
   font-size:10.5px;line-height:16px;color:#111}
 
@@ -355,12 +355,12 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
         <div class="streams">
           <div class="stream">
             <h3>Feed</h3>
-            <p>13 sources, deduplicated — "breaking" is earned by corroboration, never declared.</p>
+            <p>13 sources, deduplicated — "breaking" must be corroborated.</p>
             <span>polls 60 s</span>
           </div>
           <div class="stream">
             <h3>Predictions</h3>
-            <p>Polymarket real-money odds with volume, close dates and probability history.</p>
+            <p>Polymarket real-money odds, with volume and probability history.</p>
             <span>polls 1 min</span>
           </div>
           <div class="stream">
@@ -370,7 +370,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
           </div>
           <div class="stream">
             <h3>Strategies</h3>
-            <p>Live indices, S/R levels, and a 16-template options engine on the real chain.</p>
+            <p>Live indices, S/R levels, and a 16-template engine on the real chain.</p>
             <span>ticks 3 s</span>
           </div>
         </div>
