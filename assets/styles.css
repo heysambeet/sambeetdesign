@@ -15,10 +15,7 @@
   --card-bg:       #fcfcfc;
   --card-border:   #e3e3e3;
   --tag:           #f2e2de;
-  /* Tag label colour — derived from the tag peach, darkened until it clears
-     AA on that background (6.0:1). ESTIMATED from a screenshot, not read
-     from Figma; confirm the exact value. */
-  --tag-ink:       #8c5248;
+  --tag-ink:       #a52f64;   /* from Figma; 5.2:1 on --tag, clears AA */
   --arrow:         #c8c8c8;
 
   /* Radii */
@@ -318,17 +315,19 @@ a { color: inherit; }
 /* Sized so three tags clear one line inside the 296px card content column
    (the same width at both breakpoints). Wrapping would make one card taller
    than its neighbour in the desktop row. */
+/* Type spec from Figma: Inter 8px Regular, 12px line-height.
+   Padding, radius and tracking weren't specified — set here to match the
+   proportions in the reference screenshot. */
 .card__tags li {
-  font-family: var(--font-nav);
-  font-size: 10px;
-  font-weight: 600;
+  font-family: var(--font-ui);
+  font-size: 8px;
+  font-weight: 400;
   line-height: 12px;
-  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--tag-ink);
   background: var(--tag);
   border-radius: 4px;
-  padding: 5px 6px;
+  padding: 5px 8px;
   white-space: nowrap;
 }
 
