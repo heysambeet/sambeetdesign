@@ -15,7 +15,8 @@
   --card-bg:       #fcfcfc;
   --card-border:   #e3e3e3;
   --tag:           #f2e2de;
-  --tag-ink:       #a52f64;   /* from Figma; 5.2:1 on --tag, clears AA */
+  --tag-ink:       #a75278;   /* from Figma. NOTE: 4.05:1 on --tag — below the
+                                 4.5:1 AA floor for text this size. See below. */
   --arrow:         #c8c8c8;
   --arrow-hover:   rgba(0, 0, 0, 0.5);   /* --ink at 50% — darkens on hover without going solid */
 

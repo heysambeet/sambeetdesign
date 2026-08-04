@@ -1,0 +1,458 @@
+/* ============================================================
+   Strategy Builder — case study
+   Built from Figma qvS0zSPthPSa87G0p4maFN, node 6547:16496
+   (Strategy Builder, 1440 × 12645).
+
+   Everything is `sb-` prefixed. The landing page owns `.card`
+   and the older case-study sheet owns `cs-`; this page shares
+   neither, so it gets its own namespace.
+
+   The page shell (header, nav, .wrap, tokens) comes from
+   styles.css. Only what the case study adds lives here.
+
+   Figma's content column sits at x=360 in a 1440 frame — a
+   720px column, which is exactly styles.css's --container.
+   So .wrap reproduces the column with no new layout code.
+   ============================================================ */
+
+:root {
+  /* Figma colours that styles.css doesn't already carry.
+     --ink, --ink-muted (rgba(0,0,0,.64)), --card-bg (#fcfcfc),
+     --card-border (#e3e3e3) and --tag (#f2e2de) all matched the
+     existing tokens exactly, so they are reused, not redeclared. */
+  --sb-ink-faint:  rgba(0, 0, 0, 0.42);   /* meta + table labels */
+  --sb-rule:       #ececec;               /* section + row rules — lighter than --card-border */
+  --sb-quote-rule: #e8cec7;               /* pull-quote left bar */
+
+  /* Type — mobile first, stepped up at 768px to the Figma values */
+  --sb-fs-kicker: 14px;    --sb-lh-kicker: 22px;
+  --sb-fs-h1:     28px;    --sb-lh-h1:     34px;   --sb-ls-h1: -0.3px;
+  --sb-fs-sub:    16px;    --sb-lh-sub:    26px;
+  --sb-fs-h2:     20px;    --sb-lh-h2:     28px;
+  --sb-fs-lede:   16px;    --sb-lh-lede:   26px;
+  --sb-fs-body:   15px;    --sb-lh-body:   26px;
+  --sb-fs-state:  22px;    --sb-lh-state:  30px;   --sb-ls-state: -0.2px;
+  --sb-fs-pull:   18px;    --sb-lh-pull:   28px;   --sb-ls-pull: -0.1px;
+
+  /* Rhythm */
+  --sb-gap-section: 48px;  /* between top-level sections */
+  --sb-gap-stack:   14px;  /* between elements inside a section */
+  --sb-pad-rule:    48px;  /* padding under a section's top rule */
+
+  /* Card + frame geometry */
+  --sb-card-pad:    16px;
+  --sb-r-card:      14px;
+  --sb-frame-pad:   8px;
+  --sb-r-frame:     10px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --sb-fs-kicker: 16px;  --sb-lh-kicker: 24px;
+    --sb-fs-h1:     40px;  --sb-lh-h1:     47px;   --sb-ls-h1: -0.4px;
+    --sb-fs-sub:    18px;  --sb-lh-sub:    30px;
+    --sb-fs-h2:     24px;  --sb-lh-h2:     32px;
+    --sb-fs-lede:   18px;  --sb-lh-lede:   30px;
+    --sb-fs-body:   16px;  --sb-lh-body:   28px;
+    --sb-fs-state:  32px;  --sb-lh-state:  42px;   --sb-ls-state: -0.32px;
+    --sb-fs-pull:   22px;  --sb-lh-pull:   32px;   --sb-ls-pull: -0.11px;
+
+    --sb-gap-section: 64px;
+    --sb-pad-rule:    72px;
+
+    --sb-card-pad:  20px;
+    --sb-r-card:    16px;
+    --sb-frame-pad: 12px;
+    --sb-r-frame:   12px;
+  }
+}
+
+/* ---------- Page rhythm -------------------------------------- */
+
+.sb main { padding-bottom: 96px; }
+
+/* Every section is one 720px column with the standard 14px stack
+   between its children. Sections are separated by --sb-gap-section. */
+.sb-section + .sb-section { margin-top: var(--sb-gap-section); }
+
+.sb-section > .wrap > * + * { margin-top: var(--sb-gap-stack); }
+
+/* Sections that carry a hairline above them. In Figma only
+   Move 03, Measuring success and Reflection have this rule. */
+.sb-section--ruled > .wrap {
+  border-top: 1px solid var(--sb-rule);
+  padding-top: var(--sb-pad-rule);
+}
+
+/* ---------- Hero --------------------------------------------- */
+
+.sb-hero { padding-top: 40px; }
+
+@media (min-width: 768px) {
+  .sb-hero { padding-top: 72px; }
+}
+
+.sb-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.sb-back svg { width: 16px; height: 16px; }
+.sb-back:hover { color: var(--ink); }
+
+.sb-kicker {
+  font-family: var(--font-nav);          /* Work Sans */
+  font-weight: 500;
+  font-size: var(--sb-fs-kicker);
+  line-height: var(--sb-lh-kicker);
+  letter-spacing: 1.2px;
+  color: var(--ink-muted);
+}
+
+.sb-h1 {
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: var(--sb-fs-h1);
+  line-height: var(--sb-lh-h1);
+  letter-spacing: var(--sb-ls-h1);
+  color: var(--ink);
+}
+
+/* The Figma H1 is two lines, the first in muted ink. */
+.sb-h1 span { display: block; color: var(--ink-muted); }
+
+.sb-sub {
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: var(--sb-fs-sub);
+  line-height: var(--sb-lh-sub);
+  color: var(--ink-muted);
+}
+
+/* ---------- Meta strip --------------------------------------- */
+
+.sb-meta {
+  margin-top: 24px;
+  padding-top: 26px;
+  border-top: 1px solid var(--sb-rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 28px;
+}
+
+.sb-meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 150px;
+}
+
+.sb-meta__label,
+.sb-table th,
+.sb-eyebrow {
+  font-family: var(--font-nav);          /* Work Sans */
+  font-weight: 600;
+}
+
+.sb-meta__label {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 1.32px;
+  color: var(--sb-ink-faint);
+}
+
+.sb-meta__value {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink);
+}
+
+/* ---------- Section type ------------------------------------- */
+
+.sb-eyebrow {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 1.54px;
+  color: var(--ink-muted);
+}
+
+.sb-h2 {
+  font-weight: 600;
+  font-size: var(--sb-fs-h2);
+  line-height: var(--sb-lh-h2);
+  color: var(--ink);
+}
+
+.sb-h3 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink);
+}
+
+/* Lede is 18/30 and sits at full ink in most sections; the hero
+   sub and the "at a glance" lede are the muted variant. */
+.sb-lede {
+  font-weight: 500;
+  font-size: var(--sb-fs-lede);
+  line-height: var(--sb-lh-lede);
+  color: var(--ink);
+}
+
+.sb-lede--muted { color: var(--ink-muted); }
+
+.sb-p {
+  font-weight: 500;
+  font-size: var(--sb-fs-body);
+  line-height: var(--sb-lh-body);
+  color: var(--ink-muted);
+}
+
+/* Centred two-line statement between the problem and the design. */
+.sb-statement {
+  font-weight: 600;
+  font-size: var(--sb-fs-state);
+  line-height: var(--sb-lh-state);
+  letter-spacing: var(--sb-ls-state);
+  text-align: center;
+  color: var(--ink);
+}
+
+.sb-statement span { display: block; color: var(--ink-muted); }
+
+.sb-pull {
+  border-left: 3px solid var(--sb-quote-rule);
+  padding: 4px 0 4px 22px;
+  font-weight: 600;
+  font-size: var(--sb-fs-pull);
+  line-height: var(--sb-lh-pull);
+  letter-spacing: var(--sb-ls-pull);
+  color: var(--ink);
+}
+
+/* ---------- Cards -------------------------------------------- */
+
+.sb-cards {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;          /* 14px stack + the 10px pad Figma puts above */
+  list-style: none;
+}
+
+.sb-cards--3 { grid-template-columns: 1fr; }
+.sb-cards--2 { grid-template-columns: 1fr; }
+
+@media (min-width: 768px) {
+  .sb-cards--3 { grid-template-columns: repeat(3, 1fr); }
+  .sb-cards--2 { grid-template-columns: repeat(2, 1fr); }
+}
+
+.sb-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--sb-card-pad);
+  background: var(--card-bg);
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--sb-r-card);
+}
+
+.sb-tag {
+  align-self: flex-start;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background: var(--tag);
+  font-family: var(--font-nav);          /* Work Sans */
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 1.2px;
+  color: var(--ink);                     /* black on the pill here, not --tag-ink */
+  white-space: nowrap;
+}
+
+.sb-card__title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink);
+}
+
+.sb-card__body {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+}
+
+/* The measuring-success cards carry a figure line above the body. */
+.sb-card__figure {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink);
+}
+
+/* ---------- Tables ------------------------------------------- */
+
+/* Genuinely tabular content, so these are real tables. Figma's
+   column widths sum wider than the 720 frame (160+300+260+gaps
+   = 748, and 180+540+gap = 734), so they clip there. Here the
+   first columns keep their Figma widths and the last one takes
+   the remainder, which fits the column exactly. */
+.sb-table {
+  width: 100%;
+  margin-top: 24px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.sb-table th {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  color: var(--sb-ink-faint);
+  vertical-align: top;
+}
+
+.sb-table td {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--sb-rule);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+  vertical-align: top;
+}
+
+.sb-table tbody tr:last-child td { border-bottom: 0; }
+
+/* First cell of every row is the term. */
+.sb-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* 14px inter-column gutter, applied as cell padding so
+   border-collapse still draws one continuous rule. */
+.sb-table th + th,
+.sb-table td + td { padding-left: 14px; }
+
+@media (min-width: 768px) {
+  .sb-table { table-layout: fixed; }
+  .sb-table--pains  col:nth-child(1) { width: 160px; }
+  .sb-table--pains  col:nth-child(2) { width: 314px; }   /* 300 + 14 gutter */
+  .sb-table--twocol col:nth-child(1) { width: 180px; }
+}
+
+/* Mobile: three columns will not fit 328px, so each row becomes a
+   block and the column headings ride along as inline labels. */
+@media (max-width: 767px) {
+  .sb-table thead { display: none; }
+  .sb-table,
+  .sb-table tbody,
+  .sb-table tr,
+  .sb-table td { display: block; width: 100%; }
+
+  .sb-table tr {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--sb-rule);
+  }
+
+  .sb-table tbody tr:last-child { border-bottom: 0; }
+
+  .sb-table td {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .sb-table td + td { padding-left: 0; margin-top: 8px; }
+
+  /* Re-state the column heading for cells that need the context. */
+  .sb-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    font-family: var(--font-nav);
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 14px;
+    letter-spacing: 1.2px;
+    color: var(--sb-ink-faint);
+  }
+}
+
+/* ---------- Screen frames ------------------------------------ */
+
+/* Figma wraps every screenshot in a white frame with a dashed
+   hairline. The source frames drift between 0.968–1.555px borders
+   and 11.613–12.437px radii — scaling slop, not intent — so they
+   are unified to 1px / --sb-r-frame here. */
+.sb-shot {
+  margin-top: 32px;
+  padding: var(--sb-frame-pad);
+  background: var(--bg);
+  border: 1px dashed var(--card-border);
+  border-radius: var(--sb-r-frame);
+}
+
+/* Consecutive screens in a group sit closer than a section break. */
+.sb-shot + .sb-shot { margin-top: 36px; }
+
+.sb-shot__inner {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--sb-ar);
+}
+
+.sb-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Four of the Adjust screens are cropped fills in Figma — the
+   source is a full 1.406 window shown through a ~2.87 band. The
+   crop is reproduced with the exact percentages Figma reports, so
+   it scales with the container instead of being baked into a file. */
+.sb-shot--crop img {
+  position: absolute;
+  width: var(--sb-cw);
+  height: var(--sb-ch);
+  left: var(--sb-cx);
+  top: var(--sb-cy);
+  max-width: none;
+  object-fit: fill;
+}
+
+/* ---------- Footer ------------------------------------------- */
+
+.sb-footer {
+  margin-top: 96px;
+  padding: 40px 0 56px;
+  border-top: 1px solid var(--sb-rule);
+}
+
+.sb-footer p {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+}
+
+.sb-footer__name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.sb-footer a { color: var(--ink-muted); }
+.sb-footer a:hover { color: var(--ink); }
