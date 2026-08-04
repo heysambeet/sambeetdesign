@@ -315,12 +315,13 @@ a { color: inherit; }
 /* Sized so three tags clear one line inside the 296px card content column
    (the same width at both breakpoints). Wrapping would make one card taller
    than its neighbour in the desktop row. */
-/* Type spec from Figma: Inter 8px Regular, 12px line-height.
-   Padding, radius and tracking weren't specified — set here to match the
-   proportions in the reference screenshot. */
+/* Inter Regular, 12px line-height, from the Figma spec. Size stepped 8 → 9px
+   at Sambeet's request — the row has slack, so nothing reflows.
+   Padding, radius and tracking weren't specified; they match the reference
+   screenshot's proportions. */
 .card__tags li {
   font-family: var(--font-ui);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 400;
   line-height: 12px;
   text-transform: uppercase;
