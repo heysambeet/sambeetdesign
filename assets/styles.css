@@ -123,6 +123,38 @@ a { color: inherit; }
   padding-top: 16px;
 }
 
+/* Case studies are long scrolls (Strategy Builder is ~12,600px), so the
+   header follows the reader. Scoped to .case-study on <body> rather than
+   applied to .site-header outright: the landing page is one screen of
+   content and keeps its static header.
+   The background must be opaque — content scrolls underneath. */
+.case-study .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--bg);
+  padding-bottom: 10px;
+}
+
+/* Derived from the tokens above so it can't drift: 16px top pad, the
+   header row, 10px bottom pad. Anything else that pins to the top of a
+   case study offsets by this. */
+.case-study {
+  --header-sticky-h: calc(16px + var(--header-row) + 10px);
+}
+
+/* market-nudge.html carries its own sticky in-page TOC at top:0. Push it
+   below the header rather than letting the two pin to the same line.
+   These out-specify that page's own `.toc` / `section[id]` rules, so they
+   win despite its <style> block coming later in the document. */
+.case-study .toc { top: var(--header-sticky-h); }
+
+/* market-nudge set 64px against the TOC alone; keep that same clearance
+   now that the header sits above it, or anchor jumps land underneath. */
+.case-study section[id] {
+  scroll-margin-top: calc(var(--header-sticky-h) + 64px);
+}
+
 .site-header__inner {
   display: flex;
   align-items: center;
