@@ -378,7 +378,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
       <div class="tape" aria-hidden="true">
         <div class="tape__track">
           <span class="tape__item"><b>NIFTY 50</b> 24,383.60 <span class="tape__up">+0.27%</span></span>
-          <span class="tape__item"><b>SENSEX</b> 78,094.64 <span class="tape__up">+0.21%</span></span>
+          <span class="tape__item"><b>SENSEX</b> <span data-sensex-ltp>78,094.64</span> <span class="tape__up" data-sensex-chg>+0.21%</span></span>
           <span class="tape__item">U.S. × Iran before 2027 <span class="tape__odds">20.5%</span></span>
           <span class="tape__item"><b>CNBC-TV18</b> LEAP India IPO opens this week</span>
           <span class="tape__item">Dems take the House <span class="tape__odds">85.5%</span></span>
@@ -386,7 +386,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
           <span class="tape__item">China × Taiwan before 2027 <span class="tape__odds">7.8%</span></span>
           <span class="tape__item"><b>BBC Business</b> Fuel theft up since Iran war began</span>
           <span class="tape__item"><b>NIFTY 50</b> 24,383.60 <span class="tape__up">+0.27%</span></span>
-          <span class="tape__item"><b>SENSEX</b> 78,094.64 <span class="tape__up">+0.21%</span></span>
+          <span class="tape__item"><b>SENSEX</b> <span data-sensex-ltp>78,094.64</span> <span class="tape__up" data-sensex-chg>+0.21%</span></span>
           <span class="tape__item">U.S. × Iran before 2027 <span class="tape__odds">20.5%</span></span>
           <span class="tape__item"><b>CNBC-TV18</b> LEAP India IPO opens this week</span>
           <span class="tape__item">Dems take the House <span class="tape__odds">85.5%</span></span>
@@ -914,6 +914,39 @@ $ curl -s <span class="y">-H 'Referer: https://www.bseindia.com/'</span> '…?sc
     var el = document.getElementById(id);
     if (el) spy.observe(el);
   });
+
+  // Live SENSEX in the tape, off the same Nudge proxy the app itself uses.
+  // Every failure path is silent — the hardcoded numbers stay on screen rather
+  // than the tape going blank.
+  var SENSEX = 'https://market-nudge-proxy.marketnudge.workers.dev/bse-quote?scripcode=1&seriesid=';
+  var ltpEls = document.querySelectorAll('[data-sensex-ltp]');
+  var chgEls = document.querySelectorAll('[data-sensex-chg]');
+
+  function paintSensex(ltp, pct) {
+    var value = Number(ltp);
+    var change = Number(pct);
+    if (!isFinite(value) || !isFinite(change)) return;
+    var text = value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    var up = change >= 0;
+    Array.prototype.forEach.call(ltpEls, function (el) { el.textContent = text; });
+    Array.prototype.forEach.call(chgEls, function (el) {
+      el.textContent = (up ? '+' : '−') + Math.abs(change).toFixed(2) + '%';
+      el.className = up ? 'tape__up' : 'tape__down';
+    });
+  }
+
+  function pollSensex() {
+    if (document.hidden) return;
+    fetch(SENSEX, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { if (j && j.CurrRate) paintSensex(j.CurrRate.LTP, j.CurrRate.PcChg); })
+      .catch(function () {});
+  }
+
+  if (ltpEls.length && 'fetch' in window) {
+    pollSensex();
+    setInterval(pollSensex, 60000);
+  }
 })();
 </script>
 
