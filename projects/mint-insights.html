@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mint Insights — Case study · Sambeet Dash</title>
+<meta name="description" content="The F&O insights surface inside CapMint — a diagnosis of why a trader's money moved, sitting next to the ledger that records that it did. Two tabs, two voices, twelve detail pages.">
+
+<meta property="og:title" content="Mint Insights — every broker ships an accountant. Nobody ships a coach.">
+<meta property="og:description" content="Patterns diagnoses technique against Edge; Performance reports money against ROC. Each costly habit priced as a counterfactual.">
+<meta property="og:type" content="article">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/styles.css?v=18">
+
+<style>
+/* ============================================================
+   Mint Insights case study.
+   Page shell = the portfolio's tokens (styles.css).
+   Type scale and colours are lifted from the Figma frame
+   (Experiment / Mint Insights, node 6585:54515) — the coach
+   green #2f6f4f, the accountant red #9e3b2e, and the terracotta
+   accents #e8cec7 / #f2e2de that mark quotes and callouts.
+   ============================================================ */
+:root{
+  --mi-green:#2f6f4f;      --mi-green-bg:#eef4f0;  --mi-green-bd:rgba(47,111,79,.18);
+  --mi-red:#9e3b2e;        --mi-red-bg:#fbeeec;    --mi-red-bd:rgba(158,59,46,.18);
+  --mi-quote-bd:#e8cec7;   --mi-callout-bg:#f2e2de;
+  --mi-card-bg:#fcfcfc;    --mi-card-bd:#e3e3e3;
+}
+
+/* ---------- Shared page furniture ---------- */
+.mi-wrap{width:100%;max-width:calc(720px + var(--gutter)*2);
+  margin-inline:auto;padding-inline:var(--gutter)}
+section[id]{scroll-margin-top:64px}
+
+.mi-eyebrow{font-family:var(--font-nav);font-size:11px;line-height:16px;
+  font-weight:600;letter-spacing:1.54px;color:var(--ink-muted);text-transform:uppercase}
+.mi-h2{margin-top:14px;font-weight:600;font-size:24px;line-height:32px}
+.mi-lede{margin-top:14px;font-weight:500;font-size:18px;line-height:30px;color:var(--ink)}
+.mi-body{margin-top:14px;font-weight:500;font-size:16px;line-height:28px;
+  color:var(--ink-muted);text-wrap:pretty}
+.mi-caption{margin-top:14px;font-weight:400;font-size:14px;line-height:22px;
+  color:var(--ink-muted);text-wrap:pretty}
+.mi-sec{padding-top:72px}
+
+/* ---------- Hero ---------- */
+.mi-hero{padding-top:var(--space-header-h1)}
+.mi-kicker{font-family:var(--font-nav);font-size:16px;line-height:24px;
+  font-weight:500;letter-spacing:1.2px;color:var(--ink-muted)}
+.mi-h1{margin-top:16px;font-weight:600;font-size:34px;line-height:44px;letter-spacing:-.4px}
+@media (min-width:768px){.mi-h1{font-size:40px;line-height:47px}}
+.mi-sub{margin-top:16px;font-weight:500;font-size:18px;line-height:30px;
+  color:var(--ink-muted);text-wrap:pretty}
+
+/* ---------- Sticky in-page nav (same pattern as the Nudge study) ---------- */
+.toc{position:sticky;top:0;z-index:20;margin-top:48px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  border-bottom:.5px solid var(--card-border)}
+.toc__row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
+.toc__row::-webkit-scrollbar{display:none}
+.toc a{flex:0 0 auto;padding:6px 14px;border-radius:999px;
+  font-family:var(--font-nav);font-size:13px;line-height:20px;font-weight:500;
+  color:var(--ink-muted);text-decoration:none;white-space:nowrap}
+.toc a:hover{color:var(--ink)}
+.toc a.is-active{background:#f4f4f4;color:var(--ink)}
+
+/* ---------- 01 · the two panels ---------- */
+.mi-panels{margin-top:24px;display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:640px){.mi-panels{grid-template-columns:1fr 1fr}}
+.mi-panel{border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.mi-panel--green{background:var(--mi-green-bg);border:1px solid var(--mi-green-bd)}
+.mi-panel--red{background:var(--mi-red-bg);border:1px solid var(--mi-red-bd)}
+.mi-panel__label{font-family:var(--font-nav);font-size:10px;line-height:14px;
+  font-weight:600;letter-spacing:1.2px}
+.mi-panel__big{font-weight:600;font-size:32px;line-height:40px;letter-spacing:-.32px;
+  font-variant-numeric:tabular-nums}
+.mi-panel--green .mi-panel__label,.mi-panel--green .mi-panel__big{color:var(--mi-green)}
+.mi-panel--red .mi-panel__label,.mi-panel--red .mi-panel__big{color:var(--mi-red)}
+.mi-panel__body{font-size:14px;line-height:22px;color:var(--ink-muted)}
+
+.mi-statement{margin-top:32px}
+.mi-statement b{display:block;font-weight:600;font-size:26px;line-height:36px;letter-spacing:-.32px}
+.mi-statement span{display:block;font-weight:500;font-size:20px;line-height:32px}
+@media (min-width:768px){
+  .mi-statement b{font-size:32px;line-height:42px}
+  .mi-statement span{font-size:24px;line-height:42px}
+}
+
+/* ---------- 02 · the two-voices table ---------- */
+.mi-tablewrap{margin-top:24px;overflow-x:auto}
+.mi-table{width:100%;min-width:560px;border-collapse:collapse}
+.mi-table th,.mi-table td{text-align:left;vertical-align:top;padding:13px 14px 13px 0}
+.mi-table thead th{padding-top:0;padding-bottom:10px;border-bottom:1px solid var(--mi-card-bd);
+  font-weight:600;font-size:14px;line-height:22px}
+.mi-table tbody tr{border-bottom:1px solid #ececec}
+.mi-table td:first-child,.mi-table th:first-child{width:132px;
+  font-family:var(--font-nav);font-size:10px;line-height:14px;font-weight:600;
+  letter-spacing:1.2px;color:rgba(0,0,0,.42);text-transform:uppercase;padding-top:16px}
+.mi-table td{font-size:14px;line-height:22px;color:var(--ink-muted)}
+.mi-table tr.mi-table__strong td{font-weight:600;color:var(--ink)}
+
+/* ---------- Figures ---------- */
+.mi-fig{margin-top:32px}
+.mi-fig img{display:block;width:100%;height:auto;border-radius:16px}
+.mi-fig--plain img{border-radius:0}
+.mi-fig--framed{background:var(--mi-card-bg);border:.5px solid var(--mi-card-bd);
+  border-radius:24px;padding:16px}
+@media (min-width:768px){.mi-fig--framed{padding:24px}}
+
+/* The detail-page anatomy collage: phone + drill-down, absolutely
+   composed on ≥720px exactly as the Figma canvas (726×804), stacked
+   below that. */
+.mi-collage{margin-top:32px;background:var(--mi-card-bg);
+  border:.5px solid var(--mi-card-bd);border-radius:24px;overflow:hidden}
+@media (min-width:720px){
+  .mi-collage__inner{position:relative;aspect-ratio:726/804}
+  .mi-collage__phone{position:absolute;left:1.65%;top:1.49%;width:49.6%}
+  .mi-collage__chip{position:absolute;left:55.1%;top:6.59%;width:40.6%}
+  .mi-collage__trades{position:absolute;left:55.1%;top:15.3%;width:40.8%}
+}
+@media (max-width:719.98px){
+  .mi-collage__inner{display:flex;flex-direction:column;gap:12px;padding:12px}
+  .mi-collage__chip{max-width:70%}
+}
+.mi-collage img{display:block;width:100%;height:auto}
+
+/* The end gallery: four detail cards, two ragged columns like the frame */
+.mi-gallery{margin-top:40px;display:grid;grid-template-columns:1fr;gap:24px}
+@media (min-width:640px){.mi-gallery{grid-template-columns:1fr 1fr;align-items:start}}
+.mi-gallery__col{display:flex;flex-direction:column;gap:24px}
+@media (min-width:640px){.mi-gallery__col:last-child{padding-top:56px}}
+.mi-gallery img{display:block;width:100%;height:auto;border-radius:16px;
+  border:.5px solid var(--mi-card-bd)}
+
+/* ---------- Pull quote / callout ---------- */
+.mi-pull{margin-top:32px;border-left:2px solid var(--mi-quote-bd);padding:4px 0 4px 22px;
+  font-weight:600;font-size:20px;line-height:30px;letter-spacing:-.11px}
+@media (min-width:768px){.mi-pull{font-size:22px;line-height:32px}}
+.mi-callout{margin-top:32px;background:var(--mi-callout-bg);border-radius:16px;
+  padding:22px 24px;display:flex;flex-direction:column;gap:10px}
+.mi-callout__label{font-family:var(--font-nav);font-size:11px;line-height:16px;
+  font-weight:600;letter-spacing:1.2px;color:rgba(0,0,0,.5)}
+.mi-callout__body{font-weight:500;font-size:16px;line-height:28px;color:var(--ink)}
+
+/* ---------- 03 · stat grid ---------- */
+.mi-stats{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (min-width:768px){.mi-stats{grid-template-columns:repeat(3,1fr)}}
+.mi-stat{background:var(--mi-card-bg);border:.5px solid var(--mi-card-bd);
+  border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:5px}
+.mi-stat b{font-weight:600;font-size:26px;line-height:32px;letter-spacing:-.26px;
+  font-variant-numeric:tabular-nums}
+.mi-stat span{font-size:13px;line-height:20px;color:var(--ink-muted)}
+
+/* ---------- 05 · guardrail cards ---------- */
+.mi-cards{margin-top:24px;display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:640px){.mi-cards{grid-template-columns:1fr 1fr}}
+.mi-card{background:var(--mi-card-bg);border:.5px solid var(--mi-card-bd);
+  border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.mi-card__label{font-family:var(--font-nav);font-size:10px;line-height:14px;
+  font-weight:600;letter-spacing:1.2px;color:rgba(0,0,0,.42);text-transform:uppercase}
+.mi-card__body{font-size:14px;line-height:22px;color:var(--ink-muted)}
+
+/* ---------- 07 · numbered list ---------- */
+.mi-list{margin-top:20px;display:flex;flex-direction:column;gap:14px;list-style:none;padding:0}
+.mi-list li{display:flex;gap:14px}
+.mi-list b{flex:0 0 22px;font-family:var(--font-nav);font-size:11px;line-height:28px;
+  font-weight:600;letter-spacing:1.2px;color:rgba(0,0,0,.42)}
+.mi-list p{font-weight:500;font-size:16px;line-height:28px;color:var(--ink-muted)}
+
+/* ---------- Footer ---------- */
+.mi-end{margin-top:88px;padding:28px 0 44px;border-top:.5px solid var(--card-border)}
+.mi-end p{font-size:13px;line-height:20px;color:var(--ink-muted)}
+
+/* ---------- Reveal (matches the Nudge study) ---------- */
+.reveal{opacity:0;transform:translateY(14px);
+  transition:opacity 480ms ease,transform 480ms ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+html:not(.js) .reveal{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<script>document.documentElement.classList.add('js')</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 64 64" fill="none">
+    <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+      <circle cx="18" cy="18" r="9"/>
+      <path d="M45 8 L56 27 L34 27 Z"/>
+      <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+      <rect x="37.5" y="37.5" width="17" height="17"/>
+    </g>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none">
+    <path d="M4 18C3.71667 18 3.47917 17.9042 3.2875 17.7125C3.09583 17.5208 3 17.2833 3 17C3 16.7167 3.09583 16.4792 3.2875 16.2875C3.47917 16.0958 3.71667 16 4 16H20C20.2833 16 20.5208 16.0958 20.7125 16.2875C20.9042 16.4792 21 16.7167 21 17C21 17.2833 20.9042 17.5208 20.7125 17.7125C20.5208 17.9042 20.2833 18 20 18H4ZM4 13C3.71667 13 3.47917 12.9042 3.2875 12.7125C3.09583 12.5208 3 12.2833 3 12C3 11.7167 3.09583 11.4792 3.2875 11.2875C3.47917 11.0958 3.71667 11 4 11H20C20.2833 11 20.5208 11.0958 20.7125 11.2875C20.9042 11.4792 21 11.7167 21 12C21 12.2833 20.9042 12.5208 20.7125 12.7125C20.5208 12.9042 20.2833 13 20 13H4ZM4 8C3.71667 8 3.47917 7.90417 3.2875 7.7125C3.09583 7.52083 3 7.28333 3 7C3 6.71667 3.09583 6.47917 3.2875 6.2875C3.47917 6.09583 3.71667 6 4 6H20C20.2833 6 20.5208 6.09583 20.7125 6.2875C20.9042 6.47917 21 6.71667 21 7C21 7.28333 20.9042 7.52083 20.7125 7.7125C20.5208 7.90417 20.2833 8 20 8H4Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- Header — shared with the landing page ---------------------------- -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="../" aria-label="Sambeet Dash — home">
+        <svg role="img" aria-hidden="true"><use href="#i-logo"></use></svg>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="../">Home</a>
+        <a href="../assets/Sambeet-Dash-Resume.pdf?v=2" target="_blank" rel="noopener">Resume</a>
+      </nav>
+
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+
+    <nav class="nav-panel" id="nav-panel" data-open="false" aria-label="Primary, mobile">
+      <a href="../">Home</a>
+      <a href="../assets/Sambeet-Dash-Resume.pdf?v=2" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero ------------------------------------------------------------ -->
+  <header class="mi-hero">
+    <div class="mi-wrap">
+      <p class="mi-kicker">Mint Insights <span aria-hidden="true">👏</span></p>
+      <h1 class="mi-h1">Every broker ships an accountant.<br>Nobody ships a coach.</h1>
+      <p class="mi-sub">
+        Mint Insights is the F&amp;O insights surface inside CapMint — a diagnosis of why a
+        trader&rsquo;s money moved, sitting next to the ledger that records that it did, with
+        neither one pretending to be the other.
+      </p>
+    </div>
+  </header>
+
+  <!-- Sticky nav ------------------------------------------------------ -->
+  <nav class="toc" aria-label="Sections">
+    <div class="mi-wrap">
+      <div class="toc__row">
+        <a href="#problem">Problem</a>
+        <a href="#split">The split</a>
+        <a href="#scope">Scope</a>
+        <a href="#insight">Unit of insight</a>
+        <a href="#guardrails">Guardrails</a>
+        <a href="#trust">Trust</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 01 · The problem ------------------------------------------------ -->
+  <section class="mi-sec" id="problem">
+    <div class="mi-wrap">
+      <p class="mi-eyebrow reveal">01 · The problem</p>
+      <h2 class="mi-h2 reveal">91% lose money. Every app shows them the same ledger.</h2>
+      <p class="mi-body reveal">
+        That 91% is SEBI&rsquo;s figure for retail F&amp;O traders, not ours. The response from
+        every trading app has been the same: a better ledger. Cleaner P&amp;L, itemised
+        charges, a tidier holdings list. All of it accurate — and all of it a record of
+        what already happened.
+      </p>
+      <p class="mi-body reveal">
+        None of it says why. Where the technique is sound and where it leaks. Which habit
+        costs money on expiry day.
+      </p>
+
+      <div class="mi-panels reveal" role="group" aria-label="The same month, two readings">
+        <div class="mi-panel mi-panel--green">
+          <p class="mi-panel__label">Technique</p>
+          <p class="mi-panel__big">+5.6pp</p>
+          <p class="mi-panel__body">Edge — win rate is comfortably above the breakeven rate this method needs.</p>
+        </div>
+        <div class="mi-panel mi-panel--red">
+          <p class="mi-panel__label">Money</p>
+          <p class="mi-panel__big">&minus;₹5,000</p>
+          <p class="mi-panel__body">Net P&amp;L — charges ate the gross gains. The account still shrank.</p>
+        </div>
+      </div>
+
+      <div class="mi-statement reveal">
+        <b>Both numbers are true.</b>
+        <span>Show only one, and the app gives the wrong instruction.</span>
+      </div>
+      <p class="mi-body reveal">
+        Showing only net P&amp;L tells a trader with a working method to quit. Showing only
+        edge tells someone bleeding to brokerage that everything is fine. So the design
+        problem was never &ldquo;add more charts&rdquo; — it was how to put a diagnosis and an audit
+        on one surface without either lying about the other.
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 · The split -------------------------------------------------- -->
+  <section class="mi-sec" id="split">
+    <div class="mi-wrap">
+      <p class="mi-eyebrow reveal">02 · The split</p>
+      <h2 class="mi-h2 reveal">Two questions, two voices, two tabs</h2>
+      <p class="mi-lede reveal">
+        The answer was to stop reconciling them. Split the surface in two, give each half
+        one question, and commit to a distinct voice for each.
+      </p>
+
+      <div class="mi-tablewrap reveal">
+        <table class="mi-table">
+          <thead>
+            <tr><th></th><th scope="col">Patterns</th><th scope="col">Performance</th></tr>
+          </thead>
+          <tbody>
+            <tr class="mi-table__strong"><td>Question</td><td>Did my technique work?</td><td>Did my money grow?</td></tr>
+            <tr><td>Voice</td><td>The coach, reviewing game tape</td><td>The accountant, reading the bahikhata</td></tr>
+            <tr><td>Hero metric</td><td>Edge = Win rate &minus; Breakeven rate, in pp</td><td>ROC = Gross P&amp;L &divide; Max capital deployed, in %</td></tr>
+            <tr><td>Tense</td><td>Present, diagnostic</td><td>Past, factual</td></tr>
+            <tr><td>Sounds like</td><td>&ldquo;Adding to losers is costing you 3.4pp.&rdquo;</td><td>&ldquo;You deployed ₹2.4L at peak. Charges took 11% of it.&rdquo;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="mi-fig mi-fig--plain reveal">
+        <img src="../assets/img/mint-insights/tabs.png" width="1452" height="2268"
+             loading="lazy" decoding="async"
+             alt="The two tabs side by side — Patterns opens on the Edge dial at +5.52 with the impact list beneath; Performance opens on Gross P&L of −₹30,000 with premium deployed, trading range, charges and the P&L calendar.">
+      </figure>
+
+      <p class="mi-body reveal">
+        The Voice and Tense rows aren&rsquo;t flavour text in a deck — they&rsquo;re a writing rule
+        every string on both tabs was checked against. Patterns speaks in present tense
+        about a habit that is still happening and can still be changed. Performance speaks
+        in past tense about a period that is closed. The moment Performance copy starts
+        giving advice, or Patterns copy starts reading like a statement, the split has
+        failed and the trader is back to guessing which number to trust.
+      </p>
+
+      <figure class="mi-fig mi-fig--framed reveal">
+        <img src="../assets/img/mint-insights/edge-dial.png" width="2160" height="744"
+             loading="lazy" decoding="async"
+             alt="The Edge dial — a gauge from breakeven rate 32.5% to win rate 37.5%, the +5.52pp gap drawn as the visible distance between the two markers.">
+      </figure>
+      <p class="mi-caption reveal">
+        Edge is a gap, so the hero draws it as one. Breakeven rate is the win rate this
+        trader&rsquo;s reward-to-risk ratio actually requires; win rate is what they got. The
+        visible distance between the two markers is the number in the middle.
+      </p>
+
+      <blockquote class="mi-pull reveal">
+        The product tagline — Patterns produce Performance — is the information
+        architecture. Three words, and the trader already knows there are two tabs and
+        which one causes the other.
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 03 · Scope ------------------------------------------------------ -->
+  <section class="mi-sec" id="scope">
+    <div class="mi-wrap">
+      <p class="mi-eyebrow reveal">03 · Scope</p>
+      <h2 class="mi-h2 reveal">What v1 actually ships</h2>
+      <p class="mi-body reveal">
+        Deliberately narrow. F&amp;O only, one nightly refresh, no live intraday recompute, no
+        journal, no external broker import. Everything below had to earn its place against
+        one question: does this change what the trader does tomorrow?
+      </p>
+
+      <div class="mi-stats reveal" role="list" aria-label="v1 scope in numbers">
+        <div class="mi-stat" role="listitem"><b>2</b><span>Landing tabs — Patterns, Performance</span></div>
+        <div class="mi-stat" role="listitem"><b>4</b><span>Impact patterns, each with a counterfactual</span></div>
+        <div class="mi-stat" role="listitem"><b>1</b><span>Edge-sign pattern — hold time, no counterfactual</span></div>
+        <div class="mi-stat" role="listitem"><b>5+1</b><span>Performance cards, plus the P&amp;L calendar</span></div>
+        <div class="mi-stat" role="listitem"><b>12</b><span>Detail pages on one shared skeleton</span></div>
+        <div class="mi-stat" role="listitem"><b>4</b><span>Time views — Day, Week, Month, Lifetime</span></div>
+      </div>
+
+      <!-- The shared detail-page skeleton, and where its numbers come from -->
+      <div class="mi-collage reveal" role="img"
+           aria-label="Anatomy of a detail page — the Time of day page with its session chart, key insight and week trend, beside the View trades drill-down listing all 448 trades used for the pattern.">
+        <div class="mi-collage__inner">
+          <div class="mi-collage__phone"><img src="../assets/img/mint-insights/detail-phone.png" width="1080" height="2340" loading="lazy" decoding="async" alt=""></div>
+          <div class="mi-collage__chip"><img src="../assets/img/mint-insights/detail-chip.png" width="885" height="162" loading="lazy" decoding="async" alt=""></div>
+          <div class="mi-collage__trades"><img src="../assets/img/mint-insights/detail-trades.png" width="888" height="1776" loading="lazy" decoding="async" alt=""></div>
+        </div>
+      </div>
+
+      <figure class="mi-fig mi-fig--framed reveal">
+        <img src="../assets/img/mint-insights/trend-strip.png" width="2159" height="514"
+             loading="lazy" decoding="async"
+             alt="The trend row across time views — saveable amount per day in the week view, per week in the month view, and the loss-versus-win hold ratio per month across the year.">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 04 · The unit of insight ---------------------------------------- -->
+  <section class="mi-sec" id="insight">
+    <div class="mi-wrap">
+      <p class="mi-eyebrow reveal">04 · The unit of insight</p>
+      <h2 class="mi-h2 reveal">A counterfactual, not a chart</h2>
+      <p class="mi-lede reveal">
+        Showing a trader that they add to losing positions is easy. Making them care is
+        the design problem.
+      </p>
+      <p class="mi-body reveal">
+        &ldquo;You added to losers 12 times&rdquo; is trivia. It has no unit, no stake, no obvious
+        next move. So every Impact pattern answers one question in one number: what would
+        your edge have been without this habit? Drop the offending subset, recompute edge
+        over what&rsquo;s left, show the difference.
+      </p>
+
+      <figure class="mi-fig mi-fig--framed reveal">
+        <img src="../assets/img/mint-insights/adding-fig.png" width="2160" height="870"
+             loading="lazy" decoding="async"
+             alt="The Adding behaviour pattern — adding to winners (+₹2.5K) and adding to losers (−₹512.12) as two panels with the edge gap chip of +5.5 between them.">
+      </figure>
+      <p class="mi-caption reveal">
+        Two panels and a gap chip — the comparison does the explaining, so the copy
+        doesn&rsquo;t have to. Panel colour follows the sign of that side&rsquo;s edge, not its label:
+        if a trader somehow makes money adding to losers, that panel goes green and the
+        insight text adapts.
+      </p>
+
+      <p class="mi-body reveal">
+        Tapping the impact number opens a three-row sheet showing the arithmetic. No black
+        box — the trader sees the baseline, the counterfactual, and the difference.
+      </p>
+
+      <figure class="mi-fig mi-fig--framed reveal">
+        <img src="../assets/img/mint-insights/sheet.png" width="2160" height="792"
+             loading="lazy" decoding="async"
+             alt="The three-row arithmetic sheet — edge with all trades, edge without the habit, and the difference, each row a plain number.">
+      </figure>
+      <p class="mi-caption reveal">
+        The same three rows on all four Impact patterns. Row 2&rsquo;s label is the only thing
+        that changes — &ldquo;without adding to losers&rdquo;, &ldquo;without the closing session&rdquo;, &ldquo;if
+        blown losses were capped at 2&times; your median loss&rdquo;.
+      </p>
+
+      <p class="mi-body reveal">
+        That one number then does several jobs: it ranks the four patterns on the landing
+        page, drives the sort control, selects Today&rsquo;s Discovery (picking the most
+        negative impact — the most consequential leak), and differenced against last
+        period, it lets a trader watch a leak close.
+      </p>
+    </div>
+  </section>
+
+  <!-- 05 · Guardrails ------------------------------------------------- -->
+  <section class="mi-sec" id="guardrails">
+    <div class="mi-wrap">
+      <p class="mi-eyebrow reveal">05 · Guardrails</p>
+      <h2 class="mi-h2 reveal">A naive counterfactual tells everyone to stop trading</h2>
+      <p class="mi-lede reveal">
+        If &ldquo;drop your worst trades and recompute&rdquo; is the mechanism, the optimum is always
+        trade less — and at the limit, trade nothing.
+      </p>
+      <p class="mi-body reveal">
+        Technically true. Useless as coaching, and corrosive coming from the app you trade
+        on. Each pattern got a cap, chosen so the counterfactual always describes a
+        reachable version of the same trader rather than a different person.
+      </p>
+
+      <div class="mi-cards reveal">
+        <div class="mi-card">
+          <p class="mi-card__label">Time of day</p>
+          <p class="mi-card__body">Drop at most 2 of the 3 sessions. If all three are bad, drop only the worst two — never all three. A trader who trades no session isn&rsquo;t a trader.</p>
+        </div>
+        <div class="mi-card">
+          <p class="mi-card__label">Underlying performance</p>
+          <p class="mi-card__body">Drop at most 3 losing underlyings; if they only trade 3, drop at most 2; and never drop their best performer, even in a period where it lost money.</p>
+        </div>
+        <div class="mi-card">
+          <p class="mi-card__label">Risk management</p>
+          <p class="mi-card__body">Cap each blown loss at 2&times; the median loss instead of deleting it. The trade was a fair call — the size wasn&rsquo;t.</p>
+        </div>
+        <div class="mi-card">
+          <p class="mi-card__label">Directional &amp; trading range</p>
+          <p class="mi-card__body">Drop only the single worse side or worst trade. Where the counterfactual is meaningless — all trades profitable — impact is 0 and the sheet shows boundary copy instead of a fake number.</p>
+        </div>
+      </div>
+
+      <p class="mi-body reveal">
+        Risk management&rsquo;s cap turned out to be the most interesting, because the framing
+        changed the takeaway. &ldquo;Delete your blown losses&rdquo; implies you shouldn&rsquo;t have taken
+        those trades. &ldquo;Cap them at 2&times; your usual loss&rdquo; concedes the entry and indicts the
+        exit — truer, and more actionable. It also produces a rupee number instead of a
+        percentage-point one:
+      </p>
+
+      <blockquote class="mi-pull reveal">
+        &ldquo;3 blown losses this month. Sizing them like your other losses would have saved
+        ₹8,400.&rdquo;
+      </blockquote>
+
+      <p class="mi-body reveal">
+        A saveable amount in rupees outperforms an abstract edge delta every time. Same
+        counterfactual, denominated in the unit the trader actually feels.
+      </p>
+
+      <div class="mi-gallery reveal">
+        <div class="mi-gallery__col">
+          <img src="../assets/img/mint-insights/card-risk.png" width="888" height="1164"
+               loading="lazy" decoding="async"
+               alt="Risk management detail — loss distribution with the 2× median-loss threshold marked, the saveable amount for the period, and the key insight that 60% of losses came from blown stops.">
+          <img src="../assets/img/mint-insights/card-pnl-curve.png" width="888" height="991"
+               loading="lazy" decoding="async"
+               alt="P&L curve detail — aggregated P&L through the day, with the give-back marked: ₹41K of a ₹42K gain returned, ₹1K kept.">
+        </div>
+        <div class="mi-gallery__col">
+          <img src="../assets/img/mint-insights/card-holdtime.png" width="906" height="837"
+               loading="lazy" decoding="async"
+               alt="Edge by hold time — edge across holding durations from under 15 minutes to 8-plus hours, with the loss-versus-win hold ratio of 3.2×.">
+          <img src="../assets/img/mint-insights/card-underlying.png" width="906" height="1216"
+               loading="lazy" decoding="async"
+               alt="Underlying performance top five — NIFTY and SENSEX positive, FINNIFTY, Reliance and HDFC Bank negative, with HDFC Bank dragging gross P&L by 4.7%.">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · Trust ------------------------------------------------------ -->
+  <section class="mi-sec" id="trust">
+    <div class="mi-wrap">
+      <p class="mi-eyebrow reveal">07 · Trust</p>
+      <h2 class="mi-h2 reveal">Yesterday&rsquo;s view has to be yesterday&rsquo;s view, forever</h2>
+      <p class="mi-body reveal">
+        A trade opened Monday and closed Wednesday belongs to which day? The pipeline keys
+        every matched trade to its exit date, never its entry date. It reads like a
+        backend detail. It&rsquo;s a trust decision.
+      </p>
+
+      <ol class="mi-list reveal">
+        <li><b>01</b><p>It matches what the trader felt. The P&amp;L landed on Wednesday. Wednesday&rsquo;s day view should contain it, because that&rsquo;s the day it happened to them.</p></li>
+        <li><b>02</b><p>History must not mutate. Key by entry date and closing a position today silently rewrites a day the trader already looked at — their edge, their win rate, their calendar cell. An insights product whose past changes under you is worse than none at all.</p></li>
+      </ol>
+
+      <p class="mi-body reveal">
+        The same principle governs a position opened Monday and partly closed Monday
+        afternoon: the closed portion is emitted as a complete matched trade on Monday,
+        and the remainder becomes a fresh open position for Tuesday. Monday reconciles
+        with what the broker showed on Monday. Nothing gets restated.
+      </p>
+
+      <aside class="mi-callout reveal">
+        <p class="mi-callout__label">The related rule</p>
+        <p class="mi-callout__body">
+          Open positions are excluded from every analytic. Unrealised P&amp;L is a mood, not a
+          result — and letting it into Edge would mean a trader&rsquo;s technique score moves
+          while they sleep.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Footer ----------------------------------------------------------- -->
+  <footer class="mi-end">
+    <div class="mi-wrap">
+      <p>CapMint &middot; Mint Insights &middot; Lead Product Designer (IC) &middot; iOS + Android &middot; spec locked, in build.</p>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  // Mobile menu — same behaviour as the landing page.
+  var btn = document.querySelector('.menu-toggle');
+  var panel = document.getElementById('nav-panel');
+  if (btn && panel) {
+    btn.addEventListener('click', function () {
+      var open = panel.dataset.open === 'true';
+      panel.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+  }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal-on-scroll.
+  if ('IntersectionObserver' in window && !reduced) {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Scroll-spy for the sticky nav.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var ids = links.map(function (a) { return a.getAttribute('href').slice(1); });
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id);
+      });
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  ids.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) spy.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
