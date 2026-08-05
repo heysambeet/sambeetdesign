@@ -112,13 +112,17 @@
 /* No in-page back link: the sticky header carries Home on every screen,
    so the hero opens straight on the kicker — as the Figma frame does. */
 
+/* Matches the Nudge case study's .cs-kicker b — same weight, colour and
+   near-zero tracking — so the two case studies open identically. The 1.2px
+   tracking and muted grey this replaced made the same element read as a
+   different typographic style between the two pages. */
 .sb-kicker {
   font-family: var(--font-nav);          /* Work Sans */
-  font-weight: 500;
+  font-weight: 600;
   font-size: var(--sb-fs-kicker);
   line-height: var(--sb-lh-kicker);
-  letter-spacing: 1.2px;
-  color: var(--ink-muted);
+  letter-spacing: .014px;
+  color: var(--ink);
 }
 
 .sb-h1 {
