@@ -368,7 +368,8 @@ a { color: inherit; }
   font-size: 9px;
   font-weight: 400;
   line-height: 12px;
-  text-transform: uppercase;
+  /* Casing comes from the markup, as typed in Figma 1:14276 — the role tag
+     reads "Individual contributor" while topic tags are set in capitals. */
   color: var(--tag-ink);
   background: var(--tag);
   border-radius: 4px;
@@ -412,6 +413,23 @@ a { color: inherit; }
   background: var(--card-bg);
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08);
   overflow: hidden;
+}
+
+/* Scalper has no screens yet — the slot shows its designed gradient alone
+   (Figma 1:14327: #fff1fd at the bottom, #f0faff at the top). */
+.card__media--scalper { background: linear-gradient(to top, #fff1fd, #f0faff); }
+
+/* A tile without a case study yet: same look, but it isn't a link, so it
+   doesn't lift on hover and its arrow stays at rest. */
+.card--pending { cursor: default; }
+
+@media (hover: hover) and (pointer: fine) {
+  .card--pending:hover {
+    border-color: var(--card-border);
+    transform: none;
+    box-shadow: none;
+  }
+  .card--pending:hover .card__arrow { color: var(--arrow); }
 }
 
 /* <picture> is inline by default and would add a descender gap under the

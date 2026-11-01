@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/styles.css?v=19">
+<link rel="stylesheet" href="assets/styles.css?v=20">
 </head>
 <body>
 
@@ -81,28 +81,24 @@
       <ul class="work__grid">
 
         <li>
-          <a class="card" href="projects/market-nudge.html" target="_blank" rel="noopener">
+          <!-- Interim: no case study or screens yet, so the tile is not a link
+               and the thumbnail is the designed gradient alone. When
+               projects/scalper.html lands, make this an <a class="card"> and
+               drop the --pending modifier. -->
+          <div class="card card--pending">
             <div class="card__head">
-              <h2 class="card__title">Nudge <span aria-hidden="true">👋</span></h2>
-              <p class="card__sub">Indian markets strategies &ndash; Documentation</p>
+              <h2 class="card__title">Scalper <span aria-hidden="true">⚡️</span></h2>
+              <p class="card__sub">Trade fast by capturing market moves</p>
               <ul class="card__tags">
-                <li>0&ndash;1 Product</li>
-                <li>API integration</li>
-                <li>Strategies</li>
+                <li>Individual contributor</li>
+                <li>0-1 PRODUCT</li>
               </ul>
             </div>
-            <figure class="card__media">
-              <picture>
-                <source media="(min-width: 768px)" srcset="assets/img/nudge-desktop.png?v=4">
-                <img src="assets/img/nudge-mobile.png?v=4" width="1216" height="900"
-                     decoding="async"
-                     alt="Nudge app screens — a Strategies view showing the NIFTY 50 chart, layered over a Feed of market headlines.">
-              </picture>
-            </figure>
+            <figure class="card__media card__media--scalper"></figure>
             <span class="card__arrow" aria-hidden="true">
               <svg><use href="#i-arrow"></use></svg>
             </span>
-          </a>
+          </div>
         </li>
 
         <li>
@@ -112,7 +108,7 @@
               <p class="card__sub">Creating the best trading experience</p>
               <ul class="card__tags">
                 <li>Lead + Individual</li>
-                <li>Retention</li>
+                <li>RETENTION</li>
               </ul>
             </div>
             <figure class="card__media">
@@ -136,7 +132,7 @@
               <p class="card__sub">Helping traders learn in a better way</p>
               <ul class="card__tags">
                 <li>Lead + Individual</li>
-                <li>Retention</li>
+                <li>RETENTION</li>
               </ul>
             </div>
             <figure class="card__media">
