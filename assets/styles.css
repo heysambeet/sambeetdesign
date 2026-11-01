@@ -71,7 +71,7 @@
   :root {
     --fs-h1: 32px;      --lh-h1: 44px;      --ls-h1: 0.032px;
     --fs-bio: 16px;     --lh-bio: 28px;     --ls-bio: 0.016px;
-    --fs-contact: 24px; --lh-contact: 32px; --ls-contact: 0.024px;
+    --fs-contact: 22px; --lh-contact: 32px; --ls-contact: 0.022px;
     --fs-card-sub: 14px;
 
     --gutter:     24px;
