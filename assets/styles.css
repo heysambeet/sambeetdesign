@@ -39,7 +39,12 @@
   /* Layout */
   --container:   720px;
   --gutter:      16px;
-  --card-inset:  16px;   /* title / arrow inset from card's left & right */
+  --card-inset:  14px;   /* title / sub / tags inset from the card's left edge */
+  --arrow-inset: 18px;   /* arrow inset from the card's right edge (Figma 1:14369) */
+  /* Card outlines are drawn as an inset shadow, not a border, so the 0.5px
+     line takes no layout space and every inset matches Figma to the pixel. */
+  --card-edge:       inset 0 0 0 0.5px var(--card-border);
+  --card-edge-hover: inset 0 0 0 0.5px #d2d2d2;
   --card-inset-block: 24px; /* title / arrow inset from card top — 24 at both sizes */
   --media-inset: 12px;   /* thumbnail inset from card edge */
   --grid-gap:    24px;
@@ -71,6 +76,7 @@
 
     --gutter:     24px;
     --card-inset: 24px;
+    --arrow-inset: 24px;
     --grid-gap:   32px;
 
     --space-header-h1: 86px;
@@ -271,6 +277,9 @@ a { color: inherit; }
 .intro__bio a {
   font-family: var(--font-nav);
   font-weight: 600;
+  /* Work Sans has taller ascenders than Inter; at the inherited 28px it
+     grew its line box by 1px (bio 85 tall instead of 84). */
+  line-height: 1;
   text-decoration: underline;
   text-underline-position: from-font;
 }
@@ -305,18 +314,17 @@ a { color: inherit; }
   position: relative;
   padding: var(--media-inset);
   background: var(--card-bg);
-  border: 0.5px solid var(--card-border);
+  box-shadow: var(--card-edge);
   border-radius: var(--r-card);
   text-decoration: none;
   color: inherit;
-  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    border-color: #d2d2d2;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--card-edge-hover), 0 6px 20px rgba(0, 0, 0, 0.06);
   }
 
   .card:hover .card__arrow { color: var(--arrow-hover); }
@@ -329,7 +337,8 @@ a { color: inherit; }
      as card padding, so add only the remainder here. */
   padding: calc(var(--card-inset-block) - var(--media-inset))
            calc(var(--card-inset) - var(--media-inset))
-           25px;
+           19px;   /* Figma: tags 12px tall + 25px gap. Pills here are 18px,
+                      so 19px keeps the thumbnail at 123px from the card top */
 }
 
 .card__title {
@@ -391,7 +400,7 @@ a { color: inherit; }
 .card__arrow {
   position: absolute;
   top: var(--card-inset-block);
-  right: var(--card-inset);
+  right: var(--arrow-inset);
   width: 24px;
   height: 24px;
   color: var(--arrow);
@@ -425,9 +434,8 @@ a { color: inherit; }
 
 @media (hover: hover) and (pointer: fine) {
   .card--pending:hover {
-    border-color: var(--card-border);
     transform: none;
-    box-shadow: none;
+    box-shadow: var(--card-edge);
   }
   .card--pending:hover .card__arrow { color: var(--arrow); }
 }
@@ -492,18 +500,17 @@ a { color: inherit; }
   gap: 16px;
   padding: 24px;
   background: var(--card-bg);
-  border: 0.5px solid var(--card-border);
+  box-shadow: var(--card-edge);
   border-radius: var(--r-card);
   text-decoration: none;
   color: inherit;
-  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .project:hover {
-    border-color: #d2d2d2;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--card-edge-hover), 0 6px 20px rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -540,7 +547,7 @@ a { color: inherit; }
   font-size: var(--fs-contact);
   line-height: var(--lh-contact);
   letter-spacing: var(--ls-contact);
-  max-width: 24ch;
+  max-width: 294px;   /* Figma 1:14369 text box — sets where the line wraps */
 }
 
 @media (min-width: 768px) {
