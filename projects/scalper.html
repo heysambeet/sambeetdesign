@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scalper — Case study · Sambeet Dash</title>
+<meta name="description" content="CapMint's one-screen mode for options scalpers: both charts, one-tap Buy Call and Buy Put, live P&L, quick stop-losses and an instant exit. 80%+ adoption, 40% of total revenue.">
+
+<meta property="og:title" content="Scalper — a scalp lasts sixty seconds. Every extra tap is a cost.">
+<meta property="og:description" content="Designing CapMint's one-screen scalping mode, told as the sixty seconds of a single trade. 80%+ adoption, 40% of total revenue, 50%+ trading with it daily.">
+<meta property="og:type" content="article">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/styles.css?v=27">
+
+<style>
+/* ============================================================
+   Scalper case study.
+   Page shell = the portfolio's tokens (styles.css).
+   Layout and copy follow the Figma frame "Scalper" (48:6406):
+   the same type scale as the Mint Insights and Strategy Builder
+   studies, told as the sixty seconds of one trade instead.
+   Screens are exact 2x exports of the Scalper flow (18:61682).
+   ============================================================ */
+:root{
+  --sc-card:#fcfcfc;      --sc-card-bd:#e3e3e3;   --sc-rule:#ececec;
+  --sc-peach:#f2e2de;     --sc-line:#e8cec7;      --sc-accent:#a75266;
+  --sc-ok:#2f6f4f;        --sc-ok-bg:#eef4f0;
+  --sc-warn:#8a6200;      --sc-warn-bg:#faf3e4;
+  --sc-dim:rgba(0,0,0,.42);
+}
+
+/* ---------- Shared page furniture ---------- */
+.sc-wrap{width:100%;max-width:calc(720px + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
+section[id]{scroll-margin-top:64px}
+.sc-sec{padding-block:56px;border-top:1px solid var(--sc-rule)}
+@media (min-width:768px){.sc-sec{padding-block:72px}}
+
+.sc-eyebrow{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ink-muted);text-transform:uppercase}
+.sc-h2{margin-top:16px;font-weight:600;font-size:22px;line-height:30px;text-wrap:balance}
+@media (min-width:768px){.sc-h2{font-size:24px;line-height:32px}}
+.sc-body{margin-top:16px;font-size:16px;line-height:28px;color:var(--ink-muted);text-wrap:pretty}
+.sc-label{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;text-transform:uppercase}
+.sc-link{color:inherit;text-decoration:underline;text-underline-position:from-font}
+.sc-link:hover{text-decoration-thickness:2px}
+
+/* ---------- Hero ---------- */
+.sc-hero{padding-top:var(--space-header-h1);padding-bottom:56px}
+.sc-kicker{font-weight:600;font-size:16px;line-height:24px}
+.sc-h1{margin-top:16px;font-weight:600;font-size:34px;line-height:42px;letter-spacing:-.4px;text-wrap:balance}
+@media (min-width:768px){.sc-h1{font-size:40px;line-height:47px}}
+.sc-h1 .q{display:block;color:var(--ink-muted)}
+.sc-h1 .a{display:block}
+.sc-sub{margin-top:20px;font-weight:500;font-size:16px;line-height:28px;color:var(--ink-muted);text-wrap:pretty}
+
+.sc-meta{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+@media (min-width:768px){.sc-meta{display:flex;justify-content:space-between}}
+.sc-meta dt{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ink-muted);text-transform:uppercase}
+.sc-meta dd{margin:6px 0 0;font-size:14px;line-height:22px;white-space:nowrap}
+
+/* ---------- Phone screens ----------
+   Exact exports, so no frame of our own: a hairline and the radius the
+   Figma mocks use (8.5% of the width), no shadow. */
+.sc-phone{display:block;width:100%;height:auto;aspect-ratio:540/1170;
+  border-radius:clamp(12px,8.5%,20px);border:.5px solid var(--sc-card-bd);background:#f0ede7}
+.sc-shots{margin-top:24px;display:grid;gap:16px;align-items:start}
+.sc-shots--3{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (min-width:768px){.sc-shots--3{gap:24px;margin-top:48px}}
+.sc-shots--2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:448px}
+
+/* ---------- Toc (same pattern as the other studies) ---------- */
+.toc{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);border-bottom:.5px solid var(--card-border)}
+.toc__row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
+.toc__row::-webkit-scrollbar{display:none}
+.toc a{flex:0 0 auto;padding:6px 14px;border-radius:999px;font-family:var(--font-nav);
+  font-size:13px;line-height:20px;font-weight:500;color:var(--ink-muted);text-decoration:none;white-space:nowrap}
+.toc a:hover{color:var(--ink)}
+.toc a.is-active{background:#f4f4f4;color:var(--ink)}
+
+/* ---------- Cards ---------- */
+.sc-card{background:var(--sc-card);border:.5px solid var(--sc-card-bd);border-radius:16px;padding:16px}
+.sc-grid{margin-top:24px;display:grid;gap:8px}
+.sc-stats{grid-template-columns:1fr 1fr}
+@media (min-width:768px){.sc-stats{grid-template-columns:repeat(4,1fr)}}
+.sc-stat b{display:block;font-weight:600;font-size:28px;line-height:36px;letter-spacing:-.28px;font-variant-numeric:tabular-nums}
+.sc-stat span{display:block;margin-top:4px;font-size:13px;line-height:20px;color:var(--ink-muted)}
+
+.sc-needs{grid-template-columns:1fr 1fr}
+@media (min-width:768px){.sc-needs{grid-template-columns:repeat(3,1fr)}}
+.sc-need i{display:block;font-style:normal;font-family:var(--font-nav);font-size:11px;line-height:16px;
+  font-weight:600;letter-spacing:1.1px;color:var(--sc-dim)}
+.sc-need p{margin-top:8px;font-weight:500;font-size:14px;line-height:22px}
+
+/* ---------- Who it's for ---------- */
+.sc-persona{margin-top:24px;display:grid;gap:16px}
+@media (min-width:640px){.sc-persona{grid-template-columns:1fr 1fr}}
+.sc-persona > div{border-radius:16px;padding:20px}
+.sc-persona ul{margin-top:12px;list-style:none;padding:0;display:flex;flex-direction:column;gap:12px}
+.sc-persona li{font-size:14px;line-height:22px}
+.sc-persona__how{background:var(--sc-peach)}
+.sc-persona__how .sc-label{color:var(--sc-accent)}
+.sc-persona__break{background:var(--sc-card);border:.5px solid var(--sc-card-bd)}
+.sc-persona__break .sc-label{color:var(--sc-dim)}
+.sc-persona__break li{color:var(--ink-muted)}
+
+/* ---------- Process ---------- */
+.sc-phases{margin-top:24px;list-style:none;padding:0}
+.sc-phases li{display:grid;gap:4px;padding-block:14px;border-top:1px solid var(--sc-rule)}
+.sc-phases li:first-child{border-top:none;padding-top:0}
+@media (min-width:640px){.sc-phases li{grid-template-columns:120px 1fr;gap:16px}}
+.sc-phases b{font-family:var(--font-nav);font-size:11px;line-height:24px;font-weight:600;
+  letter-spacing:1.3px;color:var(--sc-accent);text-transform:uppercase}
+.sc-phases p{font-size:15px;line-height:24px;color:var(--ink-muted)}
+
+.sc-ledger-label{margin-top:24px;color:var(--sc-dim)}
+.sc-ledger{margin-top:12px;display:grid;gap:16px}
+@media (min-width:640px){.sc-ledger{grid-template-columns:1fr 1fr}}
+.sc-ledger > div{border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.sc-ledger__keep{background:var(--sc-ok-bg)}  .sc-ledger__keep .sc-label{color:var(--sc-ok)}
+.sc-ledger__drop{background:var(--sc-warn-bg)} .sc-ledger__drop .sc-label{color:var(--sc-warn)}
+.sc-ledger h3{font-weight:600;font-size:14px;line-height:22px}
+.sc-ledger p{margin-top:2px;font-size:13px;line-height:20px;color:var(--ink-muted)}
+
+/* ---------- Statements ---------- */
+.sc-statement{text-align:center}
+.sc-statement p.big{font-weight:600;font-size:26px;line-height:36px;letter-spacing:-.3px;text-wrap:balance}
+@media (min-width:768px){.sc-statement p.big{font-size:32px;line-height:42px}}
+.sc-statement .q{display:block;color:var(--ink-muted)}
+.sc-statement .a{display:block}
+.sc-quote .big{margin-top:16px;font-weight:600;font-size:26px;line-height:36px;letter-spacing:-.3px}
+@media (min-width:768px){.sc-quote .big{font-size:32px;line-height:42px}}
+.sc-quote .q{display:block;color:var(--ink-muted)}
+.sc-quote .a{display:block}
+
+/* ---------- The anatomy timeline ---------- */
+.sc-beats{margin-top:32px;list-style:none;padding:0}
+.sc-beat{display:grid;grid-template-columns:72px minmax(0,1fr);gap:24px}
+.sc-rail{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.sc-rail time{display:inline-block;padding:3px 8px;border-radius:4px;background:var(--sc-peach);
+  color:var(--sc-accent);font-weight:600;font-size:12px;line-height:16px;font-variant-numeric:tabular-nums}
+.sc-rail span{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;text-transform:uppercase;color:var(--ink-muted)}
+.sc-rail::after{content:"";flex:1;width:1px;background:var(--sc-line);margin-top:4px}
+.sc-beat:last-child .sc-rail::after{display:none}
+.sc-beat__body{padding-bottom:56px;min-width:0}
+.sc-beat:last-child .sc-beat__body{padding-bottom:24px}
+.sc-beat h3{font-weight:600;font-size:18px;line-height:26px}
+.sc-beat__body > p{margin-top:12px;font-size:15px;line-height:26px;color:var(--ink-muted);text-wrap:pretty}
+@media (max-width:559.98px){
+  .sc-beat{grid-template-columns:minmax(0,1fr);gap:12px}
+  .sc-rail{flex-direction:row;align-items:center}
+  .sc-rail::after{display:none}
+}
+.sc-rules{margin-top:16px;list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}
+.sc-rules li{position:relative;padding-left:15px;font-size:14px;line-height:22px}
+.sc-rules li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--sc-accent)}
+
+/* ---------- Tables ---------- */
+.sc-tablewrap{margin-top:20px;overflow-x:auto}
+.sc-caption{margin-top:20px;color:var(--sc-dim)}
+.sc-table{width:100%;border-collapse:collapse}
+.sc-table--strike{min-width:520px}
+.sc-table--roads{min-width:600px}
+.sc-table th{text-align:left;padding:0 12px 10px 0;font-family:var(--font-nav);font-size:10px;line-height:14px;
+  font-weight:600;letter-spacing:1.2px;color:var(--sc-dim);text-transform:uppercase;white-space:nowrap}
+.sc-table td{text-align:left;vertical-align:top;padding:11px 12px 11px 0;border-top:1px solid var(--sc-rule);
+  font-size:13px;line-height:20px;color:var(--ink)}
+.sc-table--strike td{white-space:nowrap}
+.sc-table--strike td:first-child{font-weight:500}
+.sc-table--strike td:last-child{white-space:normal}
+.sc-table--strike td:last-child,.sc-table--roads td:last-child{color:var(--ink-muted)}
+.sc-table--roads td{font-size:14px;line-height:22px}
+.sc-table--roads td:first-child{color:var(--sc-dim);text-decoration:line-through;width:190px}
+.sc-table--roads td:nth-child(2){font-weight:600;width:210px}
+
+/* ---------- Edge-case gallery ---------- */
+.sc-gallery{margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 16px}
+@media (min-width:768px){.sc-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sc-gallery figcaption{margin-top:16px}
+.sc-gallery h3{font-weight:600;font-size:14px;line-height:22px}
+.sc-gallery p{margin-top:4px;font-size:13px;line-height:20px;color:var(--ink-muted)}
+
+/* ---------- Consent chips ---------- */
+.sc-chips{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0}
+.sc-chips li{padding:6px 12px;border-radius:999px;background:var(--sc-peach);color:var(--sc-accent);
+  font-weight:500;font-size:13px;line-height:20px}
+
+/* ---------- Outcomes ---------- */
+.sc-outcomes{margin-top:24px;display:grid;gap:8px}
+@media (min-width:640px){.sc-outcomes{grid-template-columns:1fr 1fr}}
+.sc-outcome{background:var(--sc-ok-bg);border-radius:16px;padding:20px}
+.sc-outcome .sc-label{color:var(--sc-ok)}
+.sc-outcome b{display:block;margin-top:6px;font-weight:600;font-size:32px;line-height:40px;
+  letter-spacing:-.32px;color:var(--sc-ok);font-variant-numeric:tabular-nums}
+.sc-outcome p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
+
+/* ---------- Reflection ---------- */
+.sc-lessons{margin-top:8px;list-style:none;padding:0}
+.sc-lessons li{margin-top:20px}
+.sc-lessons h3{font-weight:600;font-size:16px;line-height:26px}
+.sc-lessons p{margin-top:4px;font-size:16px;line-height:28px;color:var(--ink-muted)}
+
+/* ---------- Footer ---------- */
+.sc-end{padding:24px 0 64px;border-top:1px solid var(--sc-rule)}
+.sc-end p{font-size:13px;line-height:20px;color:var(--sc-dim)}
+
+/* ---------- Reveal (matches the other studies) ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 480ms ease,transform 480ms ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+html:not(.js) .reveal{opacity:1;transform:none}
+</style>
+</head>
+<body class="case-study">
+
+<script>document.documentElement.classList.add('js')</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 64 64" fill="none">
+    <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+      <circle cx="18" cy="18" r="9"/>
+      <path d="M45 8 L56 27 L34 27 Z"/>
+      <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+      <rect x="37.5" y="37.5" width="17" height="17"/>
+    </g>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none">
+    <path d="M4 18C3.71667 18 3.47917 17.9042 3.2875 17.7125C3.09583 17.5208 3 17.2833 3 17C3 16.7167 3.09583 16.4792 3.2875 16.2875C3.47917 16.0958 3.71667 16 4 16H20C20.2833 16 20.5208 16.0958 20.7125 16.2875C20.9042 16.4792 21 16.7167 21 17C21 17.2833 20.9042 17.5208 20.7125 17.7125C20.5208 17.9042 20.2833 18 20 18H4ZM4 13C3.71667 13 3.47917 12.9042 3.2875 12.7125C3.09583 12.5208 3 12.2833 3 12C3 11.7167 3.09583 11.4792 3.2875 11.2875C3.47917 11.0958 3.71667 11 4 11H20C20.2833 11 20.5208 11.0958 20.7125 11.2875C20.9042 11.4792 21 11.7167 21 12C21 12.2833 20.9042 12.5208 20.7125 12.7125C20.5208 12.9042 20.2833 13 20 13H4ZM4 8C3.71667 8 3.47917 7.90417 3.2875 7.7125C3.09583 7.52083 3 7.28333 3 7C3 6.71667 3.09583 6.47917 3.2875 6.2875C3.47917 6.09583 3.71667 6 4 6H20C20.2833 6 20.5208 6.09583 20.7125 6.2875C20.9042 6.47917 21 6.71667 21 7C21 7.28333 20.9042 7.52083 20.7125 7.7125C20.5208 7.90417 20.2833 8 20 8H4Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- Header — shared with the landing page ---------------------------- -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="../" aria-label="Sambeet Dash — home">
+        <svg role="img" aria-hidden="true"><use href="#i-logo"></use></svg>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="../">Home</a>
+        <a href="../assets/Sambeet-Dash-Resume.pdf?v=2" target="_blank" rel="noopener">Resume</a>
+      </nav>
+
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+
+    <nav class="nav-panel" id="nav-panel" data-open="false" aria-label="Primary, mobile">
+      <a href="../">Home</a>
+      <a href="../assets/Sambeet-Dash-Resume.pdf?v=2" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero ------------------------------------------------------------ -->
+  <header class="sc-hero">
+    <div class="sc-wrap">
+      <p class="sc-kicker">Scalper <span aria-hidden="true">⚡️</span></p>
+      <h1 class="sc-h1"><span class="q">A scalp lasts sixty seconds.</span><span class="a">Every extra tap is a cost.</span></h1>
+      <p class="sc-sub">
+        When a scalper spots a move, they have seconds — and every tap spent hunting for a chart
+        or a button is money on the line. Scalper is CapMint&rsquo;s one-screen mode built for that
+        moment: both charts, one-tap Buy Call and Buy Put, live P&amp;L, quick stop-losses and an
+        instant exit, so traders can act on what they see instead of fighting the app.
+      </p>
+
+      <dl class="sc-meta">
+        <div><dt>Role</dt><dd>Lead Product Designer (IC)</dd></div>
+        <div><dt>Partner</dt><dd><a class="sc-link" href="https://in.linkedin.com/in/singh-sameer" target="_blank" rel="noopener">Sameer Singh</a>, PM</dd></div>
+        <div><dt>Platform</dt><dd>iOS &amp; Android</dd></div>
+        <div><dt>Status</dt><dd>Shipped</dd></div>
+      </dl>
+
+      <div class="sc-shots sc-shots--3">
+        <img class="sc-phone" src="../assets/img/scalper/first-time.png" width="540" height="1170" decoding="async"
+             alt="Scalper on first open: Call and Put charts stacked, an empty positions sheet saying No positions found, and the Market/Limit toggle above Buy Call and Buy Put.">
+        <img class="sc-phone" src="../assets/img/scalper/landing.png" width="540" height="1170" decoding="async"
+             alt="Scalper with one open position: a NIFTY 26 Jun 24800 PE row with live P&amp;L and Reverse, TP/SL and Exit buttons.">
+        <img class="sc-phone" src="../assets/img/scalper/reverse.png" width="540" height="1170" decoding="async"
+             alt="The Reverse confirmation sheet, showing the current PE position and the CE position it will become, with Cancel and Reverse buttons.">
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky in-page nav ------------------------------------------------ -->
+  <nav class="toc" aria-label="On this page">
+    <div class="sc-wrap">
+      <div class="toc__row">
+        <a href="#summary">Summary</a>
+        <a href="#problem">Problem</a>
+        <a href="#who">Who it&rsquo;s for</a>
+        <a href="#process">Process</a>
+        <a href="#decisions">Key decisions</a>
+        <a href="#roads">Roads not taken</a>
+        <a href="#edges">Edge cases</a>
+        <a href="#consent">Consent</a>
+        <a href="#outcomes">Outcomes</a>
+        <a href="#reflection">Reflection</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Executive summary -------------------------------------------------- -->
+  <section class="sc-sec" id="summary" style="border-top:none">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">Executive summary</p>
+      <h2 class="sc-h2">It became the way most of our traders trade</h2>
+      <p class="sc-body">
+        Scalpers make dozens of options trades a day, each lasting minutes, on screens built for
+        investors. Scalper put the charts, a one-tap entry, live P&amp;L, stop-losses and a one-tap
+        exit on a single screen. It shipped on iOS and Android: 80%+ adoption, 40% of total revenue,
+        and more than half of its users trading with it every day.
+      </p>
+      <div class="sc-grid sc-stats reveal">
+        <div class="sc-card sc-stat"><b>80%+</b><span>adoption</span></div>
+        <div class="sc-card sc-stat"><b>40%</b><span>of total revenue</span></div>
+        <div class="sc-card sc-stat"><b>50%+</b><span>traded with it daily</span></div>
+        <div class="sc-card sc-stat"><b>5%</b><span>used Reverse — a new behaviour</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 · Problem ------------------------------------------------------ -->
+  <section class="sc-sec" id="problem">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">01 · The problem</p>
+      <h2 class="sc-h2">Good enough to trade. Not fast enough to scalp.</h2>
+      <p class="sc-body">
+        Every broker lets you place an options order. Very few let you place twenty in an hour
+        without friction. A scalper lives in trades of one to five minutes, and between spotting a
+        move and acting on it, every screen change, form and confirmation is money left on the
+        table — or a loss that ran too long.
+      </p>
+      <p class="sc-body">We started from six needs a scalper won&rsquo;t compromise on:</p>
+      <ol class="sc-grid sc-needs reveal" style="list-style:none;padding:0">
+        <li class="sc-card sc-need"><i>01</i><p>See the underlying&rsquo;s chart</p></li>
+        <li class="sc-card sc-need"><i>02</i><p>See the contract&rsquo;s chart without hunting for it</p></li>
+        <li class="sc-card sc-need"><i>03</i><p>Go long or short in one tap</p></li>
+        <li class="sc-card sc-need"><i>04</i><p>Watch P&amp;L in real time</p></li>
+        <li class="sc-card sc-need"><i>05</i><p>Add SL / TP quickly — or automatically</p></li>
+        <li class="sc-card sc-need"><i>06</i><p>Exit instantly</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 02 · Who it's for ------------------------------------------------- -->
+  <section class="sc-sec" id="who">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">02 · Who it&rsquo;s for</p>
+      <h2 class="sc-h2">The scalper</h2>
+      <div class="sc-persona reveal">
+        <div class="sc-persona__how">
+          <p class="sc-label">How they trade</p>
+          <ul>
+            <li>Index options, intraday — in and out within minutes</li>
+            <li>Many small trades a day, adding to winners</li>
+            <li>Reads the underlying and the contract together</li>
+            <li>Thinks in direction — up or down — not order types</li>
+          </ul>
+        </div>
+        <div class="sc-persona__break">
+          <p class="sc-label">What breaks their flow</p>
+          <ul>
+            <li>Switching screens to find a contract&rsquo;s chart</li>
+            <li>Order forms that ask Buy or Sell, CE or PE</li>
+            <li>Fiddly lots and stop-losses mid-trade</li>
+            <li>Exits that take more taps than entries</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · Process ------------------------------------------------------ -->
+  <section class="sc-sec" id="process">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">03 · Process</p>
+      <h2 class="sc-h2">From teardown to a shipped flow</h2>
+      <p class="sc-body">Four phases, each one narrowing what the screen had to do.</p>
+      <ol class="sc-phases">
+        <li><b>01 · Teardown</b><p>I took apart how the leading platforms handle scalping, screen by screen, and sorted every pattern into what to double down on and what to design away (below).</p></li>
+        <li><b>02 · Brief</b><p>With <a class="sc-link" href="https://in.linkedin.com/in/singh-sameer" target="_blank" rel="noopener">Sameer</a>, I worked through the brief requirement by requirement — margin refresh, strike selection, confirmations, P&amp;L rules — so each one became a state to design against, not an open question.</p></li>
+        <li><b>03 · Flow</b><p>One screen, 27 states: the happy path told as five moments of a trade, and every way it can go wrong — rejected orders, half-finished reversals, nine-digit numbers.</p></li>
+        <li><b>04 · Ship</b><p>The flow went to engineering with its rules and edge states spelled out, and Scalper shipped on iOS and Android.</p></li>
+      </ol>
+
+      <p class="sc-label sc-ledger-label">Teardown findings</p>
+      <div class="sc-ledger reveal">
+        <div class="sc-ledger__keep">
+          <p class="sc-label">Double down</p>
+          <div><h3>&ldquo;Buy Call&rdquo; and &ldquo;Buy Put&rdquo;, not Buy and Sell</h3><p>That&rsquo;s how a trader thinks: long or short the market.</p></div>
+          <div><h3>Overall P&amp;L, always visible</h3><p>It decides how far to push the rest of the day.</p></div>
+          <div><h3>Live position monitoring</h3><p>Crucial whenever the chart isn&rsquo;t showing it.</p></div>
+          <div><h3>Positions, SL and TP on the chart</h3><p>The trade lives where the eyes already are.</p></div>
+        </div>
+        <div class="sc-ledger__drop">
+          <p class="sc-label">Design away</p>
+          <div><h3>Hard-to-change lots</h3><p>Lot size moves with every contract and every price.</p></div>
+          <div><h3>Hard exits</h3><p>Closing is the most important step of the trade.</p></div>
+          <div><h3>Fiddly TP / SL</h3><p>They&rsquo;re the guardrails of a scalp.</p></div>
+          <div><h3>No trailing stop-loss</h3><p>Scalpers add to winners and need the stop to follow.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statement --------------------------------------------------------- -->
+  <section class="sc-sec sc-statement">
+    <div class="sc-wrap">
+      <p class="big reveal"><span class="q">Traders don&rsquo;t think in buy and sell.</span><span class="a">They think up or down.</span></p>
+      <p class="sc-body">
+        So the two biggest buttons on the screen say exactly that — Buy Call ↑ and Buy Put ↓ —
+        each with the strike it will buy printed inside it.
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 · Key decisions ------------------------------------------------ -->
+  <section class="sc-sec" id="decisions">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">04 · Key decisions — the anatomy of a scalp</p>
+      <h2 class="sc-h2">One trade, five moments</h2>
+      <p class="sc-body">
+        Instead of designing features, I designed the sixty seconds of a single scalp — and asked
+        what the trader needs at each moment, and what must get out of the way.
+      </p>
+
+      <ol class="sc-beats">
+
+        <li class="sc-beat">
+          <div class="sc-rail"><time>00:00</time><span>Read</span></div>
+          <div class="sc-beat__body">
+            <h3>Two charts, one glance</h3>
+            <p>The underlying and the Call chart open together by default, on a 1-minute timeframe that&rsquo;s remembered for each underlying. Every chart header carries its contract, price and change, plus a switcher to flip between Spot, Call and Put.</p>
+            <ul class="sc-rules">
+              <li>Drag the handle to shrink one chart and focus on the other</li>
+              <li>Drag it to the floor and it collapses; one tap brings it back</li>
+              <li>Upper chart cycles Spot → Call → Put, lower chart Call → Put → Spot</li>
+            </ul>
+            <div class="sc-shots sc-shots--2 reveal">
+              <img class="sc-phone" src="../assets/img/scalper/landing.png" width="540" height="1170" loading="lazy" decoding="async" alt="Call and Put charts stacked, each with its contract, price, change and a Go to Spot switcher.">
+              <img class="sc-phone" src="../assets/img/scalper/index-dropdown.png" width="540" height="1170" loading="lazy" decoding="async" alt="The underlying switcher open over the charts: Nifty 50, Nifty Bank, Sensex and Finnifty.">
+            </div>
+          </div>
+        </li>
+
+        <li class="sc-beat">
+          <div class="sc-rail"><time>00:04</time><span>Decide</span></div>
+          <div class="sc-beat__body">
+            <h3>Everything you need to commit, under your thumb</h3>
+            <p>Margin sits under each button and refreshes every five seconds — and instantly whenever lots change. Lots live in a stepper between the two buttons, starting from the default you set per underlying. And each button prints the exact strike it will buy, so nothing about real money is hidden.</p>
+            <p class="sc-label sc-caption">Which strike does each button buy?</p>
+            <div class="sc-tablewrap">
+              <table class="sc-table sc-table--strike">
+                <thead><tr><th>Charts open</th><th>Buy Call</th><th>Buy Put</th><th>Rule</th></tr></thead>
+                <tbody>
+                  <tr><td>Spot + 25000 CE</td><td>25000 CE</td><td>25000 PE</td><td>One option chart — both strikes come from it</td></tr>
+                  <tr><td>25000 CE + 25500 PE</td><td>25000 CE</td><td>25500 PE</td><td>One CE and one PE — each button uses its own chart</td></tr>
+                  <tr><td>25000 CE + 26000 CE</td><td>26000 CE</td><td>26000 PE</td><td>Both the same type — use the chart changed last</td></tr>
+                  <tr><td>Spot + Spot</td><td>ATM CE</td><td>ATM PE</td><td>No option chart — load at-the-money strikes</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="sc-shots sc-shots--2 reveal">
+              <img class="sc-phone" src="../assets/img/scalper/option-chain.png" width="540" height="1170" loading="lazy" decoding="async" alt="The option chain sheet: Call and Put LTPs either side of each strike, with the spot price marked between 24700 and 24750.">
+              <img class="sc-phone" src="../assets/img/scalper/expiry.png" width="540" height="1170" loading="lazy" decoding="async" alt="The expiry picker: dated weekly and monthly expiries, with 26 June 2024 selected.">
+            </div>
+          </div>
+        </li>
+
+        <li class="sc-beat">
+          <div class="sc-rail"><time>00:06</time><span>Enter</span></div>
+          <div class="sc-beat__body">
+            <h3>One tap, then proof</h3>
+            <p>Buy Call ↑ or Buy Put ↓ places the order at market, or at your price with Limit. A toast confirms it executed or explains why it didn&rsquo;t, and the position lands in the sheet at once. If you bought a Call and no Call chart is open, the lower chart switches to it — so you&rsquo;re always watching what you own.</p>
+            <div class="sc-shots sc-shots--2 reveal">
+              <img class="sc-phone" src="../assets/img/scalper/buy-executed.png" width="540" height="1170" loading="lazy" decoding="async" alt="A green Buy order executed toast at the top of the screen, with the new position in the sheet.">
+              <img class="sc-phone" src="../assets/img/scalper/buy-rejected.png" width="540" height="1170" loading="lazy" decoding="async" alt="A red Buy order rejected toast at the top of the screen.">
+            </div>
+          </div>
+        </li>
+
+        <li class="sc-beat">
+          <div class="sc-rail"><time>00:10</time><span>Guard</span></div>
+          <div class="sc-beat__body">
+            <h3>Guardrails that don&rsquo;t slow you down</h3>
+            <p>Each position shows its live P&amp;L and LTP; the sheet header holds the overall intraday P&amp;L for this underlying only. TP/SL is one tap away on every position — or automatic, set once in settings as a percentage or points, with a trailing stop that follows the trade.</p>
+            <ul class="sc-rules">
+              <li>Active SL and TP appear as tags on the position</li>
+              <li>The sheet expands to show every position, with a fixed maximum height</li>
+              <li>Long P&amp;L figures drop their decimals above ₹9,99,99,999</li>
+            </ul>
+            <div class="sc-shots sc-shots--2 reveal">
+              <img class="sc-phone" src="../assets/img/scalper/position-sltp.png" width="540" height="1170" loading="lazy" decoding="async" alt="A sell position with an S tag and SL and TP tags beside the quantity.">
+              <img class="sc-phone" src="../assets/img/scalper/settings.png" width="540" height="1170" loading="lazy" decoding="async" alt="Scalper settings: auto stop loss and auto take profit toggles, instant execution per action, and default lots per underlying.">
+            </div>
+          </div>
+        </li>
+
+        <li class="sc-beat">
+          <div class="sc-rail"><time>00:55</time><span>Exit</span></div>
+          <div class="sc-beat__body">
+            <h3>Out in one tap — or flipped</h3>
+            <p>Exit closes one position, Exit all closes everything. Reverse exits and re-enters the opposite side at the same strike, expiry and quantity — strictly in sequence, so step two only fires if step one succeeds. If it can&rsquo;t, the toast says exactly what happened.</p>
+            <ul class="sc-rules">
+              <li>&ldquo;Position reversal executed&rdquo; / &ldquo;Position exited, but reverse order rejected&rdquo;</li>
+              <li>Margin turns red on the confirmation when it&rsquo;s more than you have</li>
+              <li>Confirmations are on by default; Instant execution turns them off per action</li>
+            </ul>
+            <div class="sc-shots sc-shots--2 reveal">
+              <img class="sc-phone" src="../assets/img/scalper/reverse-insufficient.png" width="540" height="1170" loading="lazy" decoding="async" alt="The Reverse confirmation with the new position's margin shown in red because it exceeds the available margin.">
+              <img class="sc-phone" src="../assets/img/scalper/closed-position.png" width="540" height="1170" loading="lazy" decoding="async" alt="A closed position greyed out in the positions sheet.">
+            </div>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- 05 · Roads not taken --------------------------------------------- -->
+  <section class="sc-sec" id="roads">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">05 · Roads not taken</p>
+      <h2 class="sc-h2">The obvious options, and why we didn&rsquo;t take them</h2>
+      <div class="sc-tablewrap reveal">
+        <table class="sc-table sc-table--roads">
+          <thead><tr><th>The obvious option</th><th>Chose</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Buy and Sell buttons</td><td>Buy Call ↑ / Buy Put ↓</td><td>Scalpers think in direction; one tap shouldn&rsquo;t need a second decision</td></tr>
+            <tr><td>Auto-pick the strike silently</td><td>Print the strike on the button</td><td>Real money should never move on a hidden choice</td></tr>
+            <tr><td>One chart with tabs</td><td>Two charts, resizable</td><td>The underlying and the contract are read together, not in turns</td></tr>
+            <tr><td>Always confirm — or never</td><td>Confirm by default, instant per action</td><td>Safe for a new trader, fast for an expert who opts in</td></tr>
+            <tr><td>Exit, then re-enter by hand</td><td>One-tap Reverse, strictly in sequence</td><td>Flipping a view is a scalping move; step two only runs if step one fills</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · Edge cases --------------------------------------------------- -->
+  <section class="sc-sec" id="edges">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">06 · Designed for the worst minute</p>
+      <h2 class="sc-h2">A third of the 27 states are about things going wrong</h2>
+      <p class="sc-body">
+        A scalping screen is judged on its bad moments: a rejected order, a typo in a stop-loss, a
+        P&amp;L with nine digits. Each one got a designed state instead of a fallback.
+      </p>
+      <div class="sc-gallery">
+        <figure class="reveal">
+          <img class="sc-phone" src="../assets/img/scalper/worst.png" width="540" height="1170" loading="lazy" decoding="async" alt="A BankNifty position with a P&amp;L of ten crore and margins of ₹10,000,000.35, still on one line.">
+          <figcaption><h3>Nine-digit numbers</h3><p>Margins and P&amp;L in the crores still fit their slots without breaking the row.</p></figcaption>
+        </figure>
+        <figure class="reveal">
+          <img class="sc-phone" src="../assets/img/scalper/error.png" width="540" height="1170" loading="lazy" decoding="async" alt="A red toast over Scalper settings: Something went wrong. Please try again.">
+          <figcaption><h3>When an order fails</h3><p>A plain-language toast says what went wrong — never just &ldquo;error&rdquo;.</p></figcaption>
+        </figure>
+        <figure class="reveal">
+          <img class="sc-phone" src="../assets/img/scalper/error-state.png" width="540" height="1170" loading="lazy" decoding="async" alt="An inline error in settings: SL price should be higher than the limit price.">
+          <figcaption><h3>When an input is wrong</h3><p>Inline validation stops a stop-loss that can never trigger.</p></figcaption>
+        </figure>
+        <figure class="reveal">
+          <img class="sc-phone" src="../assets/img/scalper/keyboard.png" width="540" height="1170" loading="lazy" decoding="async" alt="Scalper settings with a numeric keypad open for a trigger value.">
+          <figcaption><h3>Typing a value</h3><p>Settings take numbers on a numeric pad, with the field kept in view.</p></figcaption>
+        </figure>
+        <figure class="reveal">
+          <img class="sc-phone" src="../assets/img/scalper/sltp-applied.png" width="540" height="1170" loading="lazy" decoding="async" alt="Scalper settings with auto stop loss at 10.50% and auto take profit at 10.15 points.">
+          <figcaption><h3>Auto SL &amp; TP set</h3><p>Percentages or points, with a trailing stop that follows the trade.</p></figcaption>
+        </figure>
+        <figure class="reveal">
+          <img class="sc-phone" src="../assets/img/scalper/no-orders.png" width="540" height="1170" loading="lazy" decoding="async" alt="The Orders tab with Open selected and an empty state: No orders found.">
+          <figcaption><h3>Nothing yet</h3><p>Empty states that tell you what will appear here, not just that nothing has.</p></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · Consent ------------------------------------------------------ -->
+  <section class="sc-sec sc-quote" id="consent">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">07 · Speed with consent</p>
+      <p class="big reveal"><span class="q">Fast should never mean reckless.</span><span class="a">Safe by default, instant by choice.</span></p>
+      <p class="sc-body">
+        Every action that moves money — Buy, Exit, Exit all and Reverse — asks for confirmation out
+        of the box. Traders who&rsquo;ve earned the speed turn on Instant execution for each action
+        separately in Scalper settings. The default protects a new user; the switch respects an
+        expert one.
+      </p>
+      <ul class="sc-chips">
+        <li>Confirm · Buy</li><li>Confirm · Exit</li><li>Confirm · Exit all</li><li>Confirm · Reverse</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 · Outcomes ----------------------------------------------------- -->
+  <section class="sc-sec" id="outcomes">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">08 · Outcomes &amp; impact</p>
+      <h2 class="sc-h2">One screen, two-fifths of the revenue</h2>
+      <div class="sc-outcomes reveal">
+        <div class="sc-outcome"><p class="sc-label">Adoption</p><b>80%+</b><p>More than 80% of traders adopted Scalper for their F&amp;O trading.</p></div>
+        <div class="sc-outcome"><p class="sc-label">Revenue</p><b>40%</b><p>Two of every five rupees of total revenue came through Scalper.</p></div>
+        <div class="sc-outcome"><p class="sc-label">Daily habit</p><b>50%+</b><p>More than half of its users came back to trade with it every day.</p></div>
+        <div class="sc-outcome"><p class="sc-label">Reverse</p><b>5%</b><p>5% of users reversed a position — a brand-new behaviour for most traders.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · Reflection --------------------------------------------------- -->
+  <section class="sc-sec" id="reflection">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">09 · Reflection</p>
+      <h2 class="sc-h2">What this project taught me</h2>
+      <ul class="sc-lessons">
+        <li><h3>Design the moment, not the feature.</h3><p>Framing the work as sixty seconds of one trade decided what earned a place on the screen and what moved into settings.</p></li>
+        <li><h3>Name the money.</h3><p>The strike is printed on the button and the margin sits under it. When real money moves, nothing should be a surprise.</p></li>
+        <li><h3>The edge states are the product.</h3><p>Rejected orders, half-finished reversals and nine-digit P&amp;L were designed as carefully as the happy path — because that&rsquo;s when a trader decides whether to trust the screen.</p></li>
+        <li><h3>A brief is a design tool.</h3><p>Working through the requirements one by one with <a class="sc-link" href="https://in.linkedin.com/in/singh-sameer" target="_blank" rel="noopener">Sameer</a> turned acceptance criteria into states — so engineering never had to guess what should happen when something went wrong.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer ----------------------------------------------------------- -->
+  <footer class="sc-end">
+    <div class="sc-wrap">
+      <p>CapMint · Scalper · Lead Product Designer (IC) with <a class="sc-link" href="https://in.linkedin.com/in/singh-sameer" target="_blank" rel="noopener">Sameer Singh</a> (PM) · iOS + Android · Shipped</p>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function () {
+  // Mobile menu — same behaviour as the landing page.
+  var btn = document.querySelector('.menu-toggle');
+  var panel = document.getElementById('nav-panel');
+  if (btn && panel) {
+    btn.addEventListener('click', function () {
+      var open = panel.dataset.open === 'true';
+      panel.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+  }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal-on-scroll.
+  if ('IntersectionObserver' in window && !reduced) {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Scroll-spy for the sticky nav.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id);
+      });
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  links.forEach(function (a) {
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el) spy.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
