@@ -78,7 +78,7 @@
     --space-bio-grid:  64px;
     --space-grid-side:  52px;
     --space-side-cards: 32px;
-    --space-grid-foot: 172px;   /* Figma 1:14276: cards end 1284, contact at 1456 */
+    --space-grid-foot: 132px;   /* Personal projects cards -> contact line (Sambeet, 2026-11-01) */
     --space-line-socials: 16px;
     --space-foot-tail: 136px;    /* desktop frame 6454:2467 is 1426 tall,
                                     links end at 1290 */
