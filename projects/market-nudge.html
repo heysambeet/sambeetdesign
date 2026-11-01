@@ -561,7 +561,7 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 
       <p class="cs-body">
         Two of those findings rewrote the project's economics. The v2 plan carried a
-        <strong>$50/month news API</strong> mostly to get Reuters back (it killed public RSS
+        <strong>$50/month news API</strong> mostly to get Reuters back (Reuters killed its public RSS
         in 2023) — a Google News <code>site:reuters.com</code> query returns a hundred fresh
         Reuters items for nothing. And a <strong>$5/month server</strong> for price history
         became unnecessary the moment Upstox's historical-candle endpoint answered without
@@ -713,7 +713,7 @@ $ curl -s <span class="y">-H 'Referer: https://www.bseindia.com/'</span> '…?sc
       </p>
       <p class="cs-body">
         The same proxy logic runs locally as a small Dart server, so development behaves like
-        production. Two implementations of one contract is a real risk — so a parity test
+        production. Keeping two implementations of one contract is a real risk — so a parity test
         asserts they agree on routes, cache windows, retries and the allowlist,
         <strong>and fails the build if they drift</strong>.
       </p>
@@ -786,8 +786,8 @@ $ curl -s <span class="y">-H 'Referer: https://www.bseindia.com/'</span> '…?sc
           <h3><span>Tab 4</span>Strategies — the engine, and a filter I had to kill</h3>
           <ul>
             <li>Sixteen option structures priced off the live chain, for the indices and any
-              F&amp;O stock. Support/resistance, RSI and SMAs computed from those free
-              7.5-year candles.</li>
+              F&amp;O stock. Support/resistance, RSI and SMAs computed from those
+              7.5 years of free candles.</li>
             <li><strong>The v1 "minimum probability" slider was a trap:</strong> ask for 51%
               and it proudly returned a 96%-probability iron condor — technically correct,
               useless. Nobody asking for coin-flip odds wants the safest thing in the book.</li>
@@ -807,7 +807,7 @@ $ curl -s <span class="y">-H 'Referer: https://www.bseindia.com/'</span> '…?sc
       <p class="cs-body">
         All four tabs are live at
         <a href="https://marketnudge.net/" target="_blank" rel="noopener"><strong>marketnudge.net</strong></a>.
-        SENSEX ticks at three seconds. The feed corroborates its own breaking news. The
+        SENSEX ticks every three seconds. The feed corroborates its own breaking news. The
         strategy engine prices sixteen structures off a live chain. The infrastructure bill
         is still ₹0.
       </p>
