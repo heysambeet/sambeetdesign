@@ -337,8 +337,8 @@ a { color: inherit; }
      as card padding, so add only the remainder here. */
   padding: calc(var(--card-inset-block) - var(--media-inset))
            calc(var(--card-inset) - var(--media-inset))
-           25px;   /* tags -> thumbnail gap, as Figma. Pills stay 18px tall
-                      (Figma draws 12), so the card is 6px taller than 360 */
+           23px;   /* tags -> thumbnail gap, as Figma 1:14276: 14px pills + 23px
+                      puts the thumbnail at 123px and the card at 360 */
 }
 
 .card__title {
@@ -361,7 +361,7 @@ a { color: inherit; }
 .card__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin-top: 12px;
 }
 
@@ -381,10 +381,11 @@ a { color: inherit; }
      reads "Individual contributor" while topic tags are set in capitals. */
   color: var(--tag-ink);
   background: var(--tag);
-  border-radius: 4px;
-  /* 3px + 12px line-height + 3px = an 18px pill. Change the vertical
-     padding if the pill height changes; the line-height is the type spec. */
-  padding: 3px 8px;
+  border-radius: var(--r-tag);
+  /* 1px + 12px line-height + 1px = the 14px pill in Figma 1:14276.
+     Change the vertical padding if the pill height changes; the
+     line-height is the type spec. */
+  padding: 1px 6px;
   white-space: nowrap;
 }
 
