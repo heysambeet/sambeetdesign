@@ -337,8 +337,8 @@ a { color: inherit; }
      as card padding, so add only the remainder here. */
   padding: calc(var(--card-inset-block) - var(--media-inset))
            calc(var(--card-inset) - var(--media-inset))
-           23px;   /* tags -> thumbnail gap, as Figma 1:14276: 14px pills + 23px
-                      puts the thumbnail at 123px and the card at 360 */
+           23px;   /* tags -> thumbnail gap, as Figma 1:14276. With 16px pills
+                      the card is 362 tall (Figma's 14px pills give 360) */
 }
 
 .card__title {
@@ -374,17 +374,16 @@ a { color: inherit; }
    screenshot's proportions. */
 .card__tags li {
   font-family: var(--font-ui);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 400;
-  line-height: 12px;
+  line-height: 14px;
   /* Casing comes from the markup, as typed in Figma 1:14276 — the role tag
      reads "Individual contributor" while topic tags are set in capitals. */
   color: var(--tag-ink);
   background: var(--tag);
   border-radius: var(--r-tag);
-  /* 1px + 12px line-height + 1px = the 14px pill in Figma 1:14276.
-     Change the vertical padding if the pill height changes; the
-     line-height is the type spec. */
+  /* 1px + 14px line-height + 1px = a 16px pill with 10px text (Sambeet,
+     2026-11-01 — a step up from Figma's 14px / 9px). Sides stay 6px. */
   padding: 1px 6px;
   white-space: nowrap;
 }
