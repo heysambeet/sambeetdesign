@@ -81,8 +81,6 @@
       <ul class="work__grid">
 
         <li>
-          <!-- Thumbnail is the designed gradient alone until Sambeet picks the
-               Scalper screens for it. -->
           <a class="card" href="projects/scalper.html" target="_blank" rel="noopener">
             <div class="card__head">
               <h2 class="card__title">Scalper <span aria-hidden="true">⚡️</span></h2>
@@ -92,7 +90,14 @@
                 <li>0-1 Product</li>
               </ul>
             </div>
-            <figure class="card__media card__media--scalper"></figure>
+            <figure class="card__media">
+              <picture>
+                <source media="(min-width: 768px)" srcset="assets/img/scalper-desktop.png?v=1">
+                <img src="assets/img/scalper-mobile.png?v=1" width="1216" height="900"
+                     decoding="async"
+                     alt="Two Scalper screens over a green gradient: a Buy order executed toast behind, and a position with SL and TP tags in front.">
+              </picture>
+            </figure>
             <span class="card__arrow" aria-hidden="true">
               <svg><use href="#i-arrow"></use></svg>
             </span>

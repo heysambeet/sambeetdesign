@@ -67,10 +67,11 @@ section[id]{scroll-margin-top:64px}
 .sc-meta dd{margin:6px 0 0;font-size:14px;line-height:22px;white-space:nowrap}
 
 /* ---------- Phone screens ----------
-   Exact exports, so no frame of our own: a hairline and the radius the
-   Figma mocks use (8.5% of the width), no shadow. */
+   Exact exports, so no frame of our own: the Strategy Builder mock's
+   stroke (0.5px, black at 12%), the Figma radius (8.5% of the width),
+   no shadow. */
 .sc-phone{display:block;width:100%;height:auto;aspect-ratio:540/1170;
-  border-radius:clamp(12px,8.5%,20px);border:.5px solid var(--sc-card-bd);background:#f0ede7}
+  border-radius:clamp(12px,8.5%,20px);border:.5px solid rgba(0,0,0,.12);background:#f0ede7}
 .sc-shots{margin-top:24px;display:grid;gap:16px;align-items:start}
 .sc-shots--3{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 @media (min-width:768px){.sc-shots--3{gap:24px;margin-top:48px}}
