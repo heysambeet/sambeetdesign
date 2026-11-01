@@ -337,8 +337,8 @@ a { color: inherit; }
      as card padding, so add only the remainder here. */
   padding: calc(var(--card-inset-block) - var(--media-inset))
            calc(var(--card-inset) - var(--media-inset))
-           19px;   /* Figma: tags 12px tall + 25px gap. Pills here are 18px,
-                      so 19px keeps the thumbnail at 123px from the card top */
+           25px;   /* tags -> thumbnail gap, as Figma. Pills stay 18px tall
+                      (Figma draws 12), so the card is 6px taller than 360 */
 }
 
 .card__title {
