@@ -425,8 +425,8 @@ a { color: inherit; }
 }
 
 /* Scalper has no screens yet — the slot shows its designed gradient alone
-   (Figma 1:14327: #fff1fd at the bottom, #f0faff at the top). */
-.card__media--scalper { background: linear-gradient(to top, #fff1fd, #f0faff); }
+   (Figma 1:14327: #f1feff at the bottom, #f1fff0 at the top). */
+.card__media--scalper { background: linear-gradient(to top, #f1feff, #f1fff0); }
 
 /* A tile without a case study yet: same look, but it isn't a link, so it
    doesn't lift on hover and its arrow stays at rest. */
