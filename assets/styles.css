@@ -48,7 +48,9 @@
   --space-header-h1: 54px;   /* header bottom -> h1 */
   --space-h1-bio:    16px;
   --space-bio-grid:  48px;
-  --space-grid-foot: 66px;
+  --space-grid-side:  40px;  /* grid -> "Personal projects" */
+  --space-side-cards: 16px;  /* that heading -> its cards */
+  --space-grid-foot: 66px;   /* last section -> contact line */
   --space-line-socials: 14px;  /* contact line -> Email / LinkedIn row */
   --space-foot-tail: 78px;     /* below the socials row; was a 224px placeholder
                                   while the row was unbuilt. Figma mobile frame
@@ -74,7 +76,9 @@
     --space-header-h1: 86px;
     --space-h1-bio:    22px;
     --space-bio-grid:  64px;
-    --space-grid-foot: 140px;
+    --space-grid-side:  52px;
+    --space-side-cards: 32px;
+    --space-grid-foot: 172px;   /* Figma 1:14276: cards end 1284, contact at 1456 */
     --space-line-socials: 16px;
     --space-foot-tail: 136px;    /* desktop frame 6454:2467 is 1426 tall,
                                     links end at 1290 */
@@ -437,6 +441,75 @@ a { color: inherit; }
 /* Keyboard parity — tabbing to a card gets the same response as hovering. */
 .card:focus-visible .card__media img { transform: scale(1.045); }
 
+/* ---------- Personal projects ---------- */
+
+/* Figma 1:14362 + 1:14363 / 1:14366 (desktop): 18/24 heading 52px under the
+   grid, then 344 x 96 cards 32px under it. The mobile frame has no version
+   of this section yet, so mobile steps the gaps down to the grid's rhythm. */
+.side { padding-top: var(--space-grid-side); }
+
+.side__title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.018px;
+}
+
+.side__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--grid-gap);
+  margin-top: var(--space-side-cards);
+}
+
+@media (min-width: 768px) {
+  .side__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Same surface and hover as .card, laid out as a row: 48px app icon, then
+   name and one line. 24 + 48 + 24 = the designed 96px height. */
+.project {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  background: var(--card-bg);
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--r-card);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project:hover {
+    border-color: #d2d2d2;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.project__icon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+
+.project__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+.project__name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.016px;
+}
+
+.project__sub {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink);
+}
+
 /* ---------- Contact ---------- */
 
 .contact {
@@ -488,7 +561,8 @@ a { color: inherit; }
   }
   /* Suppress the movement entirely rather than just speeding it up — a
      0.01ms scale is still a scale. Colour changes still apply. */
-  .card:hover { transform: none; }
+  .card:hover,
+  .project:hover { transform: none; }
   .card:hover .card__media img,
   .card:focus-visible .card__media img { transform: none; }
 }
