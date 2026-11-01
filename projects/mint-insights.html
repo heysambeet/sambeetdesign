@@ -58,6 +58,11 @@ section[id]{scroll-margin-top:64px}
 @media (min-width:768px){.mi-h1{font-size:40px;line-height:47px}}
 .mi-sub{margin-top:16px;font-weight:500;font-size:18px;line-height:30px;
   color:var(--ink-muted);text-wrap:pretty}
+.mi-meta{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+@media (min-width:768px){.mi-meta{display:flex;justify-content:space-between}}
+.mi-meta dt{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ink-muted);text-transform:uppercase}
+.mi-meta dd{margin:6px 0 0;font-size:14px;line-height:22px}
 
 /* ---------- Sticky in-page nav (same pattern as the Nudge study) ---------- */
 .toc{position:sticky;top:0;z-index:20;margin-top:48px;
@@ -240,6 +245,12 @@ html:not(.js) .reveal{opacity:1;transform:none}
         trader&rsquo;s money moved, sitting next to the ledger that records that it did, with
         neither one pretending to be the other.
       </p>
+
+      <dl class="mi-meta">
+        <div><dt>Role</dt><dd>Lead Product Designer (Lead + IC)</dd></div>
+        <div><dt>Platform</dt><dd>iOS &amp; Android</dd></div>
+        <div><dt>Status</dt><dd>Spec locked, in build</dd></div>
+      </dl>
     </div>
   </header>
 
