@@ -134,20 +134,14 @@ a { color: inherit; }
 
 /* ---------- Header ---------- */
 
-.site-header {
-  padding-top: 16px;
-}
-
-/* Case studies are long scrolls (Strategy Builder is ~12,600px), so the
-   header follows the reader. Scoped to .case-study on <body> rather than
-   applied to .site-header outright: the landing page is one screen of
-   content and keeps its static header.
+/* The header follows the reader on every page, landing included.
    The background must be opaque — content scrolls underneath. */
-.case-study .site-header {
+.site-header {
   position: sticky;
   top: 0;
   z-index: 30;
   background: var(--bg);
+  padding-top: 16px;
   padding-bottom: 10px;
 }
 
@@ -254,7 +248,9 @@ a { color: inherit; }
 
 /* ---------- Intro ---------- */
 
-.intro { padding-top: var(--space-header-h1); }
+/* Less the header's 10px bottom pad, so the h1 sits where it did when
+   the landing header was static. */
+.intro { padding-top: calc(var(--space-header-h1) - 10px); }
 
 .intro__title {
   font-weight: 600;
