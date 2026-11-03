@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Cash — Case study · Sambeet Dash</title>
+<meta name="description" content="Redesigning the payment method page in RummyCulture's Add Cash: four ways to pay, GST on every deposit, location and KYC checks, and every way a payment can go.">
+
+<meta property="og:title" content="Add Cash — Nobody opens a rummy app to pay. Nobody plays until they do.">
+<meta property="og:description" content="The story of RummyCulture's payment method page, and of every way a payment can go: UPI, cards, wallets, net banking, bad days, failures and the GST receipt.">
+<meta property="og:type" content="article">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/styles.css?v=28">
+
+<style>
+/* ============================================================
+   Add Cash case study.
+   Page shell = the portfolio's tokens (styles.css).
+   Layout and copy follow the Figma frame "Add Cash — Payment method"
+   (106:6406). Screens are 1.5x exports of the Payment method page
+   (98:101006), 540px wide.
+   Red [brackets] are placeholders Sambeet fills in before this ships.
+   ============================================================ */
+:root{
+  --ac-card:#fcfcfc;      --ac-card-bd:#e3e3e3;   --ac-canvas:#f6f2ef;
+  --ac-accent:#a75266;    --ac-line:#e8cec7;
+  --ac-ok:#2f6f4f;        --ac-ok-bg:#eef4f0;
+  --ac-ph:#c14141;        --ac-ph-bg:#fbeeec;
+  --ac-dim:rgba(0,0,0,.42);
+}
+
+/* ---------- Shared page furniture ---------- */
+.ac-wrap{width:100%;max-width:calc(720px + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
+.ac-wide{width:100%;max-width:calc(1120px + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
+section[id]{scroll-margin-top:64px}
+.ac-sec{padding-block:56px}
+@media (min-width:768px){.ac-sec{padding-block:72px}}
+
+.ac-eyebrow{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ac-accent);text-transform:uppercase}
+.ac-label{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ac-dim);text-transform:uppercase}
+.ac-h2{margin-top:16px;font-weight:600;font-size:22px;line-height:30px;text-wrap:balance}
+@media (min-width:768px){.ac-h2{font-size:24px;line-height:32px}}
+.ac-body{margin-top:16px;font-size:16px;line-height:28px;color:var(--ink-muted);text-wrap:pretty}
+
+/* Placeholders: things only Sambeet knows. */
+.ac-ph{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--ac-ph-bg);
+  color:var(--ac-ph);font-weight:500;font-size:14px;line-height:22px}
+.ac-ph-text{color:var(--ac-ph)}
+
+/* ---------- Hero ---------- */
+.ac-hero{padding-top:var(--space-header-h1);padding-bottom:16px}
+.ac-kicker{font-weight:600;font-size:16px;line-height:24px}
+.ac-h1{margin-top:16px;font-weight:600;font-size:34px;line-height:42px;letter-spacing:-.4px;text-wrap:balance}
+@media (min-width:768px){.ac-h1{font-size:40px;line-height:47px}}
+.ac-h1 .q{display:block;color:var(--ink-muted)}
+.ac-h1 .a{display:block}
+.ac-sub{margin-top:20px;font-weight:500;font-size:16px;line-height:28px;color:var(--ink-muted);text-wrap:pretty}
+
+.ac-meta{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+@media (min-width:768px){.ac-meta{display:flex;justify-content:space-between}}
+.ac-meta dt{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ink-muted);text-transform:uppercase}
+.ac-meta dd{margin:6px 0 0;font-size:14px;line-height:22px}
+
+/* The phone row: upright, centre phone largest and highest, all of them
+   running off the bottom edge (Figma "Canvas · Hero"). Margins are in %
+   of the stage width, so the whole row scales as one picture. */
+.ac-stage{margin-top:40px;border-radius:24px;overflow:hidden;
+  background:linear-gradient(160deg,#2a2218 0%,#0e1317 72%);
+  aspect-ratio:1120/480;display:flex;justify-content:center;align-items:flex-start;gap:1.43%}
+.ac-stage img{display:block;flex:none;height:auto;border-radius:clamp(8px,1.3vw,18px);
+  border:.5px solid rgba(255,255,255,.12)}
+.ac-stage .p1,.ac-stage .p5{width:15.7%;margin-top:15.7%}
+.ac-stage .p2,.ac-stage .p4{width:18.2%;margin-top:11.8%}
+.ac-stage .p3{width:21.1%;margin-top:8.2%}
+@media (max-width:639.98px){
+  .ac-stage{aspect-ratio:100/62;gap:3%;border-radius:16px}
+  .ac-stage .p1,.ac-stage .p5{display:none}
+  .ac-stage .p2,.ac-stage .p4{width:28%;margin-top:14%}
+  .ac-stage .p3{width:33%;margin-top:6%}
+}
+
+/* ---------- Toc (same pattern as the other studies) ---------- */
+.toc{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);border-bottom:.5px solid var(--card-border);margin-top:48px}
+.toc__row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
+.toc__row::-webkit-scrollbar{display:none}
+.toc a{flex:0 0 auto;padding:6px 14px;border-radius:999px;font-family:var(--font-nav);
+  font-size:13px;line-height:20px;font-weight:500;color:var(--ink-muted);text-decoration:none;white-space:nowrap}
+.toc a:hover{color:var(--ink)}
+.toc a.is-active{background:var(--ink);color:#fff}
+
+/* ---------- Story ---------- */
+.ac-pull{margin-top:24px;border-left:2px solid var(--ac-line);padding:6px 0 6px 22px;
+  font-weight:600;font-size:22px;line-height:32px;text-wrap:balance}
+@media (min-width:768px){.ac-pull{font-size:24px;line-height:34px}}
+
+/* ---------- What the page had to hold ---------- */
+.ac-holds-label{margin-top:32px}
+.ac-holds{margin-top:12px;display:grid;gap:12px}
+@media (min-width:560px){.ac-holds{grid-template-columns:1fr 1fr;gap:16px}}
+.ac-hold{background:var(--ac-card);border:.5px solid var(--ac-card-bd);border-radius:16px;padding:20px}
+.ac-hold .e{display:block;font-size:20px;line-height:28px}
+.ac-hold h3{margin-top:6px;font-weight:600;font-size:15px;line-height:22px}
+.ac-hold p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
+
+/* ---------- Promises ---------- */
+.ac-promises{margin-top:24px;list-style:none;padding:0;display:flex;flex-direction:column;gap:20px}
+.ac-promises li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:16px}
+.ac-promises i{font-style:normal;font-family:var(--font-nav);font-size:11px;line-height:26px;
+  font-weight:600;letter-spacing:1.1px;color:var(--ac-dim)}
+.ac-promises h3{font-weight:600;font-size:16px;line-height:26px}
+.ac-promises p{margin-top:4px;font-size:15px;line-height:26px;color:var(--ink-muted)}
+
+/* ---------- Statement ---------- */
+.ac-statement p{font-weight:600;font-size:26px;line-height:36px;letter-spacing:-.3px;text-wrap:balance}
+@media (min-width:768px){.ac-statement p{font-size:32px;line-height:42px}}
+.ac-statement .q{display:block;color:var(--ink-muted)}
+.ac-statement .a{display:block}
+
+/* ---------- Canvases ---------- */
+.ac-canvas{margin-top:32px;background:var(--ac-canvas);border-radius:24px;padding:40px}
+@media (max-width:767.98px){.ac-canvas{padding:24px 16px;border-radius:16px}}
+.ac-shot{display:block;width:100%;height:auto;border-radius:14px;border:.5px solid rgba(0,0,0,.12);background:#0e1317}
+.ac-shot--crop{aspect-ratio:9/16;object-fit:cover;object-position:top}
+figcaption{margin-top:12px;font-size:13px;line-height:20px;color:var(--ink-muted);text-align:center;text-wrap:balance}
+
+/* Anatomy: one screen, callouts pinned to the elements they describe.
+   The % tops come from the Figma callout anchors (screen-relative). */
+.ac-anat{display:grid;grid-template-columns:minmax(0,1fr) 300px minmax(0,1fr)}
+.ac-anat__col{position:relative}
+.ac-call{position:absolute;display:flex;align-items:flex-start;transform:translateY(-10px)}
+.ac-anat__col--l .ac-call{left:0;right:6px}
+.ac-anat__col--r .ac-call{left:6px;right:0;flex-direction:row-reverse}
+.ac-call__txt{flex:none;width:min(240px,70%)}
+.ac-anat__col--l .ac-call__txt{text-align:right}
+.ac-call h3{font-weight:600;font-size:14px;line-height:20px}
+.ac-call p{margin-top:2px;font-size:13px;line-height:20px;color:var(--ink-muted)}
+.ac-call__line{position:relative;flex:1;min-width:24px;height:1px;margin-top:10px;background:rgba(167,82,102,.5)}
+.ac-anat__col--l .ac-call__line{margin-left:12px}
+.ac-anat__col--r .ac-call__line{margin-right:12px}
+.ac-call__line::after{content:"";position:absolute;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--ac-accent)}
+.ac-anat__col--l .ac-call__line::after{right:-3.5px}
+.ac-anat__col--r .ac-call__line::after{left:-3.5px}
+@media (max-width:899.98px){
+  .ac-anat{grid-template-columns:minmax(0,1fr);gap:8px}
+  .ac-anat__screen{order:-1;width:min(260px,100%);margin:0 auto 16px}
+  .ac-call{position:static;transform:none;display:block;padding-left:15px;margin-top:14px;text-align:left}
+  .ac-anat__col--l .ac-call__txt{text-align:left}
+  .ac-call__txt{width:auto}
+  .ac-call__line{display:none}
+  .ac-call::before{content:"";float:left;margin:6px 0 0 -15px;width:7px;height:7px;border-radius:50%;background:var(--ac-accent)}
+}
+
+/* The turn: landscape -> rotate -> portrait. */
+.ac-turn{display:flex;align-items:center;justify-content:center;gap:20px}
+.ac-turn figure{flex:none}
+.ac-turn .land{width:360px}
+.ac-turn .port{width:212px}
+.ac-turn figcaption{max-width:240px;margin-inline:auto}
+.ac-arrow{flex:none;font-size:22px;line-height:28px;color:rgba(0,0,0,.3)}
+@media (max-width:899.98px){
+  .ac-turn{flex-direction:column;gap:12px}
+  .ac-turn .land{width:min(360px,100%)}
+  .ac-turn .port{width:180px}
+  .ac-arrow{transform:rotate(90deg)}
+}
+
+/* ---------- Journeys ---------- */
+.ac-chapter{padding-top:64px}
+.ac-chapter h3{font-weight:600;font-size:18px;line-height:26px}
+.ac-chapter p{margin-top:8px;font-size:15px;line-height:26px;color:var(--ink-muted);text-wrap:pretty}
+
+/* Strips: a row of screens on a soft canvas; a swipeable row on phones. */
+.ac-strip{margin-top:28px;background:var(--ac-canvas);border-radius:24px;padding:40px;
+  display:grid;grid-template-columns:repeat(var(--n),minmax(0,var(--w,200px)));
+  justify-content:center;align-items:start;gap:24px}
+@media (max-width:767.98px){
+  .ac-strip{display:flex;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:24px 16px;gap:16px;border-radius:16px;scrollbar-width:thin}
+  .ac-strip figure{flex:0 0 150px;scroll-snap-align:start}
+}
+
+/* Three ways to handle a failing method */
+.ac-opts{margin-top:12px;display:grid;gap:12px}
+@media (min-width:768px){.ac-opts{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+.ac-opt{background:var(--ac-card);border:.5px solid var(--ac-card-bd);border-radius:16px;padding:18px}
+.ac-opt--ok{background:var(--ac-ok-bg);border:1px solid rgba(47,111,79,.35)}
+.ac-opt h4{font-weight:600;font-size:15px;line-height:22px}
+.ac-opt p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
+
+/* ---------- Reflection ---------- */
+.ac-lessons{margin-top:8px;list-style:none;padding:0}
+.ac-lessons li{margin-top:20px}
+.ac-lessons h3{font-weight:600;font-size:16px;line-height:26px}
+.ac-lessons p{margin-top:4px;font-size:15px;line-height:26px;color:var(--ink-muted)}
+
+.ac-end{padding-bottom:72px}
+
+/* ---------- Reveal (matches the other studies) ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 480ms ease,transform 480ms ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+html:not(.js) .reveal{opacity:1;transform:none}
+</style>
+</head>
+<body class="case-study">
+
+<script>document.documentElement.classList.add('js')</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 64 64" fill="none">
+    <g stroke="currentColor" stroke-width="5" stroke-linejoin="round">
+      <circle cx="18" cy="18" r="9"/>
+      <path d="M45 8 L56 27 L34 27 Z"/>
+      <path d="M18 37 L27 46 L18 55 L9 46 Z"/>
+      <rect x="37.5" y="37.5" width="17" height="17"/>
+    </g>
+  </symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none">
+    <path d="M4 18C3.71667 18 3.47917 17.9042 3.2875 17.7125C3.09583 17.5208 3 17.2833 3 17C3 16.7167 3.09583 16.4792 3.2875 16.2875C3.47917 16.0958 3.71667 16 4 16H20C20.2833 16 20.5208 16.0958 20.7125 16.2875C20.9042 16.4792 21 16.7167 21 17C21 17.2833 20.9042 17.5208 20.7125 17.7125C20.5208 17.9042 20.2833 18 20 18H4ZM4 13C3.71667 13 3.47917 12.9042 3.2875 12.7125C3.09583 12.5208 3 12.2833 3 12C3 11.7167 3.09583 11.4792 3.2875 11.2875C3.47917 11.0958 3.71667 11 4 11H20C20.2833 11 20.5208 11.0958 20.7125 11.2875C20.9042 11.4792 21 11.7167 21 12C21 12.2833 20.9042 12.5208 20.7125 12.7125C20.5208 12.9042 20.2833 13 20 13H4ZM4 8C3.71667 8 3.47917 7.90417 3.2875 7.7125C3.09583 7.52083 3 7.28333 3 7C3 6.71667 3.09583 6.47917 3.2875 6.2875C3.47917 6.09583 3.71667 6 4 6H20C20.2833 6 20.5208 6.09583 20.7125 6.2875C20.9042 6.47917 21 6.71667 21 7C21 7.28333 20.9042 7.52083 20.7125 7.7125C20.5208 7.90417 20.2833 8 20 8H4Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- Header — shared with the landing page ---------------------------- -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="site-header__inner">
+      <a class="brand" href="../" aria-label="Sambeet Dash — home">
+        <svg role="img" aria-hidden="true"><use href="#i-logo"></use></svg>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="../">Home</a>
+        <a href="../assets/Sambeet-Dash-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
+      </nav>
+
+      <button class="menu-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+
+    <nav class="nav-panel" id="nav-panel" data-open="false" aria-label="Primary, mobile">
+      <a href="../">Home</a>
+      <a href="../assets/Sambeet-Dash-Resume.pdf?v=5" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero ------------------------------------------------------------ -->
+  <header class="ac-hero">
+    <div class="ac-wrap">
+      <p class="ac-kicker">Add Cash <span aria-hidden="true">💳</span></p>
+      <h1 class="ac-h1"><span class="q">Nobody opens a rummy app to pay.</span><span class="a">Nobody plays until they do.</span></h1>
+      <p class="ac-sub">
+        Add Cash is the screen between deciding to play and sitting at a table. On RummyCulture it
+        has a lot to do in a few seconds: take money from a bank, show where the GST goes, check
+        location and KYC, and keep working when a UPI app or a bank doesn’t. This is the story of
+        the payment page, and of every way a payment can go.
+      </p>
+
+      <dl class="ac-meta">
+        <div><dt>Role</dt><dd class="ac-ph-text">[Your role]</dd></div>
+        <div><dt>Team</dt><dd class="ac-ph-text">[Who you worked with]</dd></div>
+        <div><dt>Product</dt><dd>RummyCulture · Gameskraft</dd></div>
+        <div><dt>Status</dt><dd>Live</dd></div>
+      </dl>
+    </div>
+
+    <div class="ac-wide">
+      <div class="ac-stage" role="group" aria-label="Five screens from the Add Cash flow">
+        <img class="p1" src="../assets/img/add-cash/add-cash-portrait.png" width="540" height="960" decoding="async"
+             alt="The Add Cash screen: an amount field with a ₹50 minimum, preset chips for ₹250, ₹500 and ₹1,000, and a Continue button.">
+        <img class="p2" src="../assets/img/add-cash/list.png" width="540" height="960" decoding="async"
+             alt="The payment page listing UPI apps, cards, wallets and net banking.">
+        <img class="p3" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" decoding="async"
+             alt="Google Pay selected, with an Add ₹1,000 button opened right under it.">
+        <img class="p4" src="../assets/img/add-cash/card-cvv.png" width="540" height="960" decoding="async"
+             alt="A saved Axis card as the preferred payment, asking only for the CVV.">
+        <img class="p5" src="../assets/img/add-cash/receipt-ticket.png" width="540" height="960" decoding="async"
+             alt="Add Cash successful, with the GST breakdown and a free tournament ticket.">
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky in-page nav ------------------------------------------------ -->
+  <nav class="toc" aria-label="On this page">
+    <div class="ac-wrap">
+      <div class="toc__row">
+        <a href="#story">Story</a>
+        <a href="#context">Context</a>
+        <a href="#promises">Promises</a>
+        <a href="#page">The page</a>
+        <a href="#journeys">Journeys</a>
+        <a href="#numbers">Numbers</a>
+        <a href="#reflection">Reflection</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- A Sunday afternoon ------------------------------------------------ -->
+  <section class="ac-sec" id="story">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">A Sunday afternoon</p>
+      <h2 class="ac-h2">2:21 pm. Registration closes at 2:25.</h2>
+      <p class="ac-body">
+        The Sunday Mega Block Buster starts at 2:30. Entry is ₹350, the prize pool is ₹65 lakh, and
+        you’ve been waiting all week for this one. You tap Register. The app says there isn’t enough
+        money in your account.
+      </p>
+      <p class="ac-body">
+        So you tap Add Cash. The chip says ₹1,000 gets you ₹1,200, so you pick that and hit Continue.
+        Now there’s a page full of ways to pay, a clock ticking in the back of your head, and one
+        question you don’t say out loud.
+      </p>
+      <blockquote class="ac-pull reveal">“What if the money leaves my account and never shows up?”</blockquote>
+      <p class="ac-body">That question is the real user of this page. Everything below is an answer to it.</p>
+    </div>
+  </section>
+
+  <!-- 01 · Context ------------------------------------------------------- -->
+  <section class="ac-sec" id="context">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">01 · The context</p>
+      <h2 class="ac-h2">The most nervous screen in a fun app</h2>
+      <p class="ac-body">
+        Everything else in RummyCulture is built for play: tables, tournaments, leaderboards, offers.
+        Add Cash is the one place where real money leaves a player’s bank. For a lot of people, it’s
+        the first time they’ve paid a game anything at all.
+      </p>
+      <p class="ac-body">
+        It also carries rules most players never think about. Every deposit is taxed at 28% GST, so
+        adding ₹1,000 puts ₹781.25 in Deposit Balance and gives ₹218.75 back as Discount Credits.
+        Some states don’t allow real-money play at all. The app checks location to keep accounts
+        safe, and sometimes asks for KYC. Saved cards follow RBI rules. And payment apps, like any
+        system, have bad hours.
+      </p>
+
+      <p class="ac-label ac-holds-label">What the page had to hold</p>
+      <div class="ac-holds reveal">
+        <div class="ac-hold"><span class="e" aria-hidden="true">⚡</span><h3>Four ways to pay, at a glance</h3><p>UPI apps, cards, wallets and net banking, plus a UPI ID for anyone whose app isn’t listed.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">🧾</span><h3>GST that adds up</h3><p>What you paid, what went to tax, and what you can play with, in one place.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">📍</span><h3>Checks before money</h3><p>Location and KYC, asked for when they’re needed, with one line on why.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">🔐</span><h3>Cards, saved the RBI way</h3><p>A card is saved only when the player agrees, with a line that says why it’s safe.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">🚦</span><h3>Methods that fail</h3><p>When a UPI app or a bank is struggling, players should know before they tap.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">🔁</span><h3>The second visit</h3><p>A returning player shouldn’t have to choose all over again.</p></div>
+      </div>
+      <p class="ac-ph">[Before: if you still have the old Add Cash and payment screens, add them here as a short “before” strip, the way Swiggy opens with its old flow.]</p>
+    </div>
+  </section>
+
+  <!-- 02 · Promises ------------------------------------------------------ -->
+  <section class="ac-sec" id="promises">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">02 · What we promised</p>
+      <h2 class="ac-h2">Four promises to the person holding the phone</h2>
+      <ol class="ac-promises reveal">
+        <li><i>01</i><div><h3>Don’t make them hunt.</h3><p>The method they’re most likely to use sits at the top. Picking it opens the button right there, without a second screen.</p></div></li>
+        <li><i>02</i><div><h3>Say the amount, every time.</h3><p>Buttons read Add ₹1,000, Proceed to Add ₹1,000, Add Remaining ₹20. Money never moves behind a word like Pay or Submit.</p></div></li>
+        <li><i>03</i><div><h3>After a failure, talk about their money first.</h3><p>Before asking anyone to retry, tell them what happens to anything that was deducted.</p></div></li>
+        <li><i>04</i><div><h3>Warn, then steer.</h3><p>If a method is failing, say so before they tap it, and put one that’s working above it.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Statement --------------------------------------------------------- -->
+  <section class="ac-sec ac-statement">
+    <div class="ac-wrap">
+      <p class="reveal"><span class="q">A payment page is judged on its worst minute.</span><span class="a">So a lot of this one is about that minute.</span></p>
+    </div>
+  </section>
+
+  <!-- 03 · The page ------------------------------------------------------- -->
+  <section class="ac-sec" id="page">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">03 · The page</p>
+      <h2 class="ac-h2">One list, read top to bottom</h2>
+      <p class="ac-body">
+        Every flow starts from the same list. We grouped the methods by where the money lives and
+        gave each group one verb: tap an app, add a card, link a wallet, pick a bank. Nothing on the
+        page asks the player to read more than a line.
+      </p>
+    </div>
+
+    <div class="ac-wide">
+      <div class="ac-canvas reveal">
+        <div class="ac-anat">
+          <div class="ac-anat__col ac-anat__col--l">
+            <div class="ac-call" style="top:7%"><div class="ac-call__txt"><h3>Amount on top</h3><p>The amount and View details stay pinned at the top.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+            <div class="ac-call" style="top:21.5%"><div class="ac-call__txt"><h3>UPI first</h3><p>One tap, one PIN. The three apps people use most are right on the page.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+            <div class="ac-call" style="top:47.8%"><div class="ac-call__txt"><h3>One verb per group</h3><p>Add a card. Link a wallet. Pick a bank.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+          </div>
+          <img class="ac-shot ac-anat__screen" src="../assets/img/add-cash/list.png" width="540" height="960" loading="lazy" decoding="async"
+               alt="The payment page: Add ₹1,000 with View details at the top, then UPI apps, Debit/Credit Cards, Wallets with Link, and Net Banking.">
+          <div class="ac-anat__col ac-anat__col--r">
+            <div class="ac-call" style="top:5%"><div class="ac-call__txt"><h3>Trust, up front</h3><p>Safe &amp; secure payments sits where the eye lands first.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+            <div class="ac-call" style="top:72.7%"><div class="ac-call__txt"><h3>Link once, not every time</h3><p>Wallets link on their own screen with an OTP, then stay linked.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+            <div class="ac-call" style="top:90.9%"><div class="ac-call__txt"><h3>The long tail, one tap away</h3><p>View All and All Banks hold every other app and bank.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ac-wrap ac-chapter">
+      <h3>🔄 Rummy is played sideways. Paying isn’t.</h3>
+      <p>
+        The tables are landscape, and so is Add Cash, so a player can top up without leaving the
+        feel of the game. UPI apps, OTPs and bank pages all live in portrait, so after Continue the
+        app asks them to turn the phone, once. Everything from there is upright.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-canvas ac-turn reveal">
+        <figure class="land">
+          <img class="ac-shot" src="../assets/img/add-cash/landing-landscape.png" width="960" height="540" loading="lazy" decoding="async"
+               alt="The landscape Add Cash screen with the amount field, presets and a Continue button.">
+          <figcaption>Add Cash sits in landscape, like the tables</figcaption>
+        </figure>
+        <span class="ac-arrow" aria-hidden="true">→</span>
+        <figure class="land">
+          <img class="ac-shot" src="../assets/img/add-cash/rotate-phone.png" width="960" height="540" loading="lazy" decoding="async"
+               alt="A Rotate phone prompt over the dimmed Add Cash screen.">
+          <figcaption>The app asks to turn the phone, once</figcaption>
+        </figure>
+        <span class="ac-arrow" aria-hidden="true">→</span>
+        <figure class="port">
+          <img class="ac-shot" src="../assets/img/add-cash/list.png" width="540" height="960" loading="lazy" decoding="async"
+               alt="The portrait payment page.">
+          <figcaption>Everything after is upright</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · Journeys ------------------------------------------------------ -->
+  <section class="ac-sec" id="journeys" style="padding-bottom:0">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">04 · Every way a payment can go</p>
+      <h2 class="ac-h2">Ten journeys, one page</h2>
+      <p class="ac-body">
+        Here’s each path through the page, from the first permission to the receipt. These are the
+        real flows, including the screens a player only sees on a bad day.
+      </p>
+    </div>
+
+    <!-- Permissions -->
+    <div class="ac-wrap ac-chapter">
+      <h3>📍 Before any money moves</h3>
+      <p>
+        A new player’s first step isn’t a payment, it’s a permission. The sheet says exactly why the
+        app wants their location: “to detect any suspicious activity and keep your account safe.” If
+        they say no, the next sheet doesn’t plead. It says what’s needed and opens Settings.
+      </p>
+      <p>
+        Where real-money play isn’t allowed, the page says so plainly and offers practice games
+        instead of a dead end. KYC follows the same pattern: one sentence on why, one button.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:4">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/location-ask.png" width="540" height="960" loading="lazy" decoding="async" alt="A bottom sheet asking for location permission, with the reason and a Proceed to Allow button."><figcaption>Why we ask</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/location-denied.png" width="540" height="960" loading="lazy" decoding="async" alt="Location permission denied, with a Go to Settings button."><figcaption>If they say no</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/location-unavailable.png" width="540" height="960" loading="lazy" decoding="async" alt="Add cash is unavailable at your location, with a Play Practice Games button."><figcaption>Not allowed here</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/kyc.png" width="540" height="960" loading="lazy" decoding="async" alt="A bottom sheet asking the player to complete KYC by uploading documents."><figcaption>KYC, when it’s needed</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- UPI -->
+    <div class="ac-wrap ac-chapter">
+      <h3>📱 First time, paying with UPI</h3>
+      <p>
+        Pick an app and the button opens right under it: Add ₹1,000. There’s no review screen in
+        between, because the amount is already on the button. If their app isn’t one of the three
+        on the page, View All has the rest.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:5;--w:180px">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/list.png" width="540" height="960" loading="lazy" decoding="async" alt="The payment page for a first-time player."><figcaption>The list</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-all-apps.png" width="540" height="960" loading="lazy" decoding="async" alt="All UPI Apps: Google Pay, PhonePe UPI, Amazon Pay, Paytm UPI, BHIM and iMobile Pay."><figcaption>All UPI apps</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" loading="lazy" decoding="async" alt="Google Pay selected, with an Add ₹1,000 button under it."><figcaption>Tap, and the button opens</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-loading.png" width="540" height="960" loading="lazy" decoding="async" alt="A loading state while the UPI app opens."><figcaption>Over to the UPI app</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/success.png" width="540" height="960" loading="lazy" decoding="async" alt="A full green Success screen."><figcaption>Done</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- UPI ID -->
+    <div class="ac-wrap ac-chapter">
+      <h3>🆔 Paying with a UPI ID</h3>
+      <p>
+        Some players use an app we can’t open, or would rather type. They can enter a UPI ID, choose
+        to save it for next time, and pay. The button still carries the amount.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:4">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-id-entry.png" width="540" height="960" loading="lazy" decoding="async" alt="The payment page with an Add UPI ID option under UPI."><figcaption>+ Add UPI ID</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-id-empty.png" width="540" height="960" loading="lazy" decoding="async" alt="Add a new UPI ID, empty, with the keyboard open."><figcaption>Keyboard up</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-id-typed.png" width="540" height="960" loading="lazy" decoding="async" alt="A UPI ID typed in, with Securely save UPI ID checked."><figcaption>Typed and saved</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/upi-id-ready.png" width="540" height="960" loading="lazy" decoding="async" alt="The UPI ID entered and ready to pay."><figcaption>Ready to pay</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="ac-wrap ac-chapter">
+      <h3>💳 Adding a card</h3>
+      <p>
+        The keyboard opens on its own, and the card network shows up as soon as the number gives it
+        away. Saving the card is the player’s choice, with one line on why it’s safe: “Secure this
+        card as per RBI guidelines.”
+      </p>
+      <p>
+        Cards we can’t take, like Amex and Diners, are named in the error, so nobody keeps retyping a
+        number that was never going to work. Next time, the card waits at the top, and only the CVV
+        is asked again.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:5;--w:180px">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/card-empty.png" width="540" height="960" loading="lazy" decoding="async" alt="Add a new card, empty, with the numeric keypad open."><figcaption>Empty, keyboard up</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/card-detected.png" width="540" height="960" loading="lazy" decoding="async" alt="A card number, expiry and CVV filled in, with the Mastercard logo detected."><figcaption>Network detected</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/card-unsupported.png" width="540" height="960" loading="lazy" decoding="async" alt="An error under the card number: Amex and Diners club cards are not supported."><figcaption>A card we can’t take</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/card-processing.png" width="540" height="960" loading="lazy" decoding="async" alt="The Proceed button showing a loading spinner."><figcaption>Processing</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/card-cvv.png" width="540" height="960" loading="lazy" decoding="async" alt="The saved Axis card as preferred payment, asking only for the CVV."><figcaption>Next time, just the CVV</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- Wallet -->
+    <div class="ac-wrap ac-chapter">
+      <h3>👛 Linking a wallet</h3>
+      <p>
+        Wallets link once, with an OTP. Before the code goes out, the sheet shows which number it will
+        go to, so nobody waits on a phone they don’t have. Resend unlocks after 15 seconds, and too
+        many tries get a clear message instead of a silent failure.
+      </p>
+      <p>
+        Once linked, the balance sits next to the wallet. If it’s short, the page says so, “Low
+        balance. Add ₹20 in your wallet”, and the button does the maths: Add Remaining ₹20.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:5;--w:180px">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/wallet-number.png" width="540" height="960" loading="lazy" decoding="async" alt="A sheet confirming which phone number the Paytm wallet will be linked to."><figcaption>Which number</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/wallet-otp.png" width="540" height="960" loading="lazy" decoding="async" alt="Enter the OTP sent to the phone number, with Verify and Link Wallet."><figcaption>Enter the OTP</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/wallet-otp-limit.png" width="540" height="960" loading="lazy" decoding="async" alt="An error under the OTP field: maximum limit exhausted."><figcaption>Too many tries</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/wallet-linked.png" width="540" height="960" loading="lazy" decoding="async" alt="The PhonePe Wallet as preferred payment, with the payment from its ₹1,140 balance in progress."><figcaption>Paying from the wallet</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/wallet-low-balance.png" width="540" height="960" loading="lazy" decoding="async" alt="The PhonePe Wallet with ₹980 and a low balance note, with an Add Remaining ₹20 button."><figcaption>Short by ₹20</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- Net banking -->
+    <div class="ac-wrap ac-chapter">
+      <h3>🏦 Net banking</h3>
+      <p>
+        Net banking is the longest route, and for some players the one they trust most. The big banks
+        sit right on the page. Everyone else is in All Banks, with a search box on top, so a smaller
+        bank is a couple of letters away.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:4">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/netbanking-page.png" width="540" height="960" loading="lazy" decoding="async" alt="The payment page scrolled to show SBI, ICICI and Kotak under Net Banking."><figcaption>Big banks on the page</figcaption></figure>
+        <figure><img class="ac-shot ac-shot--crop" src="../assets/img/add-cash/netbanking-all-banks.png" width="540" height="1188" loading="lazy" decoding="async" alt="All Banks: a searchable list of banks."><figcaption>All Banks</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/netbanking-search.png" width="540" height="960" loading="lazy" decoding="async" alt="Searching the bank list with the keyboard open."><figcaption>Search</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/success.png" width="540" height="960" loading="lazy" decoding="async" alt="A full green Success screen."><figcaption>Done</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- Returning -->
+    <div class="ac-wrap ac-chapter">
+      <h3>🔁 Coming back</h3>
+      <p>
+        The second visit should be faster than the first. Whatever they paid with last moves up to
+        Preferred payment, open and ready, showing a wallet balance or the last four digits of a card.
+        Everything else is still below, for the days they want something different.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:4">
+        <figure><img class="ac-shot ac-shot--crop" src="../assets/img/add-cash/returning.png" width="540" height="945" loading="lazy" decoding="async" alt="A returning player's page with Paytm Wallet as preferred payment."><figcaption>The second visit</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/returning-wallet.png" width="540" height="960" loading="lazy" decoding="async" alt="PhonePe Wallet preferred, with Add ₹1,000 from Wallet, above the Paytm Wallet and a saved card."><figcaption>Wallet, ready to go</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/returning-gpay.png" width="540" height="960" loading="lazy" decoding="async" alt="Google Pay as preferred payment, with Add ₹1,000 ready."><figcaption>Google Pay, last used</figcaption></figure>
+        <figure><img class="ac-shot ac-shot--crop" src="../assets/img/add-cash/returning-two-cards.png" width="540" height="1907" loading="lazy" decoding="async" alt="Two saved cards under Preferred payment, Axis and HDFC."><figcaption>Two cards saved</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- Bad day -->
+    <div class="ac-wrap ac-chapter">
+      <h3>🚦 When a method is having a bad day</h3>
+      <p>
+        Payment apps and banks have bad hours, and a player shouldn’t find out by waiting on one. When
+        a method’s success rate drops, it says so under its name, in plain words: “Experiencing low
+        success rate” or “Observing high failure rate.”
+      </p>
+      <p>
+        If the whole of UPI is struggling, the section moves to the bottom and dims, with one line on
+        top: “UPI is facing issues. We recommend you to use another payment mode.” Cards get a nudge at
+        the same moment, Flat ₹25 FreeCash on add cash using cards, so the way forward is also the
+        better deal.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:4">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/badday-one-app.png" width="540" height="1182" loading="lazy" decoding="async" alt="PhonePe UPI dimmed with Experiencing low success rate under it, and a Flat ₹25 FreeCash nudge on cards."><figcaption>One app struggling</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/badday-preferred.png" width="540" height="1514" loading="lazy" decoding="async" alt="PhonePe UPI flagged with Observing high failure rate even inside Preferred payment."><figcaption>Flagged, even when preferred</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/badday-upi.png" width="540" height="1514" loading="lazy" decoding="async" alt="A banner under UPI: UPI is facing issues. We recommend you to use another payment mode."><figcaption>All of UPI struggling</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/badday-upi-dimmed.png" width="540" height="1848" loading="lazy" decoding="async" alt="The UPI section moved to the bottom of the page and dimmed."><figcaption>UPI moved down and dimmed</figcaption></figure>
+      </div>
+    </div>
+    <div class="ac-wrap" style="padding-top:40px">
+      <p class="ac-label">Three ways to handle a failing method</p>
+      <div class="ac-opts reveal">
+        <div class="ac-opt"><h4>❌ Hide it</h4><p>Someone who always pays with PhonePe opens the page and it’s gone. That reads as a bug, and it’s their money.</p></div>
+        <div class="ac-opt"><h4>❌ Let them find out</h4><p>They tap, wait for the app, and fail with the clock running. The worst version of the problem.</p></div>
+        <div class="ac-opt ac-opt--ok"><h4>✅ Say it, dim it, move it</h4><p>They see the problem before they tap, and a working option is already above it.</p></div>
+      </div>
+    </div>
+
+    <!-- Failure -->
+    <div class="ac-wrap ac-chapter">
+      <h3>😟 When it doesn’t go through</h3>
+      <p>
+        Some payments fail anyway. The sheet that follows starts with what matters most to the
+        player, their money: anything that was deducted comes back within 5–7 bank working days. Then
+        a transaction ID they can quote to support, and two ways forward: retry with the same app, or
+        try another method.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:3;--w:220px">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/failed.png" width="540" height="960" loading="lazy" decoding="async" alt="An Add Cash failed sheet with the transaction ID, amount, a note on refunds in 5–7 bank working days, and Retry Add Cash."><figcaption>Their money, first</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/failed-retry.png" width="540" height="960" loading="lazy" decoding="async" alt="A failure sheet offering Retry with Google Pay or Try Another Method."><figcaption>Retry, or switch</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/something-went-wrong.png" width="540" height="960" loading="lazy" decoding="async" alt="A Something went wrong state."><figcaption>Something went wrong</figcaption></figure>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="ac-wrap ac-chapter">
+      <h3>🎉 When it does</h3>
+      <p>
+        Success gets a full green screen for a second, because a payment that worked deserves a
+        moment. Then the receipt answers the GST question in one table: ₹1,000 added, ₹218.75 paid to
+        the government, ₹781.25 into Deposit Balance and ₹218.75 back as Discount Credits. The Buy-In
+        Value is 1,000, the same number the player paid.
+      </p>
+      <p>On this one, there’s a reason to go straight back to the table too: a free tournament ticket worth ₹499.</p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip reveal" style="--n:4">
+        <figure><img class="ac-shot" src="../assets/img/add-cash/success.png" width="540" height="960" loading="lazy" decoding="async" alt="A full green Success screen."><figcaption>A moment</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/receipt-ticket.png" width="540" height="960" loading="lazy" decoding="async" alt="Add Cash successful with the GST breakdown, a free tournament ticket worth ₹499 and a referral offer."><figcaption>The receipt</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/gst-details.png" width="540" height="960" loading="lazy" decoding="async" alt="Add Cash amount details: ₹1,000, GST at 28% of ₹218.75, Discount Credits of ₹218.75 and a Buy-In Value of 1,000."><figcaption>Where the GST went</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/receipt-full.png" width="540" height="1071" loading="lazy" decoding="async" alt="Full transaction details with date, payment mode, transaction ID and Download invoice."><figcaption>Full details</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · Numbers ------------------------------------------------------- -->
+  <section class="ac-sec" id="numbers">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">05 · What happened next</p>
+      <h2 class="ac-h2">The numbers</h2>
+      <p class="ac-ph">[Add the results you can share: payment success rate, add-cash conversion, first-deposit rate, support tickets about failed payments. If you can’t share exact figures, say so plainly, the way Swiggy did, and describe the direction instead.]</p>
+    </div>
+  </section>
+
+  <!-- 06 · Reflection ---------------------------------------------------- -->
+  <section class="ac-sec" id="reflection">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">06 · Reflection</p>
+      <h2 class="ac-h2">What this project taught me</h2>
+      <p class="ac-ph">[Draft. Rewrite these in your own words.]</p>
+      <ul class="ac-lessons">
+        <li><h3>Design the bad day.</h3><p>A lot of this page is screens a player only sees when something goes wrong: an OTP limit, a failing bank, money stuck in between. Those are the screens that decide whether they come back.</p></li>
+        <li><h3>Put the number in the button.</h3><p>Add ₹1,000 tells someone exactly what’s about to happen. Pay leaves them to work it out.</p></li>
+        <li><h3>Talk about their money before you ask for anything.</h3><p>Every failure on this page starts with what happens to the player’s money, and only then asks them to try again.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="ac-wrap ac-end">
+    <p class="ac-ph" style="margin-top:0">[Credits: name the people you made this with. The source file includes iterations by Anushka and explorations by Kshitij, so say which parts were theirs.]</p>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  // Mobile menu — same behaviour as the landing page.
+  var btn = document.querySelector('.menu-toggle');
+  var panel = document.getElementById('nav-panel');
+  if (btn && panel) {
+    btn.addEventListener('click', function () {
+      var open = panel.dataset.open === 'true';
+      panel.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    });
+  }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Reveal-on-scroll.
+  if ('IntersectionObserver' in window && !reduced) {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Scroll-spy for the sticky nav.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id);
+      });
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  links.forEach(function (a) {
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el) spy.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
