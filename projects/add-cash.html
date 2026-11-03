@@ -191,6 +191,18 @@ figcaption{margin-top:12px;font-size:13px;line-height:20px;color:var(--ink-muted
 .ac-sketch figcaption{margin-top:14px;font-family:'Caveat',cursive;font-size:21px;line-height:26px;color:rgba(43,43,43,.8)}
 @media (max-width:767.98px){.ac-sketch figcaption{font-size:18px;line-height:22px}}
 
+/* Numbers: five stat cards, three over two (two-up on phones, the first full width). */
+.ac-stats{margin-top:24px;display:grid;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.ac-stats li:first-child{grid-column:span 2}
+@media (min-width:768px){
+  .ac-stats{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .ac-stats li,.ac-stats li:first-child{grid-column:span 2}
+  .ac-stats li:nth-child(n+4){grid-column:span 3}
+}
+.ac-stat{background:var(--ac-card);border:.5px solid var(--ac-card-bd);border-radius:16px;padding:16px}
+.ac-stat b{display:block;font-weight:600;font-size:28px;line-height:36px;letter-spacing:-.28px;font-variant-numeric:tabular-nums}
+.ac-stat span{display:block;margin-top:4px;font-size:13px;line-height:20px;color:var(--ink-muted)}
+
 /* Three ways to handle a failing method */
 .ac-opts{margin-top:12px;display:grid;gap:12px}
 @media (min-width:768px){.ac-opts{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
@@ -678,7 +690,18 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <div class="ac-wrap">
       <p class="ac-eyebrow">05 · What happened next</p>
       <h2 class="ac-h2">The numbers</h2>
-      <p class="ac-ph">[Add the results you can share: payment success rate, add-cash conversion, first-deposit rate, support tickets about failed payments. If you can’t share exact figures, say so plainly, the way Swiggy did, and describe the direction instead.]</p>
+      <p class="ac-body">
+        The numbers that mattered here were the quiet ones: did the money go through, did players make
+        it to the table, and when a payment failed, did they trust it enough to try again? With the
+        improvements that followed, this is where it landed.
+      </p>
+      <ul class="ac-stats">
+        <li class="ac-stat"><b>99%</b><span>payment success rate, across every method</span></li>
+        <li class="ac-stat"><b>60%+</b><span>of players on the payment page went on to add cash</span></li>
+        <li class="ac-stat"><b>70%+</b><span>converted when an offer was on</span></li>
+        <li class="ac-stat"><b>50%+</b><span>tried again after a failed payment</span></li>
+        <li class="ac-stat"><b>2×</b><span>add cash per daily active player, on average</span></li>
+      </ul>
     </div>
   </section>
 
