@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
 
@@ -184,6 +184,12 @@ figcaption{margin-top:12px;font-size:13px;line-height:20px;color:var(--ink-muted
     padding:24px 16px;gap:16px;border-radius:16px;scrollbar-width:thin}
   .ac-strip figure{flex:0 0 150px;scroll-snap-align:start}
 }
+
+/* Sketches: wireframes of the page, notes in a handwritten face. */
+.ac-chapter--sketch{padding-top:40px}
+.ac-sketch img{display:block;width:100%;height:auto}
+.ac-sketch figcaption{margin-top:14px;font-family:'Caveat',cursive;font-size:21px;line-height:26px;color:rgba(43,43,43,.8)}
+@media (max-width:767.98px){.ac-sketch figcaption{font-size:18px;line-height:22px}}
 
 /* Three ways to handle a failing method */
 .ac-opts{margin-top:12px;display:grid;gap:12px}
@@ -370,6 +376,22 @@ html:not(.js) .reveal{opacity:1;transform:none}
         gave each group one clear action: tap an app, add a card, link a wallet, or choose a bank. Nothing on the
         page asks the player to read more than a line.
       </p>
+    </div>
+
+    <div class="ac-wrap ac-chapter ac-chapter--sketch">
+      <h3>✏️ The bones of it</h3>
+      <p>
+        Without colour or logos, the page comes down to a few boxes in a fixed order: the amount, the
+        methods grouped by where the money lives, and one button under the chosen method.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip ac-sketch reveal" style="--n:4;--w:242px">
+        <figure><img src="../assets/img/add-cash/sketch-amount.png" width="484" height="860" loading="lazy" decoding="async" alt="Wireframe sketch: an amount field showing ₹1,000, a Continue button and a number pad."><figcaption>How much? One field, one button.</figcaption></figure>
+        <figure><img src="../assets/img/add-cash/sketch-methods.png" width="484" height="860" loading="lazy" decoding="async" alt="Wireframe sketch of the payment list: UPI apps, Cards, Wallet with Link, and Net banking."><figcaption>Grouped by where the money lives.</figcaption></figure>
+        <figure><img src="../assets/img/add-cash/sketch-selected.png" width="484" height="860" loading="lazy" decoding="async" alt="Wireframe sketch: the first UPI app ticked, with an Add ₹1,000 button opened under it."><figcaption>Pick one, and its button opens.</figcaption></figure>
+        <figure><img src="../assets/img/add-cash/sketch-sheet.png" width="484" height="860" loading="lazy" decoding="async" alt="Wireframe sketch: a bottom sheet over the dimmed list asking to allow location access, with one button."><figcaption>One line on why, one button.</figcaption></figure>
+      </div>
     </div>
 
     <div class="ac-wide">
