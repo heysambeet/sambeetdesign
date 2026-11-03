@@ -62,6 +62,8 @@ section[id]{scroll-margin-top:64px}
 @media (min-width:768px){.ac-h1{font-size:40px;line-height:47px}}
 .ac-h1 .q{display:block;color:var(--ink-muted)}
 .ac-h1 .a{display:block}
+.ac-link{color:inherit;text-decoration:underline;text-underline-position:from-font}
+.ac-link:hover{text-decoration-thickness:2px}
 .ac-sub{margin-top:20px;font-weight:500;font-size:16px;line-height:28px;color:var(--ink-muted);text-wrap:pretty}
 
 .ac-meta{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
@@ -131,6 +133,7 @@ section[id]{scroll-margin-top:64px}
 @media (max-width:767.98px){.ac-canvas{padding:24px 16px;border-radius:16px}}
 .ac-shot{display:block;width:100%;height:auto;border-radius:14px;border:.5px solid rgba(0,0,0,.12);background:#0e1317}
 .ac-shot--crop{aspect-ratio:9/16;object-fit:cover;object-position:top}
+.ac-shot--tall{aspect-ratio:540/1071;object-fit:cover;object-position:top}
 figcaption{margin-top:12px;font-size:13px;line-height:20px;color:var(--ink-muted);text-align:center;text-wrap:balance}
 
 /* Anatomy: one screen, callouts pinned to the elements they describe.
@@ -160,18 +163,15 @@ figcaption{margin-top:12px;font-size:13px;line-height:20px;color:var(--ink-muted
   .ac-call::before{content:"";float:left;margin:6px 0 0 -15px;width:7px;height:7px;border-radius:50%;background:var(--ac-accent)}
 }
 
-/* The turn: landscape -> rotate -> portrait. */
-.ac-turn{display:flex;align-items:center;justify-content:center;gap:20px}
-.ac-turn figure{flex:none}
-.ac-turn .land{width:360px}
-.ac-turn .port{width:212px}
-.ac-turn figcaption{max-width:240px;margin-inline:auto}
+/* The amount flow: four upright screens with arrows; a swipeable row on phones. */
+.ac-flow{display:flex;align-items:flex-start;justify-content:center;gap:24px}
+.ac-flow figure{flex:0 0 192px}
+.ac-flow .ac-arrow{align-self:center;margin-top:-34px}
 .ac-arrow{flex:none;font-size:22px;line-height:28px;color:rgba(0,0,0,.3)}
 @media (max-width:899.98px){
-  .ac-turn{flex-direction:column;gap:12px}
-  .ac-turn .land{width:min(360px,100%)}
-  .ac-turn .port{width:180px}
-  .ac-arrow{transform:rotate(90deg)}
+  .ac-flow{justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;scrollbar-width:thin}
+  .ac-flow figure{flex:0 0 150px;scroll-snap-align:start}
+  .ac-flow .ac-arrow{margin-top:-30px;font-size:18px}
 }
 
 /* ---------- Journeys ---------- */
@@ -271,8 +271,8 @@ html:not(.js) .reveal{opacity:1;transform:none}
       </p>
 
       <dl class="ac-meta">
-        <div><dt>Role</dt><dd class="ac-ph-text">[Your role]</dd></div>
-        <div><dt>Team</dt><dd class="ac-ph-text">[Who you worked with]</dd></div>
+        <div><dt>Role</dt><dd>Lead Product Designer</dd></div>
+        <div><dt>Partner</dt><dd><a class="ac-link" href="https://in.linkedin.com/in/rahul-singla1" target="_blank" rel="noopener">Rahul Singla</a>, PM</dd></div>
         <div><dt>Product</dt><dd>RummyCulture · Gameskraft</dd></div>
         <div><dt>Status</dt><dd>Live</dd></div>
       </dl>
@@ -281,7 +281,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <div class="ac-wide">
       <div class="ac-stage" role="group" aria-label="Five screens from the Add Cash flow">
         <img class="p1" src="../assets/img/add-cash/add-cash-portrait.png" width="540" height="960" decoding="async"
-             alt="The Add Cash screen: an amount field with a ₹50 minimum, preset chips for ₹250, ₹500 and ₹1,000, and a Continue button.">
+             alt="The Add Cash screen: an empty amount field with a ₹50 minimum, and a Continue button.">
         <img class="p2" src="../assets/img/add-cash/list.png" width="540" height="960" decoding="async"
              alt="The payment page listing UPI apps, cards, wallets and net banking.">
         <img class="p3" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" decoding="async"
@@ -309,23 +309,22 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </nav>
 
-  <!-- A Sunday afternoon ------------------------------------------------ -->
+  <!-- Before the first game -------------------------------------------- -->
   <section class="ac-sec" id="story">
     <div class="ac-wrap">
-      <p class="ac-eyebrow">A Sunday afternoon</p>
-      <h2 class="ac-h2">2:21 pm. Registration closes at 2:25.</h2>
+      <p class="ac-eyebrow">Before the first game</p>
+      <h2 class="ac-h2">One small step between you and the table.</h2>
       <p class="ac-body">
-        The Sunday Mega Block Buster starts at 2:30. Entry is ₹350, the prize pool is ₹65 lakh, and
-        you’ve been waiting all week for this one. You tap Register. The app says there isn’t enough
-        money in your account.
+        On RummyCulture you can practise for free. But to sit at a cash table or join a tournament,
+        you need money in your account, so whatever you opened the app to play, the first real step
+        is the same: Add Cash.
       </p>
       <p class="ac-body">
-        So you tap Add Cash. The chip says ₹1,000 gets you ₹1,200, so you pick that and hit Continue.
-        Now there’s a page full of ways to pay, a clock ticking in the back of your head, and one
-        question you don’t say out loud.
+        You type ₹1,000 and hit Continue. Now there’s a page full of ways to pay, a game waiting on
+        the other side, and one question you don’t say out loud.
       </p>
       <blockquote class="ac-pull reveal">“What if the money leaves my account and never shows up?”</blockquote>
-      <p class="ac-body">That question is the real user of this page. Everything below is an answer to it.</p>
+      <p class="ac-body">Every player who reaches this page carries that question. Everything below is an answer to it.</p>
     </div>
   </section>
 
@@ -356,7 +355,6 @@ html:not(.js) .reveal{opacity:1;transform:none}
         <div class="ac-hold"><span class="e" aria-hidden="true">🚦</span><h3>Methods that fail</h3><p>When a UPI app or a bank is struggling, players should know before they tap.</p></div>
         <div class="ac-hold"><span class="e" aria-hidden="true">🔁</span><h3>The second visit</h3><p>A returning player shouldn’t have to choose all over again.</p></div>
       </div>
-      <p class="ac-ph">[Before: if you still have the old Add Cash and payment screens, add them here as a short “before” strip, the way Swiggy opens with its old flow.]</p>
     </div>
   </section>
 
@@ -388,7 +386,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
       <h2 class="ac-h2">One list, read top to bottom</h2>
       <p class="ac-body">
         Every flow starts from the same list. We grouped the methods by where the money lives and
-        gave each group one verb: tap an app, add a card, link a wallet, pick a bank. Nothing on the
+        gave each group one clear action: tap an app, add a card, link a wallet, or choose a bank. Nothing on the
         page asks the player to read more than a line.
       </p>
     </div>
@@ -397,9 +395,9 @@ html:not(.js) .reveal{opacity:1;transform:none}
       <div class="ac-canvas reveal">
         <div class="ac-anat">
           <div class="ac-anat__col ac-anat__col--l">
-            <div class="ac-call" style="top:7%"><div class="ac-call__txt"><h3>Amount on top</h3><p>The amount and View details stay pinned at the top.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+            <div class="ac-call" style="top:7%"><div class="ac-call__txt"><h3>Amount on top</h3><p>Add ₹1,000 stays pinned at the top. View details opens the GST split.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
             <div class="ac-call" style="top:21.5%"><div class="ac-call__txt"><h3>UPI first</h3><p>One tap, one PIN. The three apps people use most are right on the page.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
-            <div class="ac-call" style="top:47.8%"><div class="ac-call__txt"><h3>One verb per group</h3><p>Add a card. Link a wallet. Pick a bank.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
+            <div class="ac-call" style="top:47.8%"><div class="ac-call__txt"><h3>One clear action per method</h3><p>Each payment type has a single next step: tap a UPI app, add a card, link a wallet, or choose a bank.</p></div><span class="ac-call__line" aria-hidden="true"></span></div>
           </div>
           <img class="ac-shot ac-anat__screen" src="../assets/img/add-cash/list.png" width="540" height="960" loading="lazy" decoding="async"
                alt="The payment page: Add ₹1,000 with View details at the top, then UPI apps, Debit/Credit Cards, Wallets with Link, and Net Banking.">
@@ -413,31 +411,39 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
 
     <div class="ac-wrap ac-chapter">
-      <h3>🔄 Rummy is played sideways. Paying isn’t.</h3>
+      <h3>💰 It starts with an amount</h3>
       <p>
-        The tables are landscape, and so is Add Cash, so a player can top up without leaving the
-        feel of the game. UPI apps, OTPs and bank pages all live in portrait, so after Continue the
-        app asks them to turn the phone, once. Everything from there is upright.
+        Add Cash opens with one question: how much? The field takes anything from ₹50, and Continue
+        stays dimmed until there’s an amount in it. Type ₹1,000 and it lights up at the bottom, under
+        the player’s thumb, one tap from the payment page. And if they want to check the maths first,
+        View details at the top opens the full split: ₹218.75 to GST, the same back as Discount
+        Credits, and a Buy-In Value of 1,000.
       </p>
     </div>
     <div class="ac-wide">
-      <div class="ac-canvas ac-turn reveal">
-        <figure class="land">
-          <img class="ac-shot" src="../assets/img/add-cash/landing-landscape.png" width="960" height="540" loading="lazy" decoding="async"
-               alt="The landscape Add Cash screen with the amount field, presets and a Continue button.">
-          <figcaption>Add Cash sits in landscape, like the tables</figcaption>
+      <div class="ac-canvas ac-flow reveal">
+        <figure>
+          <img class="ac-shot" src="../assets/img/add-cash/add-cash-portrait.png" width="540" height="960" loading="lazy" decoding="async"
+               alt="Add Cash with an empty amount field and Continue dimmed.">
+          <figcaption>Choose an amount</figcaption>
         </figure>
         <span class="ac-arrow" aria-hidden="true">→</span>
-        <figure class="land">
-          <img class="ac-shot" src="../assets/img/add-cash/rotate-phone.png" width="960" height="540" loading="lazy" decoding="async"
-               alt="A Rotate phone prompt over the dimmed Add Cash screen.">
-          <figcaption>The app asks to turn the phone, once</figcaption>
+        <figure>
+          <img class="ac-shot" src="../assets/img/add-cash/add-cash-entered.png" width="540" height="960" loading="lazy" decoding="async"
+               alt="₹1,000 entered in the amount field and Continue switched on.">
+          <figcaption>₹1,000 entered, Continue on</figcaption>
         </figure>
         <span class="ac-arrow" aria-hidden="true">→</span>
-        <figure class="port">
+        <figure>
           <img class="ac-shot" src="../assets/img/add-cash/list.png" width="540" height="960" loading="lazy" decoding="async"
-               alt="The portrait payment page.">
-          <figcaption>Everything after is upright</figcaption>
+               alt="The payment page listing UPI apps, cards, wallets and net banking.">
+          <figcaption>Then, how to pay</figcaption>
+        </figure>
+        <span class="ac-arrow" aria-hidden="true">→</span>
+        <figure>
+          <img class="ac-shot" src="../assets/img/add-cash/gst-details.png" width="540" height="960" loading="lazy" decoding="async"
+               alt="The View details sheet: ₹1,000, GST at 28% of ₹218.75, Discount Credits of ₹218.75 and a Buy-In Value of 1,000.">
+          <figcaption>View details: where the money goes</figcaption>
         </figure>
       </div>
     </div>
@@ -621,9 +627,9 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <div class="ac-wrap" style="padding-top:40px">
       <p class="ac-label">Three ways to handle a failing method</p>
       <div class="ac-opts reveal">
-        <div class="ac-opt"><h4>❌ Hide it</h4><p>Someone who always pays with PhonePe opens the page and it’s gone. That reads as a bug, and it’s their money.</p></div>
-        <div class="ac-opt"><h4>❌ Let them find out</h4><p>They tap, wait for the app, and fail with the clock running. The worst version of the problem.</p></div>
-        <div class="ac-opt ac-opt--ok"><h4>✅ Say it, dim it, move it</h4><p>They see the problem before they tap, and a working option is already above it.</p></div>
+        <div class="ac-opt"><h4>❌ Hide it</h4><p>Someone who always pays with PhonePe finds it gone. It feels like a bug.</p></div>
+        <div class="ac-opt"><h4>❌ Let them find out</h4><p>They tap, wait for the app and then fail, with the clock still running.</p></div>
+        <div class="ac-opt ac-opt--ok"><h4>✅ Say it, dim it, move it</h4><p>They see the problem before they tap, with a working option right above.</p></div>
       </div>
     </div>
 
@@ -654,13 +660,11 @@ html:not(.js) .reveal{opacity:1;transform:none}
         the government, ₹781.25 into Deposit Balance and ₹218.75 back as Discount Credits. The Buy-In
         Value is 1,000, the same number the player paid.
       </p>
-      <p>On this one, there’s a reason to go straight back to the table too: a free tournament ticket worth ₹499.</p>
     </div>
     <div class="ac-wide">
-      <div class="ac-strip reveal" style="--n:4">
-        <figure><img class="ac-shot" src="../assets/img/add-cash/success.png" width="540" height="960" loading="lazy" decoding="async" alt="A full green Success screen."><figcaption>A moment</figcaption></figure>
-        <figure><img class="ac-shot" src="../assets/img/add-cash/receipt-ticket.png" width="540" height="960" loading="lazy" decoding="async" alt="Add Cash successful with the GST breakdown, a free tournament ticket worth ₹499 and a referral offer."><figcaption>The receipt</figcaption></figure>
-        <figure><img class="ac-shot" src="../assets/img/add-cash/gst-details.png" width="540" height="960" loading="lazy" decoding="async" alt="Add Cash amount details: ₹1,000, GST at 28% of ₹218.75, Discount Credits of ₹218.75 and a Buy-In Value of 1,000."><figcaption>Where the GST went</figcaption></figure>
+      <div class="ac-strip reveal" style="--n:3;--w:200px">
+        <figure><img class="ac-shot ac-shot--tall" src="../assets/img/add-cash/success.png" width="540" height="960" loading="lazy" decoding="async" alt="A full green Success screen."><figcaption>A moment</figcaption></figure>
+        <figure><img class="ac-shot" src="../assets/img/add-cash/receipt-long.png" width="540" height="1071" loading="lazy" decoding="async" alt="Add Cash successful with the GST breakdown, the GST policy video and a referral offer."><figcaption>The receipt</figcaption></figure>
         <figure><img class="ac-shot" src="../assets/img/add-cash/receipt-full.png" width="540" height="1071" loading="lazy" decoding="async" alt="Full transaction details with date, payment mode, transaction ID and Download invoice."><figcaption>Full details</figcaption></figure>
       </div>
     </div>
