@@ -56,7 +56,7 @@ section[id]{scroll-margin-top:64px}
 .ac-ph-text{color:var(--ac-ph)}
 
 /* ---------- Hero ---------- */
-.ac-hero{padding-top:var(--space-header-h1);padding-bottom:16px}
+.ac-hero{padding-top:var(--space-header-h1);padding-bottom:24px}
 .ac-kicker{font-weight:600;font-size:16px;line-height:24px}
 .ac-h1{margin-top:16px;font-weight:600;font-size:34px;line-height:42px;letter-spacing:-.4px;text-wrap:balance}
 @media (min-width:768px){.ac-h1{font-size:40px;line-height:47px}}
@@ -90,15 +90,11 @@ section[id]{scroll-margin-top:64px}
   .ac-stage .p3{width:33%;margin-top:6%}
 }
 
-/* ---------- Toc (same pattern as the other studies) ---------- */
-.toc{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
-  backdrop-filter:blur(8px);border-bottom:.5px solid var(--card-border);margin-top:48px}
-.toc__row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
-.toc__row::-webkit-scrollbar{display:none}
-.toc a{flex:0 0 auto;padding:6px 14px;border-radius:999px;font-family:var(--font-nav);
-  font-size:13px;line-height:20px;font-weight:500;color:var(--ink-muted);text-decoration:none;white-space:nowrap}
-.toc a:hover{color:var(--ink)}
-.toc a.is-active{background:var(--ink);color:#fff}
+/* ---------- Header line on scroll (this page has no section tabs) ----------
+   The sticky header gets a hairline once the page moves, so the content
+   sliding under it has an edge. Toggled by the script at the bottom. */
+.site-header{transition:box-shadow 160ms ease}
+.site-header.is-scrolled{box-shadow:0 1px 0 var(--card-border)}
 
 /* ---------- Story ---------- */
 .ac-pull{margin-top:24px;border-left:2px solid var(--ac-line);padding:6px 0 6px 22px;
@@ -293,21 +289,6 @@ html:not(.js) .reveal{opacity:1;transform:none}
       </div>
     </div>
   </header>
-
-  <!-- Sticky in-page nav ------------------------------------------------ -->
-  <nav class="toc" aria-label="On this page">
-    <div class="ac-wrap">
-      <div class="toc__row">
-        <a href="#story">Story</a>
-        <a href="#context">Context</a>
-        <a href="#promises">Promises</a>
-        <a href="#page">The page</a>
-        <a href="#journeys">Journeys</a>
-        <a href="#numbers">Numbers</a>
-        <a href="#reflection">Reflection</a>
-      </div>
-    </div>
-  </nav>
 
   <!-- Before the first game -------------------------------------------- -->
   <section class="ac-sec" id="story">
@@ -727,20 +708,13 @@ html:not(.js) .reveal{opacity:1;transform:none}
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Scroll-spy for the sticky nav.
-  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
-  var spy = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      links.forEach(function (a) {
-        a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id);
-      });
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
-  links.forEach(function (a) {
-    var el = document.getElementById(a.getAttribute('href').slice(1));
-    if (el) spy.observe(el);
-  });
+  // Hairline under the sticky header once the page has scrolled.
+  var header = document.querySelector('.site-header');
+  if (header) {
+    var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 0); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 })();
 </script>
 
