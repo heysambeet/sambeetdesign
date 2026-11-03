@@ -203,6 +203,19 @@ figcaption{margin-top:12px;font-size:13px;line-height:20px;color:var(--ink-muted
 .ac-stat b{display:block;font-weight:600;font-size:28px;line-height:36px;letter-spacing:-.28px;font-variant-numeric:tabular-nums}
 .ac-stat span{display:block;margin-top:4px;font-size:13px;line-height:20px;color:var(--ink-muted)}
 
+/* Offer: who gets it, as labelled groups of screens. */
+.ac-cases{display:flex;justify-content:center;gap:40px}
+.ac-case{flex:none}
+.ac-case__who{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;
+  letter-spacing:1.54px;color:var(--ac-accent);text-transform:uppercase}
+.ac-case__rule{margin-top:4px;font-weight:600;font-size:14px;line-height:20px}
+.ac-case__row{margin-top:16px;display:flex;gap:16px}
+.ac-case figure{width:220px}
+@media (max-width:767.98px){
+  .ac-cases{justify-content:flex-start;gap:24px}
+  .ac-case figure{width:150px;flex:none}
+}
+
 /* Three ways to handle a failing method */
 .ac-opts{margin-top:12px;display:grid;gap:12px}
 @media (min-width:768px){.ac-opts{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
@@ -667,6 +680,43 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
 
     <!-- Success -->
+    <div class="ac-wrap ac-chapter">
+      <h3>🎁 An offer, at the right moment</h3>
+      <p>
+        The offer isn’t for everyone. It’s for two moments when a player might walk away. New players
+        get it on each of their first three deposits: add ₹1,000, get 1,200 in the wallet. Returning
+        players get it once a month, after an add cash fails, so a bad moment ends with a reason to try
+        again. Everyone else sees the page as it is. One offer, two jobs: an easier way in, and fewer
+        players lost to a failure.
+      </p>
+    </div>
+    <div class="ac-wide">
+      <div class="ac-strip ac-cases reveal">
+        <div class="ac-case">
+          <p class="ac-case__who">New player</p>
+          <p class="ac-case__rule">First three deposits</p>
+          <div class="ac-case__row">
+            <figure><img class="ac-shot ac-shot--crop" src="../assets/img/add-cash/offer-page.png" width="540" height="1371" loading="lazy" decoding="async" alt="The payment page with a banner at the top: Add ₹1,000 to get 1,200 in your wallet."><figcaption>The offer, right at the top</figcaption></figure>
+          </div>
+        </div>
+        <div class="ac-case">
+          <p class="ac-case__who">Returning player</p>
+          <p class="ac-case__rule">After a failed add cash, once a month</p>
+          <div class="ac-case__row">
+            <figure><img class="ac-shot" src="../assets/img/add-cash/failed.png?v=5" width="540" height="960" loading="lazy" decoding="async" alt="The Add Cash failed sheet with the transaction ID, amount and Retry Add Cash."><figcaption>It didn’t go through</figcaption></figure>
+            <figure><img class="ac-shot ac-shot--crop" src="../assets/img/add-cash/offer-page.png" width="540" height="1371" loading="lazy" decoding="async" alt="Back on the payment page, with the Add ₹1,000 to get 1,200 banner at the top."><figcaption>Back on the page, with the offer</figcaption></figure>
+          </div>
+        </div>
+        <div class="ac-case">
+          <p class="ac-case__who">Everyone else</p>
+          <p class="ac-case__rule">No offer</p>
+          <div class="ac-case__row">
+            <figure><img class="ac-shot" src="../assets/img/add-cash/returning-gpay.png" width="540" height="960" loading="lazy" decoding="async" alt="The payment page for a returning player, Google Pay preferred, with no offer banner."><figcaption>The page, as it is</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="ac-wrap ac-chapter">
       <h3>🎉 When it does</h3>
       <p>
