@@ -110,6 +110,16 @@ section[id]{scroll-margin-top:64px}
 .ac-hold .e{display:block;font-size:20px;line-height:28px}
 .ac-hold h3{margin-top:6px;font-weight:600;font-size:15px;line-height:22px}
 .ac-hold p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
+/* Listening first */
+@media (min-width:768px){.ac-holds--three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ac-quote{margin:0;background:var(--ac-card);border:.5px solid var(--ac-card-bd);border-radius:16px;padding:20px}
+.ac-quote__tag{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;letter-spacing:1.54px;color:var(--ac-accent);text-transform:uppercase}
+.ac-quote p{margin-top:8px;font-size:15px;line-height:24px;color:rgba(0,0,0,.85)}
+.ac-after{margin-top:24px}
+.ac-stats.ac-stats--three{grid-template-columns:1fr}
+.ac-stats.ac-stats--three li:first-child{grid-column:auto}
+@media (min-width:560px){.ac-stats.ac-stats--three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:768px){.ac-stats.ac-stats--three li,.ac-stats.ac-stats--three li:first-child{grid-column:auto}}
 
 /* ---------- Promises ---------- */
 .ac-promises{margin-top:24px;list-style:none;padding:0;display:flex;flex-direction:column;gap:20px}
@@ -392,10 +402,56 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 02 · Promises ------------------------------------------------------ -->
+  <!-- 02 · Listening first --------------------------------------------- -->
+  <section class="ac-sec" id="listening">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">02 · Listening first</p>
+      <h2 class="ac-h2">Before drawing anything, we listened</h2>
+      <p class="ac-body">
+        We didn’t start with screens. We started with the people who hear the complaints first, and
+        then with players themselves.
+      </p>
+
+      <p class="ac-label ac-holds-label">How we listened</p>
+      <div class="ac-holds ac-holds--even ac-holds--three reveal">
+        <div class="ac-hold"><span class="e" aria-hidden="true">🎧</span><h3>Customer care first</h3><p>We sat with our customer care team and wrote down every moment where the experience let players down.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">🗂️</span><h3>Sorted into buckets</h3><p>Lobby, tournaments, clubs, rewards, offers, KYC, add cash, withdrawal. From each, we kept the top pain points.</p></div>
+        <div class="ac-hold"><span class="e" aria-hidden="true">📞</span><h3>Calls with players</h3><p>Then we got on calls with players, to hear the same problems in their own words.</p></div>
+      </div>
+
+      <p class="ac-label ac-holds-label">What players told us</p>
+      <div class="ac-holds ac-holds--even reveal">
+        <figure class="ac-quote"><figcaption class="ac-quote__tag">Finding the way</figcaption><p>“Where can I enter the amount? What payment options are there?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag">Trust</figcaption><p>“I am not sure if my saved method will be safe. I hope RummyCulture doesn’t share my payment information with others.”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag">Saved cards</figcaption><p>“How can I view my saved cards? On what basis is my saved card pre-selected?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag">UPI</figcaption><p>“How can I identify which UPI ID I have used? What happens if I don’t have PhonePe or GPay?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag">Cards</figcaption><p>“Where do I enter the CVV? What if I have an Amex or a Diners Club card, how will I pay?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag">When it breaks</figcaption><p>“How will I know if the payment gateway or bank server is down? What if my only saved method has a high failure rate?”</p></figure>
+      </div>
+      <p class="ac-body ac-after">
+        Underneath, almost every question was one of three: where do I start, is my money safe, and
+        what happens if it fails? The rest of this page is an attempt to answer them.
+      </p>
+
+      <p class="ac-label ac-holds-label">Who we were designing for</p>
+      <ul class="ac-stats ac-stats--three">
+        <li class="ac-stat"><b>48%</b><span>LVPs, low value players, paying ₹0–₹199 a day in commission</span></li>
+        <li class="ac-stat"><b>30%</b><span>MVPs, medium value players, paying ₹200–₹499 a day</span></li>
+        <li class="ac-stat"><b>22%</b><span>HVPs, high value players, paying ₹500 or more a day</span></li>
+      </ul>
+      <p class="ac-body ac-after">
+        Our 22% HVPs drove almost 80% of the commission. But growth sat in the other 78%: a new player
+        becomes an LVP, and over time LVPs grow into MVPs and HVPs. Many of them play on
+        lower-resolution phones, so the page had to hold up on smaller screens too, not just on
+        high-end ones.
+      </p>
+    </div>
+  </section>
+
+  <!-- 03 · Promises ------------------------------------------------------ -->
   <section class="ac-sec" id="promises">
     <div class="ac-wrap">
-      <p class="ac-eyebrow">02 · What we promised</p>
+      <p class="ac-eyebrow">03 · What we promised</p>
       <h2 class="ac-h2">Four promises to the person holding the phone</h2>
       <ol class="ac-promises reveal">
         <li><i>01</i><div><h3>Don’t make them hunt.</h3><p>The method they’re most likely to use sits at the top. Picking it opens the button right there, without a second screen.</p></div></li>
@@ -413,10 +469,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 03 · The page ------------------------------------------------------- -->
+  <!-- 04 · The page ------------------------------------------------------- -->
   <section class="ac-sec" id="page">
     <div class="ac-wrap">
-      <p class="ac-eyebrow">03 · The page</p>
+      <p class="ac-eyebrow">04 · The page</p>
       <h2 class="ac-h2">One list, read top to bottom</h2>
       <p class="ac-body">
         Every flow starts from the same list. We grouped the methods by where the money lives and
@@ -499,10 +555,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 04 · Journeys ------------------------------------------------------ -->
+  <!-- 05 · Journeys ------------------------------------------------------ -->
   <section class="ac-sec" id="journeys" style="padding-bottom:0">
     <div class="ac-wrap">
-      <p class="ac-eyebrow">04 · Every way a payment can go</p>
+      <p class="ac-eyebrow">05 · Every way a payment can go</p>
       <h2 class="ac-h2">Ten journeys, one page</h2>
       <p class="ac-body">
         Here’s each path through the page, from the first permission to the receipt. These are the
@@ -757,10 +813,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 05 · Numbers ------------------------------------------------------- -->
+  <!-- 06 · Numbers ------------------------------------------------------- -->
   <section class="ac-sec" id="numbers">
     <div class="ac-wrap">
-      <p class="ac-eyebrow">05 · What happened next</p>
+      <p class="ac-eyebrow">06 · What happened next</p>
       <h2 class="ac-h2">The numbers</h2>
       <p class="ac-body">
         The numbers that mattered here were the quiet ones: did the money go through, did players make
@@ -777,10 +833,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 06 · Reflection ---------------------------------------------------- -->
+  <!-- 07 · Reflection ---------------------------------------------------- -->
   <section class="ac-sec" id="reflection">
     <div class="ac-wrap">
-      <p class="ac-eyebrow">06 · Reflection</p>
+      <p class="ac-eyebrow">07 · Reflection</p>
       <h2 class="ac-h2">What this project taught me</h2>
       <ul class="ac-lessons">
         <li><h3>The quiet screens carry the most weight.</h3><p>Most of this work is screens a player hopes never to see: an OTP limit, a struggling bank, money stuck in between. Those screens decide whether someone trusts the app with their money again.</p></li>
