@@ -112,9 +112,13 @@ section[id]{scroll-margin-top:64px}
 .ac-hold p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
 /* Listening first */
 @media (min-width:768px){.ac-holds--three{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.ac-quote{margin:0;background:var(--ac-card);border:.5px solid var(--ac-card-bd);border-radius:16px;padding:20px}
-.ac-quote__tag{font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;letter-spacing:1.54px;color:var(--ac-accent);text-transform:uppercase}
-.ac-quote p{margin-top:8px;font-size:15px;line-height:24px;color:rgba(0,0,0,.85)}
+.ac-quote{margin:0;border:1px solid transparent;border-radius:16px;padding:20px;
+  background:linear-gradient(var(--ac-card),var(--ac-card)) padding-box,linear-gradient(135deg,rgba(167,82,102,.45),#e3e3e3) border-box}
+.ac-quote__tag{margin:0;display:flex;align-items:center;gap:10px;text-align:left;text-wrap:wrap;
+  font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;letter-spacing:1.54px;color:var(--ac-accent);text-transform:uppercase}
+.ac-quote__icon{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:8px;background:rgba(167,82,102,.08)}
+.ac-quote__icon svg{width:18px;height:18px;fill:none;stroke:var(--ac-accent);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.ac-quote p{margin-top:14px;font-size:15px;line-height:24px;color:rgba(0,0,0,.85)}
 .ac-after{margin-top:24px}
 .ac-stats.ac-stats--three{grid-template-columns:1fr}
 .ac-stats.ac-stats--three li:first-child{grid-column:auto}
@@ -421,12 +425,12 @@ html:not(.js) .reveal{opacity:1;transform:none}
 
       <p class="ac-label ac-holds-label">What players told us</p>
       <div class="ac-holds ac-holds--even reveal">
-        <figure class="ac-quote"><figcaption class="ac-quote__tag">Finding the way</figcaption><p>“Where can I enter the amount? What payment options are there?”</p></figure>
-        <figure class="ac-quote"><figcaption class="ac-quote__tag">Trust</figcaption><p>“I am not sure if my saved method will be safe. I hope RummyCulture doesn’t share my payment information with others.”</p></figure>
-        <figure class="ac-quote"><figcaption class="ac-quote__tag">Saved cards</figcaption><p>“How can I view my saved cards? On what basis is my saved card pre-selected?”</p></figure>
-        <figure class="ac-quote"><figcaption class="ac-quote__tag">UPI</figcaption><p>“How can I identify which UPI ID I have used? What happens if I don’t have PhonePe or GPay?”</p></figure>
-        <figure class="ac-quote"><figcaption class="ac-quote__tag">Cards</figcaption><p>“Where do I enter the CVV? What if I have an Amex or a Diners Club card, how will I pay?”</p></figure>
-        <figure class="ac-quote"><figcaption class="ac-quote__tag">When it breaks</figcaption><p>“How will I know if the payment gateway or bank server is down? What if my only saved method has a high failure rate?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag"><span class="ac-quote__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></svg></span>Finding the way</figcaption><p>“Where can I enter the amount? What payment options are there?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag"><span class="ac-quote__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>Trust</figcaption><p>“I am not sure if my saved method will be safe. I hope RummyCulture doesn’t share my payment information with others.”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag"><span class="ac-quote__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg></span>Saved cards</figcaption><p>“How can I view my saved cards? On what basis is my saved card pre-selected?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag"><span class="ac-quote__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span>UPI</figcaption><p>“How can I identify which UPI ID I have used? What happens if I don’t have PhonePe or GPay?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag"><span class="ac-quote__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg></span>Cards</figcaption><p>“Where do I enter the CVV? What if I have an Amex or a Diners Club card, how will I pay?”</p></figure>
+        <figure class="ac-quote"><figcaption class="ac-quote__tag"><span class="ac-quote__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>When it breaks</figcaption><p>“How will I know if the payment gateway or bank server is down? What if my only saved method has a high failure rate?”</p></figure>
       </div>
       <p class="ac-body ac-after">
         Underneath, almost every question was one of three: where do I start, is my money safe, and
