@@ -23,20 +23,31 @@
   var uid = 0;
 
   /* ---------- Maths ---------- */
-  function erf(x) {
-    var s = x < 0 ? -1 : 1; x = Math.abs(x);
-    var t = 1 / (1 + 0.3275911 * x);
-    var y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
-    return s * y;
+  // Cumulative normal, double precision (West 2005, after Hart 1968)
+  function N(x) {
+    var ax = Math.abs(x), c;
+    if (ax > 37) c = 0;
+    else {
+      var e = Math.exp(-ax * ax / 2);
+      if (ax < 7.07106781186547) {
+        var n = ((((((0.0352624965998911 * ax + 0.700383064443688) * ax + 6.37396220353165) * ax + 33.912866078383) * ax + 112.079291497871) * ax + 221.213596169931) * ax + 220.206867912376);
+        var d = (((((((0.0883883476483184 * ax + 1.75566716318264) * ax + 16.064177579207) * ax + 86.7807322029461) * ax + 296.564248779674) * ax + 637.333633378831) * ax + 793.826512519948) * ax + 440.413735824752);
+        c = e * n / d;
+      } else {
+        var f = ax + 0.65; f = ax + 1 / (ax + 2 / (ax + 3 / (ax + 4 / f)));
+        c = e / f / 2.506628274631;
+      }
+    }
+    return x > 0 ? 1 - c : c;
   }
-  function N(x) { return 0.5 * (1 + erf(x / Math.SQRT2)); }
   function bs(type, S, K, t) {
     if (t <= 0) return type === 'CE' ? Math.max(S - K, 0) : Math.max(K - S, 0);
     var v = IV * Math.sqrt(t);
     var d1 = (Math.log(S / K) + 0.5 * IV * IV * t) / v, d2 = d1 - v;
     return type === 'CE' ? S * N(d1) - K * N(d2) : K * N(-d2) - S * N(-d1);
   }
-  function priced(l) { return { type: l.type, side: l.side, K: l.K, prem: Math.round(bs(l.type, SPOT, l.K, T) * 100) / 100 }; }
+  // Premiums sit on NSE's ₹0.05 tick, so the chips add up exactly to the premium shown
+  function priced(l) { return { type: l.type, side: l.side, K: l.K, prem: Math.round(bs(l.type, SPOT, l.K, T) * 20) / 20 }; }
   function qty(l) { return l.side * LOT; }
 
   function payoffAt(ls, S) {
@@ -54,22 +65,31 @@
       credit -= qty(l) * l.prem;
       if (l.type === 'CE') right += qty(l); else left -= qty(l);
     });
-    var vals = ls.map(function (l) { return payoffAt(ls, l.K); });
+    var ks = ls.map(function (l) { return l.K; }).sort(function (a, b) { return a - b; });
+    var vals = ks.map(function (k) { return payoffAt(ls, k); });
     var maxp = Math.max.apply(null, vals), maxl = Math.min.apply(null, vals);
     var unlP = right > 0 || left < 0, unlL = right < 0 || left > 0;
-    // POP and breakevens from a fine scan of the expiry payoff
-    var sd = IV * Math.sqrt(T), pop = 0, be = [], prev = payoffAt(ls, 15000), prevS = 15000;
-    function z(S) { return (Math.log(S / SPOT) + 0.5 * sd * sd) / sd; }
-    for (var S = 15000; S <= 33000; S += 5) {
-      var v = payoffAt(ls, S + 2.5);
-      if (v > 0) pop += N(z(S + 5)) - N(z(S));
-      var cur = payoffAt(ls, S + 5);
-      if ((prev <= 0 && cur > 0) || (prev > 0 && cur <= 0)) {
-        var x = prevS + (S + 5 - prevS) * (0 - prev) / (cur - prev);
-        be.push(Math.round(x));
+    // Exact breakevens: the payoff is linear between strikes, so solve each segment.
+    // POP is the exact lognormal probability of ending where the payoff is above zero.
+    var knots = ks.filter(function (k, i) { return i === 0 || k !== ks[i - 1]; });
+    var pts = [[0, payoffAt(ls, 0)]].concat(knots.map(function (k) { return [k, payoffAt(ls, k)]; }));
+    var far = knots[knots.length - 1] + 100000; pts.push([far, payoffAt(ls, far)]);
+    var be = [], sd = IV * Math.sqrt(T), pop = 0;
+    function z(S) { return S <= 0 ? -Infinity : (Math.log(S / SPOT) + 0.5 * sd * sd) / sd; }
+    function cdf(S) { var v = z(S); return v === -Infinity ? 0 : N(v); }
+    for (var i = 0; i < pts.length - 1; i++) {
+      var x0 = pts[i][0], y0 = pts[i][1], x1 = pts[i + 1][0], y1 = pts[i + 1][1], last = i === pts.length - 2;
+      // where on this segment is the payoff above zero?
+      var lo = null, hi = null;
+      if (y0 > 0 && y1 > 0) { lo = x0; hi = x1; }
+      else if (y0 > 0 || y1 > 0) {
+        var r = x0 + (x1 - x0) * (0 - y0) / (y1 - y0);
+        be.push(r);
+        if (y0 > 0) { lo = x0; hi = r; } else { lo = r; hi = x1; }
       }
-      prev = cur; prevS = S + 5;
+      if (lo !== null) pop += (last && hi === x1 ? 1 : cdf(hi)) - cdf(lo);
     }
+    be = be.filter(function (x) { return x > 0; }).map(function (x) { return Math.round(x); });
     return { credit: credit, maxp: maxp, maxl: maxl, unlP: unlP, unlL: unlL, pop: Math.round(pop * 100), popRaw: pop * 100, be: be };
   }
 
@@ -247,7 +267,7 @@
       sorted().forEach(function (o) {
         var li = document.createElement('li');
         li.className = 'sk-leg ' + (o.l.side > 0 ? 'is-buy' : 'is-sell');
-        li.innerHTML = '<b>' + (o.l.side > 0 ? 'B' : 'S') + '</b><span>' + o.l.K + ' ' + o.l.type + '</span><em>₹' + o.l.prem.toFixed(1) + '</em>';
+        li.innerHTML = '<b>' + (o.l.side > 0 ? 'B' : 'S') + '</b><span>' + o.l.K + ' ' + o.l.type + '</span><em>₹' + o.l.prem.toFixed(2) + '</em>';
         if (!opts.auto) {
           var x = document.createElement('button'); x.type = 'button'; x.className = 'sk-leg__del';
           x.setAttribute('aria-label', 'Delete ' + o.l.K + ' ' + o.l.type); x.textContent = '×';
