@@ -478,8 +478,10 @@
   color: var(--cm-ink);
   padding: 16px;
   background: var(--cm-card);
-  border: 1px solid var(--cm-line);
-  border-radius: 12px;
+  border-radius: var(--sb-r-frame);
+  /* Same dashed hairline as every screenshot frame on the page (.sb-shot) */
+  outline: 1px dashed var(--card-border);
+  outline-offset: -1px;
 }
 .sb-section > .wrap > .sk { margin-top: 32px; }
 .sk__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
