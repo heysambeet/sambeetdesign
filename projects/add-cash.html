@@ -110,6 +110,31 @@ section[id]{scroll-margin-top:64px}
 .ac-hold .e{display:block;font-size:20px;line-height:28px}
 .ac-hold h3{margin-top:6px;font-weight:600;font-size:15px;line-height:22px}
 .ac-hold p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
+/* Flow prototype */
+.ac-proto{margin-top:32px;display:grid;gap:28px;justify-items:center}
+@media (min-width:768px){.ac-proto{grid-template-columns:260px minmax(0,1fr);gap:56px;align-items:center;justify-items:stretch}}
+.ac-proto__phone{position:relative;width:240px;aspect-ratio:540/960;border-radius:22px;overflow:hidden;background:#0e1317;
+  border:.5px solid rgba(0,0,0,.12);box-shadow:0 24px 48px -24px rgba(0,0,0,.45)}
+@media (min-width:768px){.ac-proto__phone{width:260px}}
+.ac-proto__screen{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 280ms ease}
+.ac-proto__screen.is-on{opacity:1}
+.ac-proto__tap{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;pointer-events:none;opacity:0;
+  background:rgba(255,255,255,.28);border:1.5px solid rgba(255,255,255,.9);box-shadow:0 0 0 6px rgba(255,255,255,.12)}
+.ac-proto__tap.is-tap{animation:ac-tap 640ms ease-out}
+@keyframes ac-tap{0%{opacity:0;transform:scale(1.5)}30%{opacity:1;transform:scale(1)}55%{opacity:1;transform:scale(.82)}100%{opacity:0;transform:scale(1.1)}}
+.ac-proto__side{width:100%}
+.ac-proto__steps{display:grid;gap:4px;list-style:none;margin:0;padding:0}
+.ac-proto__steps button{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:none;border:0;cursor:pointer;
+  border-left:2px solid var(--ac-line);padding:10px 0 10px 18px;transition:border-color 200ms ease}
+.ac-proto__steps b{display:block;font-weight:600;font-size:15px;line-height:22px;color:var(--ac-dim);transition:color 200ms ease}
+.ac-proto__steps span{display:block;margin-top:2px;font-size:14px;line-height:22px;color:var(--ac-dim);transition:color 200ms ease}
+.ac-proto__steps .is-on button{border-left-color:var(--ac-accent)}
+.ac-proto__steps .is-on b{color:var(--ink)}
+.ac-proto__steps .is-on span{color:var(--ink-muted)}
+.ac-proto__toggle{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:none;border:0;padding:6px 0;cursor:pointer;
+  font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;letter-spacing:1.54px;text-transform:uppercase;color:var(--ac-dim)}
+.ac-proto__toggle:hover{color:var(--ink)}
+.ac-proto__toggle svg{width:12px;height:12px;fill:currentColor}
 /* Listening first */
 @media (min-width:768px){.ac-holds--three{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .ac-quote{margin:0;border:1px solid transparent;border-radius:16px;padding:20px;
@@ -352,6 +377,39 @@ html:not(.js) .reveal{opacity:1;transform:none}
       </p>
       <blockquote class="ac-pull reveal">“What if the money leaves my account and never shows up?”</blockquote>
       <p class="ac-body">Every player who reaches this page carries that question. Everything below is an answer to it.</p>
+    </div>
+  </section>
+
+  <!-- Flow prototype --------------------------------------------------- -->
+  <section class="ac-sec" id="flow">
+    <div class="ac-wrap">
+      <p class="ac-eyebrow">See it in motion</p>
+      <h2 class="ac-h2">₹1,000 with Google Pay, start to finish</h2>
+      <p class="ac-body">
+        A first-time player on the simplest path through the page. Four taps, from typing an amount
+        to money in the account.
+      </p>
+      <div class="ac-proto" data-proto>
+        <div class="ac-proto__phone" role="img" aria-label="A player types ₹1,000, taps Continue, picks Google Pay, taps Add ₹1,000, waits on a loader in the button, and sees Success.">
+          <img class="ac-proto__screen is-on" src="../assets/img/add-cash/add-cash-portrait.png?v=2" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/add-cash-entered.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/list.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/upi-paying.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/success.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <span class="ac-proto__tap" aria-hidden="true"></span>
+        </div>
+        <div class="ac-proto__side">
+          <ol class="ac-proto__steps">
+            <li class="is-on"><button type="button" data-step="0"><b>Enter an amount</b><span>₹1,000 goes in, with the minimum shown right in the field.</span></button></li>
+            <li><button type="button" data-step="1"><b>Pick a way to pay</b><span>UPI apps sit at the top of the page.</span></button></li>
+            <li><button type="button" data-step="2"><b>Pay from right there</b><span>The button opens under Google Pay and says the amount: Add ₹1,000.</span></button></li>
+            <li><button type="button" data-step="3"><b>Wait inside the button</b><span>The loader stays in the button while the payment goes through.</span></button></li>
+            <li><button type="button" data-step="4"><b>Done</b><span>The money is in. Back to the table.</span></button></li>
+          </ol>
+          <button class="ac-proto__toggle" type="button" aria-pressed="false"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx="1"/><rect x="7.4" y="1.5" width="2.6" height="9" rx="1"/></svg><span>Pause</span></button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -880,6 +938,65 @@ html:not(.js) .reveal{opacity:1;transform:none}
     document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
   } else {
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Flow prototype: plays the main UPI path on loop while it is on screen.
+  var proto = document.querySelector('[data-proto]');
+  if (proto) {
+    var screens = proto.querySelectorAll('.ac-proto__screen');
+    var tap = proto.querySelector('.ac-proto__tap');
+    var items = proto.querySelectorAll('.ac-proto__steps li');
+    var toggle = proto.querySelector('.ac-proto__toggle');
+    // screen, step, how long it stays, and where/when the tap lands (% of the screen)
+    var frames = [
+      { s: 0, step: 0, d: 1300, tap: [50, 16.5, 650] },
+      { s: 1, step: 0, d: 1500, tap: [50, 94, 900] },
+      { s: 2, step: 1, d: 1500, tap: [50, 21, 900] },
+      { s: 3, step: 2, d: 1500, tap: [56, 28.5, 900] },
+      { s: 4, step: 3, d: 1800 },
+      { s: 5, step: 4, d: 2200 }
+    ];
+    var i = 0, playing = false, visible = false, wanted = !reduced, timers = [];
+    var clear = function () { timers.forEach(clearTimeout); timers = []; };
+    var show = function (n) {
+      var f = frames[n];
+      screens.forEach(function (el, k) { el.classList.toggle('is-on', k === f.s); });
+      items.forEach(function (el, k) { el.classList.toggle('is-on', k === f.step); });
+    };
+    var run = function () {
+      clear(); show(i);
+      var f = frames[i];
+      if (f.tap) {
+        timers.push(setTimeout(function () {
+          tap.style.left = f.tap[0] + '%'; tap.style.top = f.tap[1] + '%';
+          tap.classList.remove('is-tap'); void tap.offsetWidth; tap.classList.add('is-tap');
+        }, f.tap[2]));
+      }
+      timers.push(setTimeout(function () { i = (i + 1) % frames.length; run(); }, f.d));
+    };
+    var sync = function () {
+      var go = wanted && visible;
+      if (go && !playing) { playing = true; run(); }
+      if (!go && playing) { playing = false; clear(); }
+      toggle.setAttribute('aria-pressed', String(!wanted));
+      toggle.querySelector('span').textContent = wanted ? 'Pause' : 'Play';
+      toggle.querySelector('svg').innerHTML = wanted
+        ? '<rect x="2" y="1.5" width="2.6" height="9" rx="1"/><rect x="7.4" y="1.5" width="2.6" height="9" rx="1"/>'
+        : '<path d="M3 1.8v8.4a.6.6 0 0 0 .9.5l6.6-4.2a.6.6 0 0 0 0-1L3.9 1.3a.6.6 0 0 0-.9.5z"/>';
+    };
+    toggle.addEventListener('click', function () { wanted = !wanted; sync(); });
+    proto.querySelectorAll('.ac-proto__steps button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var step = Number(b.dataset.step);
+        for (var k = 0; k < frames.length; k++) { if (frames[k].step === step) { i = k; break; } }
+        show(i);
+        if (playing) run();
+      });
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { visible = es[0].isIntersecting; sync(); }, { threshold: 0.4 }).observe(proto);
+    } else { visible = true; }
+    sync();
   }
 
   // Hairline under the sticky header once the page has scrolled.
