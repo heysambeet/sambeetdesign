@@ -559,3 +559,18 @@
   .sk-leg em { display: none; }
   .sk-leg { font-size: 12px; gap: 5px; }
 }
+
+/* ---------- Execute + edges: two-up screens and captions ------- */
+.sb-section > .wrap > .sb-shots-2 { margin-top: 32px; }
+.sb-shots-2 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 768px) { .sb-shots-2 { grid-template-columns: 1fr 1fr; } }
+.sb-shot--contain img { object-fit: contain; }
+.sb-cap {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+  text-align: center;
+}
+.sb-section > .wrap > .sb-fig { margin-top: 32px; }
+.sb-fig { margin: 0; }

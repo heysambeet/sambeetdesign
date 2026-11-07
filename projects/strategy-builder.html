@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
-<link rel="stylesheet" href="../assets/strategy-builder.css?v=10">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=12">
 </head>
 <body class="sb case-study">
 
@@ -521,6 +521,109 @@
           <img src="../assets/img/strategy-builder/screen-14.png" alt="The before-and-after comparison: solid grey ghost against the dotted adjusted curve." width="4096" height="2913" loading="lazy" decoding="async">
         </div>
       </figure>
+    </div>
+  </section>
+
+  <!-- From strategy to position ---------------------------------------- -->
+  <section class="sb-section sb-section--ruled">
+    <div class="wrap">
+      <p class="sb-eyebrow">FROM STRATEGY TO POSITION</p>
+      <h2 class="sb-h2">Execute is a gate, not a button</h2>
+      <p class="sb-lede">Tapping Execute doesn’t place anything. It opens a review first, and orders go out only when the trader confirms.</p>
+      <p class="sb-p">The same window then follows every order through. Closing it drops the strategy back into the builder as a live position, ready for Adjust.</p>
+
+      <ul class="sb-cards sb-cards--3">
+        <li class="sb-card">
+          <span class="sb-tag">01 · REVIEW</span>
+          <h3 class="sb-card__title">Every leg in one place</h3>
+          <p class="sb-card__body">Lots, exit price, intraday or overnight, charges and margin. Then Cancel, or Execute all.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">02 · TRACK</span>
+          <h3 class="sb-card__title">Each order, followed through</h3>
+          <p class="sb-card__body">The same window lists every order with its status, with Modify or Cancel for anything still open.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">03 · POSITION</span>
+          <h3 class="sb-card__title">Back in the builder</h3>
+          <p class="sb-card__body">The strategy lands as a position, with booked and unbooked P&amp;L, ready to adjust.</p>
+        </li>
+      </ul>
+
+      <div class="sb-shots-2">
+        <figure class="sb-fig"><div class="sb-shot sb-shot--contain">
+          <div class="sb-shot__inner" style="--sb-ar: 5 / 4">
+            <img src="../assets/img/strategy-builder/execute-review.png" alt="Execute trade orders: four NIFTY legs with lots and exit prices, intraday or overnight, required and available margin, and Cancel or Execute all." width="1120" height="864" loading="lazy" decoding="async">
+          </div>
+          </div>
+          <figcaption class="sb-cap">Review before anything is placed</figcaption>
+        </figure>
+        <figure class="sb-fig"><div class="sb-shot sb-shot--contain">
+          <div class="sb-shot__inner" style="--sb-ar: 5 / 4">
+            <img src="../assets/img/strategy-builder/execute-track.png" alt="Strategy order status: each leg with its status, completed or partly completed, and Modify or Cancel on open orders." width="1060" height="880" loading="lazy" decoding="async">
+          </div>
+          </div>
+          <figcaption class="sb-cap">Then every order, tracked</figcaption>
+        </figure>
+      </div>
+
+      <figure class="sb-fig"><div class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 2160 / 1536">
+          <img src="../assets/img/strategy-builder/execute-position.png" alt="The executed strategy loaded as a position, with total booked, unbooked and P&amp;L, and the payoff chart." width="2160" height="1536" loading="lazy" decoding="async">
+        </div>
+          </div>
+        <figcaption class="sb-cap">Landed as a position, ready for Adjust</figcaption>
+        </figure>
+    </div>
+  </section>
+
+  <!-- The edges --------------------------------------------------------- -->
+  <section class="sb-section">
+    <div class="wrap">
+      <p class="sb-eyebrow">THE EDGES</p>
+      <h2 class="sb-h2">Clear the moment something won’t work</h2>
+      <p class="sb-lede">A builder that moves money can’t fail quietly. Each of these was designed before launch, and each one says plainly what happened and what to do next.</p>
+
+      <ul class="sb-cards sb-cards--2">
+        <li class="sb-card">
+          <span class="sb-tag">01</span>
+          <h3 class="sb-card__title">Price outside the circuit</h3>
+          <p class="sb-card__body">“Limit price outside circuit limit (397.05 – 485.25).” The trade list shows the allowed range, and Review stays off until the price is fixed.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">02</span>
+          <h3 class="sb-card__title">Strikes missing in a new expiry</h3>
+          <p class="sb-card__body">“Some strikes unavailable in the new expiry. Remap to the nearest.” Switching expiry never drops a leg silently.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">03</span>
+          <h3 class="sb-card__title">The same leg twice</h3>
+          <p class="sb-card__body">“Duplicate leg. Please change the strike.” A repeated strike is caught the moment it’s added.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">04</span>
+          <h3 class="sb-card__title">Clearing on purpose</h3>
+          <p class="sb-card__body">“Clear all legs?” asks first, and an expired basket is cleared with a note that says so.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">05</span>
+          <h3 class="sb-card__title">Unlimited means unlimited</h3>
+          <p class="sb-card__body">A naked leg left after its hedge is exited reads “Unlimited”, never a made-up finite number.</p>
+        </li>
+        <li class="sb-card">
+          <span class="sb-tag">06</span>
+          <h3 class="sb-card__title">P&amp;L that adds up</h3>
+          <p class="sb-card__body">Exits, reductions and rolls book correctly, so total P&amp;L is the same before and after an adjustment.</p>
+        </li>
+      </ul>
+
+      <figure class="sb-fig"><div class="sb-shot">
+        <div class="sb-shot__inner" style="--sb-ar: 2160 / 1536">
+          <img src="../assets/img/strategy-builder/edge-limit.png" alt="The builder with a red note under the trade list: limit price outside circuit limit, 397.05 to 485.25, and Review strategy turned off." width="2160" height="1536" loading="lazy" decoding="async">
+        </div>
+          </div>
+        <figcaption class="sb-cap">A limit price outside the circuit, flagged in the trade list</figcaption>
+        </figure>
     </div>
   </section>
 
