@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
-<link rel="stylesheet" href="../assets/strategy-builder.css?v=16">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=17">
 </head>
 <body class="sb case-study">
 
@@ -345,6 +345,57 @@
           <img src="../assets/img/strategy-builder/screen-06.png?v=2" alt="Genie's solved result dropped into the build panel as real, editable legs." width="3480" height="2598" loading="lazy" decoding="async">
         </div>
       </figure>
+
+      <h2 class="sb-h3 sb-h3--gap">Watch it: a wish becomes a strategy</h2>
+      <p class="sb-p">A rough prototype of Genie. Three optional wishes, one click, and real strikes, including what happens when the wishes can’t all be met.</p>
+      <div class="sk gn" data-genie>
+        <div class="sk__head">
+          <p class="sk__title">Genie, from a wish to real strikes</p>
+          <p class="sk-auto__cap" aria-live="polite"></p>
+        </div>
+        <div class="gn-panel">
+          <div class="gn-panel__head">
+            <div>
+              <p class="gn-title">Create a custom strategy with <span>Genie</span></p>
+              <p class="gn-sub">Apply one or multiple filters to generate strategy</p>
+            </div>
+            <button type="button" class="gn-generate" tabindex="-1"><i aria-hidden="true"></i><span>Generate</span></button>
+          </div>
+          <div class="gn-wishes">
+            <div class="gn-wish" data-wish="strategy">
+              <div class="gn-wish__top"><div><b>Select strategy <em>Optional</em></b><p>20 ready made strategies</p></div><span class="gn-switch" aria-hidden="true"><i></i></span></div>
+              <div class="gn-select"><span>Select your strategy</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5"/></svg></div>
+              <div class="gn-drop" hidden>
+                <p>Neutral</p>
+                <button type="button" tabindex="-1" data-v="Iron condor">Iron condor</button>
+                <button type="button" tabindex="-1" data-v="Short strangle">Short strangle</button>
+                <button type="button" tabindex="-1" data-v="Short straddle">Short straddle</button>
+              </div>
+            </div>
+            <div class="gn-wish" data-wish="pop">
+              <div class="gn-wish__top"><div><b>POP <em>Optional</em></b><p>Chances the strategy expires in profit</p></div><span class="gn-switch" aria-hidden="true"><i></i></span></div>
+              <div class="gn-row"><span class="gn-field"><b></b><span class="ph">POP %</span></span><span class="gn-chip" data-v="60">60</span><span class="gn-chip" data-v="80">80</span><span class="gn-chip" data-v="90">90</span></div>
+            </div>
+            <div class="gn-wish" data-wish="profit">
+              <div class="gn-wish__top"><div><b>Max profit <em>Optional</em></b><p>Desired profit as % of margin needed</p></div><span class="gn-switch" aria-hidden="true"><i></i></span></div>
+              <div class="gn-row"><span class="gn-field"><b></b><span class="ph">Profit %</span></span><span class="gn-chip" data-v="2">2%</span><span class="gn-chip" data-v="3">3%</span><span class="gn-chip" data-v="4">4%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="gn-verdict" aria-live="polite" hidden></div>
+        <ul class="sk-legs" aria-label="Legs Genie generated"></ul>
+        <div class="sk-chart">
+          <svg class="sk-svg" aria-label="Payoff chart of the strategy Genie generated."></svg>
+        </div>
+        <dl class="sk-metrics">
+          <div><dt>Premium</dt><dd data-sk="credit">--</dd></div>
+          <div><dt>Max profit</dt><dd data-sk="maxp">--</dd></div>
+          <div><dt>Max loss</dt><dd data-sk="maxl">--</dd></div>
+          <div><dt>POP</dt><dd data-sk="pop">--</dd></div>
+          <div><dt>Breakevens</dt><dd data-sk="be">--</dd></div>
+        </dl>
+        <p class="sk__note">Rough prototype on the same toy model, with margin taken as ₹1,00,000. Wishes count as met within the PRD’s tolerances: POP ±3, profit ±15%.</p>
+      </div>
 
       <p class="sb-pull">A solver you can’t audit is a black box. A solver that admits its trade-offs is a colleague.</p>
 
@@ -693,6 +744,7 @@
   })();
 </script>
 
-<script src="../assets/sketch-demo.js?v=6" defer></script>
+<script src="../assets/sketch-demo.js?v=7" defer></script>
+<script src="../assets/genie-demo.js?v=1" defer></script>
 </body>
 </html>

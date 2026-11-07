@@ -39,6 +39,40 @@
   function priced(l) { return { type: l.type, side: l.side, K: l.K, prem: Math.round(bs(l.type, SPOT, l.K, T) * 100) / 100 }; }
   function qty(l) { return l.side * LOT; }
 
+  function payoffAt(ls, S) {
+    var p = 0;
+    for (var i = 0; i < ls.length; i++) {
+      var l = ls[i], intr = l.type === 'CE' ? Math.max(S - l.K, 0) : Math.max(l.K - S, 0);
+      p += qty(l) * (intr - l.prem);
+    }
+    return p;
+  }
+  function metricsOf(ls) {
+    if (!ls.length) return null;
+    var credit = 0, right = 0, left = 0;
+    ls.forEach(function (l) {
+      credit -= qty(l) * l.prem;
+      if (l.type === 'CE') right += qty(l); else left -= qty(l);
+    });
+    var vals = ls.map(function (l) { return payoffAt(ls, l.K); });
+    var maxp = Math.max.apply(null, vals), maxl = Math.min.apply(null, vals);
+    var unlP = right > 0 || left < 0, unlL = right < 0 || left > 0;
+    // POP and breakevens from a fine scan of the expiry payoff
+    var sd = IV * Math.sqrt(T), pop = 0, be = [], prev = payoffAt(ls, 15000), prevS = 15000;
+    function z(S) { return (Math.log(S / SPOT) + 0.5 * sd * sd) / sd; }
+    for (var S = 15000; S <= 33000; S += 5) {
+      var v = payoffAt(ls, S + 2.5);
+      if (v > 0) pop += N(z(S + 5)) - N(z(S));
+      var cur = payoffAt(ls, S + 5);
+      if ((prev <= 0 && cur > 0) || (prev > 0 && cur <= 0)) {
+        var x = prevS + (S + 5 - prevS) * (0 - prev) / (cur - prev);
+        be.push(Math.round(x));
+      }
+      prev = cur; prevS = S + 5;
+    }
+    return { credit: credit, maxp: maxp, maxl: maxl, unlP: unlP, unlL: unlL, pop: Math.round(pop * 100), popRaw: pop * 100, be: be };
+  }
+
   /* ---------- Formatting ---------- */
   function inr(n) { return Math.round(Math.abs(n)).toLocaleString('en-IN'); }
   function signed(n) { return (n >= 0 ? '+' : '−') + '₹' + inr(n); }
@@ -103,32 +137,7 @@
       return XMIN + (clientX - r.left - PL) / (W - PL - PR) * (XMAX - XMIN);
     }
 
-    /* ---------- Metrics ---------- */
-    function metrics() {
-      if (!legs.length) return null;
-      var credit = 0, right = 0, left = 0;
-      legs.forEach(function (l) {
-        credit -= qty(l) * l.prem;
-        if (l.type === 'CE') right += qty(l); else left -= qty(l);
-      });
-      var ks = legs.map(function (l) { return l.K; }).sort(function (a, b) { return a - b; });
-      var vals = ks.map(expiryAt);
-      var maxp = Math.max.apply(null, vals), maxl = Math.min.apply(null, vals);
-      var unlP = right > 0 || left < 0, unlL = right < 0 || left > 0;
-      var sd = IV * Math.sqrt(T), pop = 0, be = [], prev = expiryAt(15000), prevS = 15000;
-      function z(S) { return (Math.log(S / SPOT) + 0.5 * sd * sd) / sd; }
-      for (var S = 15000; S <= 33000; S += 5) {
-        var v = expiryAt(S + 2.5);
-        if (v > 0) pop += N(z(S + 5)) - N(z(S));
-        var cur = expiryAt(S + 5);
-        if ((prev <= 0 && cur > 0) || (prev > 0 && cur <= 0)) {
-          var x = prevS + (S + 5 - prevS) * (0 - prev) / (cur - prev);
-          be.push(Math.round(x));
-        }
-        prev = cur; prevS = S + 5;
-      }
-      return { credit: credit, maxp: maxp, maxl: maxl, unlP: unlP, unlL: unlL, pop: Math.round(pop * 100), be: be };
-    }
+    function metrics() { return metricsOf(legs); }
 
     /* ---------- Render ---------- */
     var hover = null, drag = null;
@@ -267,7 +276,7 @@
       if (undoBtn) undoBtn.disabled = !history.length;
     }
 
-    function closeMenu() { menu.hidden = true; }
+    function closeMenu() { if (menu) menu.hidden = true; }
     function openMenu(K) {
       if (legs.length >= MAX_LEGS) return;
       menu.querySelector('.sk-menu__strike').textContent = K.toLocaleString('en-IN');
@@ -382,6 +391,8 @@
       setActiveSide: function (p) { opts.activeSide = p; }
     };
   }
+
+  window.SketchKit = { Sketch: Sketch, priced: priced, metricsOf: metricsOf, BASE: BASE, STEP: STEP, LOT: LOT };
 
   /* ---------- Interactive instance ---------- */
   var live = document.querySelector('[data-sketch]');
