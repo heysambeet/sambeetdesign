@@ -118,6 +118,27 @@ section[id]{scroll-margin-top:64px}
 @media (min-width:768px){.ac-proto__phone{width:260px}}
 .ac-proto__screen{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 280ms ease}
 .ac-proto__screen.is-on{opacity:1}
+.ac-proto__screen img{display:block;width:100%;height:100%}
+.ac-proto__spin{position:absolute;left:56.574%;top:28.698%;width:7.222%;margin:-3.611% 0 0 -3.611%;overflow:visible;
+  fill:none;stroke:#141414;stroke-width:5.5;stroke-linecap:round;stroke-dasharray:79.7 17.7;animation:ac-spin 850ms linear infinite}
+@keyframes ac-spin{to{transform:rotate(360deg)}}
+.ac-proto__done{position:absolute;left:49.907%;top:46.5625%;width:40.741%;margin:-20.37% 0 0 -20.37%;overflow:visible}
+.ac-proto__done circle,.ac-proto__done path{transform-box:fill-box;transform-origin:center}
+.ac-proto__done .r2{fill:#2a682e}
+.ac-proto__done .r1{fill:#38713b}
+.ac-proto__done .r3{fill:none;stroke:rgba(255,255,255,.35);stroke-width:2;opacity:0}
+.ac-proto__done .disc{fill:#e0e0e0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.28))}
+.ac-proto__done .tick{fill:none;stroke:#068a4a;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:49;stroke-dashoffset:0}
+.is-on>.ac-proto__done .disc{animation:ac-pop 420ms cubic-bezier(.34,1.56,.64,1) both}
+.is-on>.ac-proto__done .r1{animation:ac-grow 560ms cubic-bezier(.2,.8,.2,1) 120ms both}
+.is-on>.ac-proto__done .r2{animation:ac-grow 640ms cubic-bezier(.2,.8,.2,1) 220ms both}
+.is-on>.ac-proto__done .tick{animation:ac-draw 360ms ease-out 300ms both}
+.is-on>.ac-proto__done .r3{animation:ac-ripple 1100ms ease-out 520ms both}
+@keyframes ac-pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes ac-grow{from{transform:scale(.35);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ac-draw{from{stroke-dashoffset:49}to{stroke-dashoffset:0}}
+@keyframes ac-ripple{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ac-proto__spin,.is-on>.ac-proto__done *{animation:none}}
 .ac-proto__tap{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;pointer-events:none;opacity:0;
   background:rgba(255,255,255,.28);border:1.5px solid rgba(255,255,255,.9);box-shadow:0 0 0 6px rgba(255,255,255,.12)}
 .ac-proto__tap.is-tap{animation:ac-tap 640ms ease-out}
@@ -395,8 +416,8 @@ html:not(.js) .reveal{opacity:1;transform:none}
           <img class="ac-proto__screen" src="../assets/img/add-cash/add-cash-entered.png" width="540" height="960" alt="" loading="lazy" decoding="async">
           <img class="ac-proto__screen" src="../assets/img/add-cash/list.png" width="540" height="960" alt="" loading="lazy" decoding="async">
           <img class="ac-proto__screen" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/upi-paying.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/success.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-paying.png" width="540" height="960" alt="" loading="lazy" decoding="async"><svg class="ac-proto__spin" viewBox="0 0 39 39" aria-hidden="true"><circle cx="19.5" cy="19.5" r="15.5"/></svg></div>
+          <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-success.png" width="540" height="960" alt="" loading="lazy" decoding="async"><svg class="ac-proto__done" viewBox="0 0 220 220" aria-hidden="true"><circle class="r3" cx="110" cy="110" r="36"/><circle class="r2" cx="110" cy="110" r="94"/><circle class="r1" cx="110" cy="110" r="65.5"/><circle class="disc" cx="110" cy="110" r="35.5"/><path class="tick" d="M94 111 107.5 123 128.5 101"/></svg></div>
           <span class="ac-proto__tap" aria-hidden="true"></span>
         </div>
         <div class="ac-proto__side">
@@ -953,8 +974,8 @@ html:not(.js) .reveal{opacity:1;transform:none}
       { s: 1, step: 0, d: 1500, tap: [50, 94, 900] },
       { s: 2, step: 1, d: 1500, tap: [50, 21, 900] },
       { s: 3, step: 2, d: 1500, tap: [56, 28.5, 900] },
-      { s: 4, step: 3, d: 1800 },
-      { s: 5, step: 4, d: 2200 }
+      { s: 4, step: 3, d: 2200 },
+      { s: 5, step: 4, d: 2800 }
     ];
     var i = 0, playing = false, visible = false, wanted = !reduced, timers = [];
     var clear = function () { timers.forEach(clearTimeout); timers = []; };
