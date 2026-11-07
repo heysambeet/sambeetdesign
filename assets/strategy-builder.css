@@ -592,3 +592,34 @@
 }
 .sb-section > .wrap > .sb-fig { margin-top: 32px; }
 .sb-fig { margin: 0; }
+
+/* ---------- Sketch, self-playing prototype ---------------------- */
+.sb-section > .wrap > .sb-h3--gap { margin-top: 40px; }
+.sk--auto .sk__head { align-items: baseline; flex-wrap: wrap; }
+.sk-auto__cap {
+  font-size: 12px; line-height: 18px; color: var(--cm-ink-2); min-height: 18px;
+  text-align: right; flex: 1 1 220px;
+}
+.sk--auto .sk-svg, .sk--auto .sk-menu { pointer-events: none; }
+.sk--auto .sk-leg { padding-right: 8px; }
+.sk--auto .sk-leg.is-new { animation: sk-land 320ms ease-out; }
+@keyframes sk-land { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.sk-oi { opacity: .55; }
+.sk-oi--call { fill: #edb7b4; }
+.sk-oi--put { fill: #afe0cc; }
+.sk-side.is-active { stroke: rgba(115,106,101,.16); }
+.sk-menu__row button.is-buy.is-hot { background: var(--cm-buy); color: var(--cm-on); border-color: var(--cm-buy); }
+.sk-menu__row button.is-sell.is-hot { background: var(--cm-red); color: var(--cm-on); border-color: var(--cm-red); }
+
+.sk-cursor {
+  position: absolute; left: 0; top: 0; z-index: 3; width: 20px; height: 20px; margin: -3px 0 0 -4px;
+  pointer-events: none; opacity: 0; transition-property: transform, opacity; transition-timing-function: cubic-bezier(.4,.1,.2,1);
+}
+.sk-cursor.is-on { opacity: 1; }
+.sk-cursor svg { width: 20px; height: 20px; fill: var(--cm-ink); stroke: #fff; stroke-width: 1.4; stroke-linejoin: round; filter: drop-shadow(0 1px 1px rgba(0,0,0,.25)); }
+.sk-cursor i {
+  position: absolute; left: 4px; top: 3px; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%;
+  background: rgba(61,52,49,.18); transform: scale(0); transition: transform 160ms ease-out;
+}
+.sk-cursor.is-press i { transform: scale(1); }
+@media (max-width: 479.98px) { .sk-auto__cap { text-align: left; } }

@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
-<link rel="stylesheet" href="../assets/strategy-builder.css?v=14">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=16">
 </head>
 <body class="sb case-study">
 
@@ -435,6 +435,32 @@
           <img src="../assets/img/strategy-builder/screen-09.png" alt="Sketch: dragging a whole side moves both end legs together with width held." width="3482" height="1501" loading="lazy" decoding="async">
         </div>
       </figure>
+
+      <h2 class="sb-h3 sb-h3--gap">Watch it: draw the legs, then set the levels</h2>
+      <p class="sb-p">A rough prototype of the Sketch flow. A blank chart, four taps to draw an iron condor, then a drag to set where it sits.</p>
+      <div class="sk sk--auto" data-sketch-auto>
+        <div class="sk__head">
+          <p class="sk__title">Sketch, from a blank chart</p>
+          <p class="sk-auto__cap" aria-live="polite"></p>
+        </div>
+        <ul class="sk-legs" aria-label="Legs drawn so far"></ul>
+        <div class="sk-chart">
+          <svg class="sk-svg" aria-label="An animated payoff chart: legs are added one by one, then a slope and a dot are dragged to set the levels."></svg>
+          <div class="sk-menu" hidden>
+            <p class="sk-menu__strike"></p>
+            <div class="sk-menu__row"><span>Call</span><button type="button" tabindex="-1" class="is-buy" data-add="buy CE">B</button><button type="button" tabindex="-1" class="is-sell" data-add="sell CE">S</button></div>
+            <div class="sk-menu__row"><span>Put</span><button type="button" tabindex="-1" class="is-buy" data-add="buy PE">B</button><button type="button" tabindex="-1" class="is-sell" data-add="sell PE">S</button></div>
+          </div>
+        </div>
+        <dl class="sk-metrics">
+          <div><dt>Premium</dt><dd data-sk="credit">--</dd></div>
+          <div><dt>Max profit</dt><dd data-sk="maxp">--</dd></div>
+          <div><dt>Max loss</dt><dd data-sk="maxl">--</dd></div>
+          <div><dt>POP</dt><dd data-sk="pop">--</dd></div>
+          <div><dt>Breakevens</dt><dd data-sk="be">--</dd></div>
+        </dl>
+        <p class="sk__note">Rough prototype on the same toy model. Open interest bars are illustrative.</p>
+      </div>
     </div>
   </section>
 
@@ -667,6 +693,6 @@
   })();
 </script>
 
-<script src="../assets/sketch-demo.js?v=4" defer></script>
+<script src="../assets/sketch-demo.js?v=6" defer></script>
 </body>
 </html>
