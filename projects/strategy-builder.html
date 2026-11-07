@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
-<link rel="stylesheet" href="../assets/strategy-builder.css?v=7">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=10">
 </head>
 <body class="sb case-study">
 
@@ -403,6 +403,38 @@
 
       <p class="sb-p">Strikes, premiums, breakevens, POP — every metric updates live as the hand moves. The feedback loop that form-based builders break in half becomes a single continuous motion: think, drag, see.</p>
 
+      <div class="sk" data-sketch>
+        <div class="sk__head">
+          <p class="sk__title">Try it: shape an iron condor</p>
+          <div class="sk__actions">
+            <button type="button" class="sk-btn" data-sk-undo disabled>Undo</button>
+            <button type="button" class="sk-btn" data-sk-reset>Reset</button>
+          </div>
+        </div>
+        <ul class="sk-legs" aria-label="Legs in the strategy"></ul>
+        <div class="sk-chart">
+          <svg class="sk-svg" aria-label="Payoff chart. Drag a dot to roll a leg, drag a slope to move both legs, tap empty space to add a leg."></svg>
+          <div class="sk-menu" role="menu" hidden>
+            <p class="sk-menu__strike"></p>
+            <div class="sk-menu__grid">
+              <button type="button" data-add="buy CE">Buy call</button>
+              <button type="button" data-add="sell CE">Sell call</button>
+              <button type="button" data-add="buy PE">Buy put</button>
+              <button type="button" data-add="sell PE">Sell put</button>
+            </div>
+          </div>
+        </div>
+        <dl class="sk-metrics">
+          <div><dt>Premium</dt><dd data-sk="credit">--</dd></div>
+          <div><dt>Max profit</dt><dd data-sk="maxp">--</dd></div>
+          <div><dt>Max loss</dt><dd data-sk="maxl">--</dd></div>
+          <div><dt>POP</dt><dd data-sk="pop">--</dd></div>
+          <div><dt>Breakevens</dt><dd data-sk="be">--</dd></div>
+        </dl>
+        <p class="sk__hint"><span>Drag a dot to roll a leg</span><span>Drag a slope to move both legs</span><span>Tap empty space to add a leg</span></p>
+        <p class="sk__note">Illustrative toy model: NIFTY 23,650, 1 lot = 75, 6 days to expiry, 13% IV. Not live prices.</p>
+      </div>
+
       <figure class="sb-shot">
         <div class="sb-shot__inner" style="--sb-ar: 700 / 302.114">
           <img src="../assets/img/strategy-builder/screen-07.png" alt="Sketch: hovering empty chart space snaps a plus to the nearest strike." width="3501" height="1511" loading="lazy" decoding="async">
@@ -549,5 +581,6 @@
   })();
 </script>
 
+<script src="../assets/sketch-demo.js?v=3" defer></script>
 </body>
 </html>
