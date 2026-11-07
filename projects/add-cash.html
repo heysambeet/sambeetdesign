@@ -413,15 +413,16 @@ html:not(.js) .reveal{opacity:1;transform:none}
       </p>
       <div class="ac-proto" data-proto>
         <div class="ac-proto__phone" role="img" aria-label="A player types ₹1,000 on the keypad, taps Continue, picks Google Pay, taps Add ₹1,000, waits on a loader in the button, and sees Success.">
-          <img class="ac-proto__screen is-on" src="../assets/img/add-cash/proto-type-0.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-1.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-10.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-100.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-1000.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/list.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-paying.png" width="540" height="960" alt="" loading="lazy" decoding="async"><svg class="ac-proto__spin" viewBox="0 0 39 39" aria-hidden="true"><circle cx="19.5" cy="19.5" r="15.5"/></svg></div>
-          <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-success.png" width="540" height="960" alt="" loading="lazy" decoding="async"><svg class="ac-proto__done" viewBox="0 0 220 220" aria-hidden="true"><circle class="r3" cx="110" cy="110" r="36"/><circle class="r2" cx="110" cy="110" r="94"/><circle class="r1" cx="110" cy="110" r="65.5"/><circle class="disc" cx="110" cy="110" r="35.5"/><path class="tick" d="M94 111 107.5 123 128.5 101"/></svg></div>
+          <img class="ac-proto__screen is-on" src="../assets/img/add-cash/add-cash-portrait.png?v=2" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-0.png" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-1.png" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-10.png" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-100.png" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-1000.png" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/list.png" width="540" height="960" alt="" loading="lazy">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" alt="" loading="lazy">
+          <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-paying.png" width="540" height="960" alt="" loading="lazy"><svg class="ac-proto__spin" viewBox="0 0 39 39" aria-hidden="true"><circle cx="19.5" cy="19.5" r="15.5"/></svg></div>
+          <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-success.png" width="540" height="960" alt="" loading="lazy"><svg class="ac-proto__done" viewBox="0 0 220 220" aria-hidden="true"><circle class="r3" cx="110" cy="110" r="36"/><circle class="r2" cx="110" cy="110" r="94"/><circle class="r1" cx="110" cy="110" r="65.5"/><circle class="disc" cx="110" cy="110" r="35.5"/><path class="tick" d="M94 111 107.5 123 128.5 101"/></svg></div>
           <span class="ac-proto__tap" aria-hidden="true"></span>
         </div>
         <div class="ac-proto__side">
@@ -974,25 +975,40 @@ html:not(.js) .reveal{opacity:1;transform:none}
     var toggle = proto.querySelector('.ac-proto__toggle');
     // screen, step, how long it stays, and where/when the tap lands (% of the screen)
     var frames = [
-      { s: 0, step: 0, d: 1200, tap: [12.8, 72.2, 1020] },
-      { s: 1, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
+      { s: 0, step: 0, d: 1300, tap: [50, 16.5, 950] },
+      { s: 1, step: 0, d: 950, tap: [12.8, 72.2, 780] },
       { s: 2, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
       { s: 3, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
-      { s: 4, step: 0, d: 1300, tap: [50, 60.3, 900], cut: true },
-      { s: 5, step: 1, d: 1500, tap: [50, 21, 900] },
-      { s: 6, step: 2, d: 1500, tap: [56, 28.5, 900] },
-      { s: 7, step: 3, d: 2200 },
-      { s: 8, step: 4, d: 2800 }
+      { s: 4, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
+      { s: 5, step: 0, d: 1300, tap: [50, 60.3, 900], cut: true },
+      { s: 6, step: 1, d: 1500, tap: [50, 21, 900] },
+      { s: 7, step: 2, d: 1500, tap: [56, 28.5, 900] },
+      { s: 8, step: 3, d: 2200 },
+      { s: 9, step: 4, d: 2800 }
     ];
-    var i = 0, playing = false, visible = false, wanted = !reduced, timers = [];
+    var i = 0, playing = false, visible = false, wanted = !reduced, timers = [], cutTimer;
     var clear = function () { timers.forEach(clearTimeout); timers = []; };
     var phone = proto.querySelector('.ac-proto__phone');
     var show = function (n) {
       var f = frames[n];
-      // Typing frames swap instantly, like digits appearing; everything else crossfades.
-      if (f.cut) phone.classList.add('is-cut');
-      screens.forEach(function (el, k) { el.classList.toggle('is-on', k === f.s); });
-      if (f.cut) { void phone.offsetWidth; phone.classList.remove('is-cut'); }
+      clearTimeout(cutTimer);
+      if (f.cut) {
+        // Typing: the next digit's frame goes on top instantly, and the frame under it is
+        // only hidden once the new one is decoded and painted, so nothing ever blinks.
+        phone.classList.add('is-cut');
+        var next = screens[f.s];
+        next.classList.add('is-on');
+        var img = next.tagName === 'IMG' ? next : next.querySelector('img');
+        var hidePrev = function () {
+          cutTimer = setTimeout(function () {
+            screens.forEach(function (el, k) { if (k !== f.s) el.classList.remove('is-on'); });
+          }, 60);
+        };
+        if (img.decode) img.decode().then(hidePrev, hidePrev); else hidePrev();
+      } else {
+        phone.classList.remove('is-cut');
+        screens.forEach(function (el, k) { el.classList.toggle('is-on', k === f.s); });
+      }
       items.forEach(function (el, k) { el.classList.toggle('is-on', k === f.step); });
     };
     var run = function () {
