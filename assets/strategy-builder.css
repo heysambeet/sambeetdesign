@@ -583,6 +583,9 @@
 .sb-shots-2 { display: grid; gap: 16px; grid-template-columns: 1fr; }
 @media (min-width: 768px) { .sb-shots-2 { grid-template-columns: 1fr 1fr; } }
 .sb-shot--contain img { object-fit: contain; }
+/* The modals are exported without their drop shadow, so the inner box
+   keeps the breathing room the shadow used to give them. */
+.sb-shot--contain .sb-shot__inner { padding: 6%; box-sizing: border-box; }
 .sb-cap {
   margin-top: 10px;
   font-size: 14px;
