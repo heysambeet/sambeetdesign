@@ -118,6 +118,7 @@ section[id]{scroll-margin-top:64px}
 @media (min-width:768px){.ac-proto__phone{width:260px}}
 .ac-proto__screen{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 280ms ease}
 .ac-proto__screen.is-on{opacity:1}
+.ac-proto__phone.is-cut .ac-proto__screen{transition:none}
 .ac-proto__screen img{display:block;width:100%;height:100%}
 .ac-proto__spin{position:absolute;left:56.574%;top:28.698%;width:7.222%;margin:-3.611% 0 0 -3.611%;overflow:visible;
   fill:none;stroke:#141414;stroke-width:5.5;stroke-linecap:round;stroke-dasharray:79.7 17.7;animation:ac-spin 850ms linear infinite}
@@ -411,9 +412,12 @@ html:not(.js) .reveal{opacity:1;transform:none}
         to money in the account.
       </p>
       <div class="ac-proto" data-proto>
-        <div class="ac-proto__phone" role="img" aria-label="A player types ₹1,000, taps Continue, picks Google Pay, taps Add ₹1,000, waits on a loader in the button, and sees Success.">
-          <img class="ac-proto__screen is-on" src="../assets/img/add-cash/add-cash-portrait.png?v=2" width="540" height="960" alt="" loading="lazy" decoding="async">
-          <img class="ac-proto__screen" src="../assets/img/add-cash/add-cash-entered.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+        <div class="ac-proto__phone" role="img" aria-label="A player types ₹1,000 on the keypad, taps Continue, picks Google Pay, taps Add ₹1,000, waits on a loader in the button, and sees Success.">
+          <img class="ac-proto__screen is-on" src="../assets/img/add-cash/proto-type-0.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-1.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-10.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-100.png" width="540" height="960" alt="" loading="lazy" decoding="async">
+          <img class="ac-proto__screen" src="../assets/img/add-cash/proto-type-1000.png" width="540" height="960" alt="" loading="lazy" decoding="async">
           <img class="ac-proto__screen" src="../assets/img/add-cash/list.png" width="540" height="960" alt="" loading="lazy" decoding="async">
           <img class="ac-proto__screen" src="../assets/img/add-cash/upi-selected.png" width="540" height="960" alt="" loading="lazy" decoding="async">
           <div class="ac-proto__screen"><img src="../assets/img/add-cash/proto-paying.png" width="540" height="960" alt="" loading="lazy" decoding="async"><svg class="ac-proto__spin" viewBox="0 0 39 39" aria-hidden="true"><circle cx="19.5" cy="19.5" r="15.5"/></svg></div>
@@ -970,18 +974,25 @@ html:not(.js) .reveal{opacity:1;transform:none}
     var toggle = proto.querySelector('.ac-proto__toggle');
     // screen, step, how long it stays, and where/when the tap lands (% of the screen)
     var frames = [
-      { s: 0, step: 0, d: 1300, tap: [50, 16.5, 650] },
-      { s: 1, step: 0, d: 1500, tap: [50, 94, 900] },
-      { s: 2, step: 1, d: 1500, tap: [50, 21, 900] },
-      { s: 3, step: 2, d: 1500, tap: [56, 28.5, 900] },
-      { s: 4, step: 3, d: 2200 },
-      { s: 5, step: 4, d: 2800 }
+      { s: 0, step: 0, d: 1200, tap: [12.8, 72.2, 1020] },
+      { s: 1, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
+      { s: 2, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
+      { s: 3, step: 0, d: 430, tap: [37.8, 95.6, 250], cut: true },
+      { s: 4, step: 0, d: 1300, tap: [50, 60.3, 900], cut: true },
+      { s: 5, step: 1, d: 1500, tap: [50, 21, 900] },
+      { s: 6, step: 2, d: 1500, tap: [56, 28.5, 900] },
+      { s: 7, step: 3, d: 2200 },
+      { s: 8, step: 4, d: 2800 }
     ];
     var i = 0, playing = false, visible = false, wanted = !reduced, timers = [];
     var clear = function () { timers.forEach(clearTimeout); timers = []; };
+    var phone = proto.querySelector('.ac-proto__phone');
     var show = function (n) {
       var f = frames[n];
+      // Typing frames swap instantly, like digits appearing; everything else crossfades.
+      if (f.cut) phone.classList.add('is-cut');
       screens.forEach(function (el, k) { el.classList.toggle('is-on', k === f.s); });
+      if (f.cut) { void phone.offsetWidth; phone.classList.remove('is-cut'); }
       items.forEach(function (el, k) { el.classList.toggle('is-on', k === f.step); });
     };
     var run = function () {
