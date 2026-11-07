@@ -443,3 +443,23 @@
 /* No page footer: the case study ends on the Reflection section, and
    `.sb main` carries the closing 96px. The header is sticky (styles.css,
    scoped to .case-study) so "back" is always reachable without one. */
+
+/* ---------- In short: four stat cards -------------------------- */
+.sb-cards--4 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 768px) {
+  .sb-cards--4 { grid-template-columns: repeat(4, 1fr); }
+}
+.sb-stat { gap: 4px; }
+.sb-stat b {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 30px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sb-stat span {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--ink-muted);
+}
