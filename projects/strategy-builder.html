@@ -14,10 +14,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
-<link rel="stylesheet" href="../assets/strategy-builder.css?v=12">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=13">
 </head>
 <body class="sb case-study">
 
@@ -403,12 +403,8 @@
           <svg class="sk-svg" aria-label="Payoff chart. Drag a dot to roll a leg, drag a slope to move both legs, tap empty space to add a leg."></svg>
           <div class="sk-menu" role="menu" hidden>
             <p class="sk-menu__strike"></p>
-            <div class="sk-menu__grid">
-              <button type="button" data-add="buy CE">Buy call</button>
-              <button type="button" data-add="sell CE">Sell call</button>
-              <button type="button" data-add="buy PE">Buy put</button>
-              <button type="button" data-add="sell PE">Sell put</button>
-            </div>
+            <div class="sk-menu__row"><span>Call</span><button type="button" class="is-buy" data-add="buy CE" aria-label="Buy call">B</button><button type="button" class="is-sell" data-add="sell CE" aria-label="Sell call">S</button></div>
+            <div class="sk-menu__row"><span>Put</span><button type="button" class="is-buy" data-add="buy PE" aria-label="Buy put">B</button><button type="button" class="is-sell" data-add="sell PE" aria-label="Sell put">S</button></div>
           </div>
         </div>
         <dl class="sk-metrics">
@@ -671,6 +667,6 @@
   })();
 </script>
 
-<script src="../assets/sketch-demo.js?v=3" defer></script>
+<script src="../assets/sketch-demo.js?v=4" defer></script>
 </body>
 </html>

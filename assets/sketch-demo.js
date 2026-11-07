@@ -172,7 +172,9 @@
       el('path', { d: area, class: 'sk-loss', 'clip-path': 'url(#sk-dn)' }, svg);
       var td = tpts.map(function (p, i) { return (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1); }).join(' ');
       el('path', { d: td, class: 'sk-today' }, svg);
-      el('path', { d: d, class: 'sk-expiry' }, svg);
+      // on expiry: green above zero, red below, as in the terminal
+      el('path', { d: d, class: 'sk-expiry sk-expiry--up', 'clip-path': 'url(#sk-up)' }, svg);
+      el('path', { d: d, class: 'sk-expiry sk-expiry--dn', 'clip-path': 'url(#sk-dn)' }, svg);
 
       // sides: adjacent legs of the same type move together
       var so = sorted();
@@ -193,7 +195,7 @@
           'aria-valuenow': o.l.K, 'aria-valuemin': XMIN, 'aria-valuemax': XMAX }, svg);
         g.dataset.i = o.i;
         el('circle', { cx: cx, cy: cy, r: 16, class: 'sk-dot__hit' }, g);
-        el('circle', { cx: cx, cy: cy, r: 9 }, g);
+        el('rect', { x: cx - 8, y: cy - 8, width: 16, height: 16, rx: 4, class: 'sk-dot__chip' }, g);
         var lt = el('text', { x: cx, y: cy + 3.5, 'text-anchor': 'middle' }, g); lt.textContent = o.l.side > 0 ? 'B' : 'S';
       });
     } else {
@@ -206,9 +208,12 @@
       var hx = sx(hover);
       el('line', { x1: hx, x2: hx, y1: PT, y2: H - PB, class: 'sk-guide' }, svg);
       var hg = el('g', { class: 'sk-plus' }, svg);
-      el('circle', { cx: hx, cy: sy(0), r: 10 }, hg);
-      el('path', { d: 'M' + (hx - 4) + ' ' + sy(0) + 'h8M' + hx + ' ' + (sy(0) - 4) + 'v8' }, hg);
-      var hl = el('text', { x: hx, y: H - PB - 6, 'text-anchor': 'middle', class: 'sk-guidelab' }, svg); hl.textContent = hover.toLocaleString('en-IN');
+      el('circle', { cx: hx, cy: sy(0), r: 8 }, hg);
+      el('path', { d: 'M' + (hx - 3.5) + ' ' + sy(0) + 'h7M' + hx + ' ' + (sy(0) - 3.5) + 'v7' }, hg);
+      var lab = hover.toLocaleString('en-IN'), lw = lab.length * 6.2 + 14;
+      var lx = Math.min(Math.max(hx - lw / 2, PL), W - PR - lw);
+      el('rect', { x: lx, y: PT + 2, width: lw, height: 20, rx: 6, class: 'sk-guidepill' }, svg);
+      var hl = el('text', { x: lx + lw / 2, y: PT + 16, 'text-anchor': 'middle', class: 'sk-guidelab' }, svg); hl.textContent = lab;
     }
     renderSide();
   }
@@ -230,11 +235,13 @@
     });
     // metrics
     var m = metrics();
-    if (!m) { out.credit.textContent = out.maxp.textContent = out.maxl.textContent = out.pop.textContent = out.be.textContent = '--'; }
+    if (!m) { out.maxp.className = out.maxl.className = ''; out.credit.textContent = out.maxp.textContent = out.maxl.textContent = out.pop.textContent = out.be.textContent = '--'; }
     else {
       out.credit.textContent = (m.credit >= 0 ? 'Get ' : 'Pay ') + '₹' + inr(m.credit);
       out.maxp.textContent = m.unlP ? 'Unlimited' : signed(m.maxp);
       out.maxl.textContent = m.unlL ? 'Unlimited' : signed(m.maxl);
+      out.maxp.className = m.unlP || m.maxp > 0 ? 'is-pos' : m.maxp < 0 ? 'is-neg' : '';
+      out.maxl.className = m.unlL || m.maxl < 0 ? 'is-neg' : m.maxl > 0 ? 'is-pos' : '';
       out.pop.textContent = m.pop + '%';
       out.be.textContent = m.be.length ? m.be.slice(0, 3).map(function (b) { return b.toLocaleString('en-IN'); }).join(' · ') : 'None';
     }
