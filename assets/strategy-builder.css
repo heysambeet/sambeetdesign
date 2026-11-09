@@ -869,3 +869,7 @@
   .sb-rs__dot { width: 28px; height: 28px; }
   .sb-rs__body { padding-top: 5px; }
 }
+
+/* ---------- Header hairline on scroll (as on Scalper) -------- */
+.site-header { transition: box-shadow 160ms ease; }
+.site-header.is-scrolled { box-shadow: 0 1px 0 var(--card-border); }

@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../assets/styles.css?v=29">
-<link rel="stylesheet" href="../assets/strategy-builder.css?v=22">
+<link rel="stylesheet" href="../assets/strategy-builder.css?v=23">
 </head>
 <body class="sb case-study">
 
@@ -884,6 +884,15 @@
       btn.setAttribute('aria-expanded', String(!open));
       btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
     });
+  })();
+
+  // Hairline under the sticky header once the page scrolls.
+  (function () {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 0); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   })();
 </script>
 
