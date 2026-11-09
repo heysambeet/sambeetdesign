@@ -93,15 +93,26 @@
     var a = elm.getBoundingClientRect(), b = root.getBoundingClientRect();
     return { x: a.left - b.left + a.width / 2, y: a.top - b.top + a.height / 2 };
   }
+  /* Cursor travel time scales with distance, so short hops feel quick
+     and long ones don't snap. Opacity keeps its own short fade. */
+  var pos = null;
+  function place(x, y, ms) {
+    cursor.style.transition = 'transform ' + ms + 'ms cubic-bezier(.4,.1,.2,1), opacity 220ms ease';
+    cursor.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+    pos = { x: x, y: y };
+  }
   async function go(elm, r, ms) {
     var p = at(elm);
-    cursor.style.transitionDuration = (ms || 650) + 'ms';
-    cursor.style.transform = 'translate(' + Math.round(p.x) + 'px,' + Math.round(p.y) + 'px)';
-    await wait((ms || 650) + 60, r);
+    if (ms == null) {
+      var d = pos ? Math.hypot(p.x - pos.x, p.y - pos.y) : 0;
+      ms = Math.round(Math.max(260, Math.min(620, 200 + d * 0.9)));
+    }
+    place(p.x, p.y, ms);
+    await wait(ms + 40, r);
   }
   async function click(elm, r) {
     await go(elm, r);
-    cursor.classList.add('is-press'); await wait(170, r); cursor.classList.remove('is-press');
+    cursor.classList.add('is-press'); await wait(150, r); cursor.classList.remove('is-press');
   }
   async function generate(w, r) {
     await click(gen, r);
@@ -117,24 +128,30 @@
 
   async function play(r) {
     reset();
-    cursor.classList.add('is-on');
     say('Start with the outcome you want, not the strikes');
-    await go(root.querySelector('.gn-title'), r, 0); await wait(1200, r);
+    // Fade the cursor in on empty space just below the first switch,
+    // instead of parking it on the title text.
+    var sw = at(wishes.strategy.querySelector('.gn-switch'));
+    if (cursor.classList.contains('is-on')) { cursor.classList.remove('is-on'); await wait(240, r); }
+    place(sw.x - 70, sw.y + 70, 0);
+    await wait(30, r);
+    cursor.classList.add('is-on');
+    await wait(450, r);
 
     say('Optional: pick a shape');
-    await click(wishes.strategy.querySelector('.gn-switch'), r); setOn('strategy', true); await wait(250, r);
-    await click(select, r); drop.hidden = false; await wait(350, r);
+    await click(wishes.strategy.querySelector('.gn-switch'), r); setOn('strategy', true); await wait(150, r);
+    await click(select, r); drop.hidden = false; await wait(260, r);
     var ic = drop.querySelector('[data-v="Iron condor"]');
     await click(ic, r); drop.hidden = true;
-    select.querySelector('span').textContent = 'Iron condor'; select.classList.add('is-filled'); await wait(450, r);
+    select.querySelector('span').textContent = 'Iron condor'; select.classList.add('is-filled'); await wait(320, r);
 
     say('Ask for the chance of profit you want');
-    await click(wishes.pop.querySelector('.gn-switch'), r); setOn('pop', true); await wait(200, r);
-    await click(wishes.pop.querySelector('[data-v="80"]'), r); pick('pop', 80); await wait(450, r);
+    await click(wishes.pop.querySelector('.gn-switch'), r); setOn('pop', true); await wait(150, r);
+    await click(wishes.pop.querySelector('[data-v="80"]'), r); pick('pop', 80); await wait(320, r);
 
     say('And the profit, as a share of margin');
-    await click(wishes.profit.querySelector('.gn-switch'), r); setOn('profit', true); await wait(200, r);
-    await click(wishes.profit.querySelector('[data-v="2"]'), r); pick('profit', 2); await wait(450, r);
+    await click(wishes.profit.querySelector('.gn-switch'), r); setOn('profit', true); await wait(150, r);
+    await click(wishes.profit.querySelector('[data-v="2"]'), r); pick('profit', 2); await wait(320, r);
 
     say('One click: Genie fits real strikes');
     await generate({ pop: 80, profit: 2 }, r);
