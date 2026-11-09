@@ -205,20 +205,33 @@ section[id]{scroll-margin-top:64px}
 .sc-outcome p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
 
 /* ---------- A/B test ---------- */
-.sc-ab{margin-top:24px;display:grid;gap:8px}
-@media (min-width:640px){.sc-ab{grid-template-columns:1fr 1fr}}
-.sc-ab__v{margin:0;display:flex;flex-direction:column;gap:12px}
-.sc-ab__head{display:flex;align-items:center;justify-content:space-between;min-height:22px;color:var(--ink-muted)}
-.sc-ab__win{padding:3px 8px;border-radius:999px;background:var(--sc-ok-bg);color:var(--sc-ok);
-  font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;letter-spacing:1.54px;text-transform:uppercase}
-.sc-ab__v img{display:block;width:100%;height:auto;border-radius:10px}
-.sc-ab__v h3{font-weight:600;font-size:14px;line-height:22px}
-.sc-ab__v > p{flex:1;font-size:13px;line-height:20px;color:var(--ink-muted)}
-.sc-ab__stat{padding-top:12px;border-top:1px solid var(--sc-rule)}
-.sc-ab__stat b{display:block;font-weight:600;font-size:28px;line-height:36px;letter-spacing:-.28px;font-variant-numeric:tabular-nums}
-.sc-ab__v.is-win .sc-ab__stat b{color:var(--sc-ok)}
-.sc-ab__stat span{display:block;margin-top:4px;font-size:13px;line-height:20px;color:var(--ink-muted)}
-.sc-ab__result{margin-top:8px}
+.sc-abx{margin-top:24px;background:var(--sc-card);border:.5px solid var(--sc-card-bd);border-radius:16px;overflow:hidden}
+.sc-abx__row{display:grid;grid-template-columns:104px minmax(0,1fr) 198px;gap:20px;align-items:center;padding:20px 24px}
+.sc-abx__row + .sc-abx__row{border-top:1px solid var(--sc-rule)}
+.sc-abx__lab .sc-label{color:var(--ink-muted)}
+.sc-abx__row.is-win .sc-label{color:var(--sc-ok)}
+.sc-abx__lab h3{margin-top:4px;font-weight:600;font-size:14px;line-height:22px}
+.sc-abx__row img{display:block;width:100%;height:auto;border-radius:10px}
+.sc-abx__res p{font-size:13px;line-height:20px;color:var(--ink-muted)}
+.sc-abx__res b{margin-right:6px;font-weight:600;font-size:28px;line-height:36px;letter-spacing:-.28px;color:var(--ink);font-variant-numeric:tabular-nums}
+.sc-abx__row.is-win .sc-abx__res b{color:var(--sc-ok)}
+.sc-dots{margin-top:8px;display:grid;grid-template-columns:repeat(25,6px);gap:2px}
+.sc-dots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.1)}
+.sc-dots i.on{background:rgba(0,0,0,.7)}
+.sc-abx__row.is-win .sc-dots i.on{background:var(--sc-ok)}
+.sc-abx__strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;
+  padding:16px 24px;background:var(--sc-ok-bg);color:var(--sc-ok)}
+.sc-abx__strip p{font-size:13px;line-height:20px}
+.sc-abx__strip b{margin-right:10px;font-weight:600;font-size:24px;line-height:32px;font-variant-numeric:tabular-nums}
+.sc-abx__strip ul{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0}
+.sc-abx__strip li{padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.7);font-size:13px;line-height:20px}
+.sc-abx__key{margin-top:12px;font-size:12px;line-height:18px;color:var(--sc-dim)}
+@media (max-width:639.98px){
+  .sc-abx__row{grid-template-columns:minmax(0,1fr);gap:12px;padding:16px}
+  .sc-abx__lab{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+  .sc-abx__lab h3{margin-top:0}
+  .sc-abx__strip{padding:16px}
+}
 /* ---------- Reflection ---------- */
 .sc-lessons{margin-top:8px;list-style:none;padding:0}
 .sc-lessons li{margin-top:20px}
@@ -572,30 +585,32 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <div class="sc-wrap">
       <p class="sc-eyebrow">06 · Tested, not assumed</p>
       <h2 class="sc-h2">Should the button say which strike it buys?</h2>
-      <p class="sc-body">We had two good answers. Version A kept the buttons compact: the strike already showed in the chart header, so the button didn&rsquo;t repeat it. Version B printed the strike inside each button, because real money moves on that one tap. Space against context, so we A/B tested it, showing each version to 1,000 traders.</p>
-      <div class="sc-ab reveal">
-        <figure class="sc-card sc-ab__v">
-          <figcaption class="sc-ab__head"><span class="sc-label">Version A</span></figcaption>
+      <p class="sc-body">Version A kept the buttons compact and left the strike to the chart header. Version B printed it on the button, because real money moves on that one tap. We showed each version to 1,000 traders.</p>
+      <div class="sc-abx reveal">
+        <div class="sc-abx__row">
+          <div class="sc-abx__lab"><p class="sc-label">Version A</p><h3>Strike in the chart</h3></div>
           <img src="../assets/img/scalper/ab-a.png" width="1080" height="264" loading="lazy" decoding="async"
             alt="Version A: shorter Buy Call and Buy Put buttons with no strike, the lot stepper between them and the margin under each.">
-          <h3>Strike in the chart</h3>
-          <p>Shorter buttons with no strike; the contract showed in the chart header instead. Less space.</p>
-          <div class="sc-ab__stat"><b>200 of 1,000</b><span>traders tapped Buy Call or Buy Put</span></div>
-        </figure>
-        <figure class="sc-card sc-ab__v is-win">
-          <figcaption class="sc-ab__head"><span class="sc-label">Version B</span><span class="sc-ab__win">Winner</span></figcaption>
+          <div class="sc-abx__res">
+            <p><b>200</b>of 1,000 tapped Buy</p>
+            <span class="sc-dots" role="img" aria-label="200 of 1,000 traders: 10 of 50 dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+        <div class="sc-abx__row is-win">
+          <div class="sc-abx__lab"><p class="sc-label">Version B</p><h3>Strike on the button</h3></div>
           <img src="../assets/img/scalper/ab-b.png" width="1080" height="264" loading="lazy" decoding="async"
-            alt="Version B: taller Buy Call and Buy Put buttons, each showing its strike, 25800 CE and 25800 PE, inside the button.">
-          <h3>Strike on the button</h3>
-          <p>The strike printed inside each button, so traders see exactly what they&rsquo;re buying before money moves.</p>
-          <div class="sc-ab__stat"><b>260 of 1,000</b><span>traders tapped Buy Call or Buy Put</span></div>
-        </figure>
+            alt="Version B: Buy Call and Buy Put buttons with the strike, 25800 CE and 25800 PE, printed inside each.">
+          <div class="sc-abx__res">
+            <p><b>260</b>of 1,000 tapped Buy</p>
+            <span class="sc-dots" role="img" aria-label="260 of 1,000 traders: 13 of 50 dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+        <div class="sc-abx__strip">
+          <p><b>+30%</b>more traders tapped to buy with B</p>
+          <ul><li>1,000 per version</li><li>p&nbsp;&lt;&nbsp;0.01</li><li>B shipped</li></ul>
+        </div>
       </div>
-      <div class="sc-outcome sc-ab__result reveal">
-        <p class="sc-label">Result</p><b>+30%</b>
-        <p>More traders tapped to buy when the button showed the strike: 260 of 1,000, up from 200. With 1,000 traders in each group, a gap this size is very unlikely to be chance (p&nbsp;&lt;&nbsp;0.01). Version B shipped, and it&rsquo;s the design on every screen in this study.</p>
-      </div>
-      <p class="sc-body">On a screen built for speed, it&rsquo;s tempting to cut every word. When real money is a tap away, the extra context earned more taps, not fewer.</p>
+      <p class="sc-abx__key">Each dot is 20 traders. Tapped Buy means a tap on Buy Call or Buy Put.</p>
     </div>
   </section>
 
