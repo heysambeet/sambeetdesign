@@ -830,28 +830,15 @@
 
 /* Round 2: the prototype video and what came back. */
 .sb-rs__show { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
-.sb-rs__player {
-  display: flex;
-  flex-direction: column;
-  min-height: 150px;
+.sb-rs__sketch {
+  display: grid;
+  place-items: center;
   padding: 12px;
   border-radius: 12px;
-  background: #1c1a19;
+  background: #fff;
+  border: 0.5px solid var(--card-border);
 }
-.sb-rs__play { flex: 1; display: grid; place-items: center; }
-.sb-rs__play svg { width: 40px; height: 40px; }
-.sb-rs__play circle { fill: rgba(255, 255, 255, 0.92); }
-.sb-rs__play path { fill: #1c1a19; }
-.sb-rs__chap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-.sb-rs__chap span {
-  padding-top: 9px;
-  border-top: 3px solid rgba(255, 255, 255, 0.28);
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 14px;
-  color: rgba(255, 255, 255, 0.72);
-}
-.sb-rs__chap span.is-on { border-top-color: rgba(255, 255, 255, 0.9); }
+.sb-rs__sketch svg { display: block; width: 100%; max-width: 340px; height: auto; }
 .sb-rs__result {
   display: flex;
   flex-direction: column;
