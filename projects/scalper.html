@@ -204,6 +204,21 @@ section[id]{scroll-margin-top:64px}
   letter-spacing:-.32px;color:var(--sc-ok);font-variant-numeric:tabular-nums}
 .sc-outcome p{margin-top:6px;font-size:14px;line-height:22px;color:var(--ink-muted)}
 
+/* ---------- A/B test ---------- */
+.sc-ab{margin-top:24px;display:grid;gap:8px}
+@media (min-width:640px){.sc-ab{grid-template-columns:1fr 1fr}}
+.sc-ab__v{margin:0;display:flex;flex-direction:column;gap:12px}
+.sc-ab__head{display:flex;align-items:center;justify-content:space-between;min-height:22px;color:var(--ink-muted)}
+.sc-ab__win{padding:3px 8px;border-radius:999px;background:var(--sc-ok-bg);color:var(--sc-ok);
+  font-family:var(--font-nav);font-size:11px;line-height:16px;font-weight:600;letter-spacing:1.54px;text-transform:uppercase}
+.sc-ab__v img{display:block;width:100%;height:auto;border-radius:10px}
+.sc-ab__v h3{font-weight:600;font-size:14px;line-height:22px}
+.sc-ab__v > p{flex:1;font-size:13px;line-height:20px;color:var(--ink-muted)}
+.sc-ab__stat{padding-top:12px;border-top:1px solid var(--sc-rule)}
+.sc-ab__stat b{display:block;font-weight:600;font-size:28px;line-height:36px;letter-spacing:-.28px;font-variant-numeric:tabular-nums}
+.sc-ab__v.is-win .sc-ab__stat b{color:var(--sc-ok)}
+.sc-ab__stat span{display:block;margin-top:4px;font-size:13px;line-height:20px;color:var(--ink-muted)}
+.sc-ab__result{margin-top:8px}
 /* ---------- Reflection ---------- */
 .sc-lessons{margin-top:8px;list-style:none;padding:0}
 .sc-lessons li{margin-top:20px}
@@ -305,6 +320,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
         <a href="#process">Process</a>
         <a href="#decisions">Key decisions</a>
         <a href="#roads">Roads not taken</a>
+        <a href="#abtest">A/B test</a>
         <a href="#edges">Edge cases</a>
         <a href="#consent">Consent</a>
         <a href="#outcomes">Outcomes</a>
@@ -541,7 +557,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
           <thead><tr><th>The obvious option</th><th>Chose</th><th>Why</th></tr></thead>
           <tbody>
             <tr><td>Buy and Sell buttons</td><td>Buy Call ↑ / Buy Put ↓</td><td>Scalpers think in direction; one tap shouldn&rsquo;t need a second decision</td></tr>
-            <tr><td>Auto-pick the strike silently</td><td>Print the strike on the button</td><td>Real money should never move on a hidden choice</td></tr>
+            <tr><td>Auto-pick the strike silently</td><td>Print the strike on the button</td><td>Real money should never move on a hidden choice, and <a class="sc-link" href="#abtest">an A/B test</a> backed it</td></tr>
             <tr><td>One chart with tabs</td><td>Two charts, resizable</td><td>The underlying and the contract are read together, not in turns</td></tr>
             <tr><td>Always confirm — or never</td><td>Confirm by default, instant per action</td><td>Safe for a new trader, fast for an expert who opts in</td></tr>
             <tr><td>Exit, then re-enter by hand</td><td>One-tap Reverse, strictly in sequence</td><td>Flipping a view is a scalping move; step two only runs if step one fills</td></tr>
@@ -551,10 +567,42 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 06 · Edge cases --------------------------------------------------- -->
+  <!-- 06 · A/B test — Figma 334:6410 ------------------------------------ -->
+  <section class="sc-sec" id="abtest">
+    <div class="sc-wrap">
+      <p class="sc-eyebrow">06 · Tested, not assumed</p>
+      <h2 class="sc-h2">Should the button say which strike it buys?</h2>
+      <p class="sc-body">We had two good answers. Version A kept the buttons compact: the strike already showed in the chart header, so the button didn&rsquo;t repeat it. Version B printed the strike inside each button, because real money moves on that one tap. Space against context, so we A/B tested it, showing each version to 1,000 traders.</p>
+      <div class="sc-ab reveal">
+        <figure class="sc-card sc-ab__v">
+          <figcaption class="sc-ab__head"><span class="sc-label">Version A</span></figcaption>
+          <img src="../assets/img/scalper/ab-a.png" width="1080" height="264" loading="lazy" decoding="async"
+            alt="Version A: shorter Buy Call and Buy Put buttons with no strike, the lot stepper between them and the margin under each.">
+          <h3>Strike in the chart</h3>
+          <p>Shorter buttons with no strike; the contract showed in the chart header instead. Less space.</p>
+          <div class="sc-ab__stat"><b>200 of 1,000</b><span>traders tapped Buy Call or Buy Put</span></div>
+        </figure>
+        <figure class="sc-card sc-ab__v is-win">
+          <figcaption class="sc-ab__head"><span class="sc-label">Version B</span><span class="sc-ab__win">Winner</span></figcaption>
+          <img src="../assets/img/scalper/ab-b.png" width="1080" height="264" loading="lazy" decoding="async"
+            alt="Version B: taller Buy Call and Buy Put buttons, each showing its strike, 25800 CE and 25800 PE, inside the button.">
+          <h3>Strike on the button</h3>
+          <p>The strike printed inside each button, so traders see exactly what they&rsquo;re buying before money moves.</p>
+          <div class="sc-ab__stat"><b>260 of 1,000</b><span>traders tapped Buy Call or Buy Put</span></div>
+        </figure>
+      </div>
+      <div class="sc-outcome sc-ab__result reveal">
+        <p class="sc-label">Result</p><b>+30%</b>
+        <p>More traders tapped to buy when the button showed the strike: 260 of 1,000, up from 200. With 1,000 traders in each group, a gap this size is very unlikely to be chance (p&nbsp;&lt;&nbsp;0.01). Version B shipped, and it&rsquo;s the design on every screen in this study.</p>
+      </div>
+      <p class="sc-body">On a screen built for speed, it&rsquo;s tempting to cut every word. When real money is a tap away, the extra context earned more taps, not fewer.</p>
+    </div>
+  </section>
+
+  <!-- 07 · Edge cases --------------------------------------------------- -->
   <section class="sc-sec" id="edges">
     <div class="sc-wrap">
-      <p class="sc-eyebrow">06 · Designed for the worst minute</p>
+      <p class="sc-eyebrow">07 · Designed for the worst minute</p>
       <h2 class="sc-h2">A third of the 27 states are about things going wrong</h2>
       <p class="sc-body">
         A scalping screen is judged on its bad moments: a rejected order, a typo in a stop-loss, a
@@ -589,10 +637,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 07 · Consent ------------------------------------------------------ -->
+  <!-- 08 · Consent ------------------------------------------------------ -->
   <section class="sc-sec sc-quote" id="consent">
     <div class="sc-wrap">
-      <p class="sc-eyebrow">07 · Speed with consent</p>
+      <p class="sc-eyebrow">08 · Speed with consent</p>
       <p class="big reveal"><span class="q">Fast should never mean reckless.</span><span class="a">Safe by default, instant by choice.</span></p>
       <p class="sc-body">
         Every action that moves money — Buy, Exit, Exit all and Reverse — asks for confirmation out
@@ -606,10 +654,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 08 · Outcomes ----------------------------------------------------- -->
+  <!-- 09 · Outcomes ----------------------------------------------------- -->
   <section class="sc-sec" id="outcomes">
     <div class="sc-wrap">
-      <p class="sc-eyebrow">08 · Outcomes &amp; impact</p>
+      <p class="sc-eyebrow">09 · Outcomes &amp; impact</p>
       <h2 class="sc-h2">One screen, two-fifths of the revenue</h2>
       <div class="sc-outcomes reveal">
         <div class="sc-outcome"><p class="sc-label">Adoption</p><b>80%+</b><p>More than 80% of traders adopted Scalper for their F&amp;O trading.</p></div>
@@ -620,10 +668,10 @@ html:not(.js) .reveal{opacity:1;transform:none}
     </div>
   </section>
 
-  <!-- 09 · Reflection --------------------------------------------------- -->
+  <!-- 10 · Reflection --------------------------------------------------- -->
   <section class="sc-sec" id="reflection">
     <div class="sc-wrap">
-      <p class="sc-eyebrow">09 · Reflection</p>
+      <p class="sc-eyebrow">10 · Reflection</p>
       <h2 class="sc-h2">What this project taught me</h2>
       <ul class="sc-lessons">
         <li><h3>Design the moment, not the feature.</h3><p>Framing the work as sixty seconds of one trade decided what earned a place on the screen and what moved into settings.</p></li>
