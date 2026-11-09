@@ -77,16 +77,6 @@ section[id]{scroll-margin-top:64px}
 @media (min-width:768px){.sc-shots--3{gap:24px;margin-top:48px}}
 .sc-shots--2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:448px}
 
-/* ---------- Toc (same pattern as the other studies) ---------- */
-.toc{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
-  backdrop-filter:blur(8px);border-bottom:.5px solid var(--card-border)}
-.toc__row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
-.toc__row::-webkit-scrollbar{display:none}
-.toc a{flex:0 0 auto;padding:6px 14px;border-radius:999px;font-family:var(--font-nav);
-  font-size:13px;line-height:20px;font-weight:500;color:var(--ink-muted);text-decoration:none;white-space:nowrap}
-.toc a:hover{color:var(--ink)}
-.toc a.is-active{background:var(--ink);color:#fff}
-
 /* ---------- Cards ---------- */
 .sc-card{background:var(--sc-card);border:.5px solid var(--sc-card-bd);border-radius:16px;padding:16px}
 .sc-grid{margin-top:24px;display:grid;gap:8px}
@@ -322,25 +312,6 @@ html:not(.js) .reveal{opacity:1;transform:none}
       </div>
     </div>
   </header>
-
-  <!-- Sticky in-page nav ------------------------------------------------ -->
-  <nav class="toc" aria-label="On this page">
-    <div class="sc-wrap">
-      <div class="toc__row">
-        <a href="#summary">Summary</a>
-        <a href="#problem">Problem</a>
-        <a href="#who">Who it&rsquo;s for</a>
-        <a href="#process">Process</a>
-        <a href="#decisions">Key decisions</a>
-        <a href="#roads">Roads not taken</a>
-        <a href="#abtest">A/B test</a>
-        <a href="#edges">Edge cases</a>
-        <a href="#consent">Consent</a>
-        <a href="#outcomes">Outcomes</a>
-        <a href="#reflection">Reflection</a>
-      </div>
-    </div>
-  </nav>
 
   <!-- Executive summary -------------------------------------------------- -->
   <section class="sc-sec" id="summary" style="border-top:none">
@@ -728,20 +699,6 @@ html:not(.js) .reveal{opacity:1;transform:none}
     document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Scroll-spy for the sticky nav.
-  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
-  var spy = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      links.forEach(function (a) {
-        a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id);
-      });
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
-  links.forEach(function (a) {
-    var el = document.getElementById(a.getAttribute('href').slice(1));
-    if (el) spy.observe(el);
-  });
 })();
 </script>
 
