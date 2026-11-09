@@ -722,3 +722,163 @@
 .sb-brand b { font-weight: 600; font-size: 14px; line-height: 20px; color: var(--ink); }
 .sb-brand small { font-size: 12px; line-height: 16px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { .sb-brand { transition: none; } .sb-brand:hover { transform: none; } }
+
+/* ---------- User research (Figma 347:6410) ------------------- */
+/* A three-step timeline on one card: round 1 (watch), the sketches
+   in between, round 2 (show). The rail is a dot per step plus a
+   hairline that runs down to the next dot. */
+.sb-section > .wrap > .sb-rs { margin-top: 18px; }
+.sb-rs {
+  list-style: none;
+  padding: 16px;
+  background: var(--card-bg);
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--sb-r-card);
+}
+.sb-rs__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+}
+.sb-rs__step + .sb-rs__step { margin-top: 28px; }
+.sb-rs__step:not(:last-child)::before {          /* rail line to the next dot */
+  content: "";
+  position: absolute;
+  left: 11.5px;
+  top: 30px;
+  bottom: -26px;
+  width: 1px;
+  background: var(--card-border);
+}
+.sb-rs__dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--tag);
+  font-family: var(--font-nav);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink);
+}
+.sb-rs__step--mid .sb-rs__dot { background: #fff; border: 1px solid var(--card-border); }
+.sb-rs__step--mid .sb-rs__dot::after {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--arrow);
+}
+.sb-rs__body { display: flex; flex-direction: column; gap: 6px; padding-top: 3px; min-width: 0; }
+.sb-rs__label,
+.sb-rs__sub {
+  font-family: var(--font-nav);
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 1.54px;
+  color: var(--ink-muted);
+}
+.sb-rs__sub { margin-top: 12px; font-size: 10px; line-height: 14px; letter-spacing: 1.2px; color: var(--sb-ink-faint); }
+
+/* Ten screen-share tiles, one per trader, kept anonymous. */
+.sb-rs__calls {
+  list-style: none;
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.sb-rs__calls li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  background: #fff;
+  border: 0.5px solid var(--card-border);
+  border-radius: 10px;
+}
+.sb-rs__calls i { display: none; }
+.sb-rs__calls span { display: flex; align-items: center; gap: 6px; font-size: 10px; line-height: 14px; color: var(--sb-ink-faint); }
+.sb-rs__calls span { font-size: 0; }                 /* phones: avatar only */
+.sb-rs__calls b {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--tag);
+  font-family: var(--font-nav);
+  font-weight: 600;
+  font-size: 9px;
+  line-height: 12px;
+  color: var(--ink);
+}
+
+.sb-rs__chips { list-style: none; margin-top: 2px; display: flex; flex-wrap: wrap; gap: 8px; }
+.sb-rs__chips li {
+  padding: 6px 12px;
+  background: #fff;
+  border: 0.5px solid var(--card-border);
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink);
+}
+.sb-rs__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+
+/* Round 2: the prototype video and what came back. */
+.sb-rs__show { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+.sb-rs__player {
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #1c1a19;
+}
+.sb-rs__play { flex: 1; display: grid; place-items: center; }
+.sb-rs__play svg { width: 40px; height: 40px; }
+.sb-rs__play circle { fill: rgba(255, 255, 255, 0.92); }
+.sb-rs__play path { fill: #1c1a19; }
+.sb-rs__chap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.sb-rs__chap span {
+  padding-top: 9px;
+  border-top: 3px solid rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.72);
+}
+.sb-rs__chap span.is-on { border-top-color: rgba(255, 255, 255, 0.9); }
+.sb-rs__result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #eef4f0;
+}
+.sb-rs__result svg { width: 24px; height: 24px; margin-bottom: auto; }
+.sb-rs__result circle { fill: #2f6f4f; }
+.sb-rs__result path { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sb-rs__verdict { margin-top: 12px; font-weight: 600; font-size: 16px; line-height: 24px; color: #2f6f4f; }
+
+@media (min-width: 560px) {
+  .sb-rs__calls { gap: 8px; }
+  .sb-rs__calls li { aspect-ratio: auto; align-items: stretch; justify-content: flex-start; gap: 5px; padding: 10px 10px 8px; min-height: 78px; }
+  .sb-rs__calls i { display: block; height: 5px; border-radius: 3px; background: var(--sb-rule); }
+  .sb-rs__calls i:nth-child(1) { width: 70%; }
+  .sb-rs__calls i:nth-child(2) { width: 52%; }
+  .sb-rs__calls i:nth-child(3) { width: 84%; background: #f2f2f2; }
+  .sb-rs__calls span { margin-top: auto; font-size: 10px; }
+  .sb-rs__show { grid-template-columns: 316px minmax(0, 1fr); }
+}
+@media (min-width: 768px) {
+  .sb-rs { padding: 24px; }
+  .sb-rs__step { grid-template-columns: 28px minmax(0, 1fr); gap: 16px; }
+  .sb-rs__step:not(:last-child)::before { left: 13.5px; top: 34px; }
+  .sb-rs__dot { width: 28px; height: 28px; }
+  .sb-rs__body { padding-top: 5px; }
+}
