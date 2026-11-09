@@ -780,41 +780,6 @@
 }
 .sb-rs__sub { margin-top: 12px; font-size: 10px; line-height: 14px; letter-spacing: 1.2px; color: var(--sb-ink-faint); }
 
-/* Ten screen-share tiles, one per trader, kept anonymous. */
-.sb-rs__calls {
-  list-style: none;
-  margin-top: 12px;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
-}
-.sb-rs__calls li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  background: #fff;
-  border: 0.5px solid var(--card-border);
-  border-radius: 10px;
-}
-.sb-rs__calls i { display: none; }
-.sb-rs__calls span { display: flex; align-items: center; gap: 6px; font-size: 10px; line-height: 14px; color: var(--sb-ink-faint); }
-.sb-rs__calls span { font-size: 0; }                 /* phones: avatar only */
-.sb-rs__calls b {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--tag);
-  font-family: var(--font-nav);
-  font-weight: 600;
-  font-size: 9px;
-  line-height: 12px;
-  color: var(--ink);
-}
-
 .sb-rs__chips { list-style: none; margin-top: 2px; display: flex; flex-wrap: wrap; gap: 8px; }
 .sb-rs__chips li {
   padding: 6px 12px;
@@ -839,6 +804,8 @@
   border: 0.5px solid var(--card-border);
 }
 .sb-rs__sketch svg { display: block; width: 100%; max-width: 340px; height: auto; }
+.sb-rs__sketch--wide { margin-top: 6px; padding: 16px 12px; }
+.sb-rs__sketch--wide svg { max-width: 480px; }
 .sb-rs__result {
   display: flex;
   flex-direction: column;
@@ -853,13 +820,6 @@
 .sb-rs__verdict { margin-top: 12px; font-weight: 600; font-size: 16px; line-height: 24px; color: #2f6f4f; }
 
 @media (min-width: 560px) {
-  .sb-rs__calls { gap: 8px; }
-  .sb-rs__calls li { aspect-ratio: auto; align-items: stretch; justify-content: flex-start; gap: 5px; padding: 10px 10px 8px; min-height: 78px; }
-  .sb-rs__calls i { display: block; height: 5px; border-radius: 3px; background: var(--sb-rule); }
-  .sb-rs__calls i:nth-child(1) { width: 70%; }
-  .sb-rs__calls i:nth-child(2) { width: 52%; }
-  .sb-rs__calls i:nth-child(3) { width: 84%; background: #f2f2f2; }
-  .sb-rs__calls span { margin-top: auto; font-size: 10px; }
   .sb-rs__show { grid-template-columns: 316px minmax(0, 1fr); }
 }
 @media (min-width: 768px) {
