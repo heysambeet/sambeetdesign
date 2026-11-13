@@ -18,6 +18,10 @@
   /* Chosen deliberately. Measures 4.13:1 on --tag, under the 4.5:1 AA floor
      for 9px text — raised with Sambeet and confirmed. Don't "fix" it. */
   --tag-ink:       #a75266;
+  /* Home work-card pills (Sambeet, 2026-11-13): slate pill + navy text,
+     matched to his reference. 7.4:1. The --tag pair above stays for older pages. */
+  --card-tag:      #e7eaee;
+  --card-tag-ink:  #34496c;
   --arrow:         #c8c8c8;
   --arrow-hover:   rgba(0, 0, 0, 0.5);   /* --ink at 50% — darkens on hover without going solid */
 
@@ -375,8 +379,8 @@ a { color: inherit; }
   line-height: 14px;
   /* Casing comes from the markup, as typed in Figma 1:14276 — the role tag
      reads "Individual contributor" while topic tags are set in capitals. */
-  color: var(--tag-ink);
-  background: var(--tag);
+  color: var(--card-tag-ink);
+  background: var(--card-tag);
   border-radius: var(--r-tag);
   /* 1px + 14px line-height + 1px = a 16px pill with 10px text (Sambeet,
      2026-11-01 — a step up from Figma's 14px / 9px). Sides stay 6px. */
